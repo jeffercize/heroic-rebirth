@@ -1,0 +1,160 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Set the container height to 100% of viewport height */
+}
+
+.upper-section {
+  background-color: red;
+  padding: 20px;
+  display: flex;
+  justify-content: center; /* Center-align the label horizontally */
+  align-items: center; /* Center-align the label vertically */
+}
+
+.upper-label {
+  color: white;
+  margin: 0;
+  text-align: center; /* Center-align the text */
+}
+
+.middle-section {
+  display: flex;
+  flex-direction: row;
+  height: 50%;
+  flex: 1;
+}
+
+.first-subsection,
+.second-subsection,
+.third-subsection {
+  flex: 1;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.first-subsection {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  flex: 0 0 15%;
+}
+
+.first-subsection label {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.common-label {
+  align-items: center;
+  border-bottom: 0px;
+  user-select: none;
+}
+
+.common-button-label {
+  align-items: center;
+  border-bottom: 0px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.common-compound-button {
+  display: flex;
+  align-items: center;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Add a faint line under each label */
+  cursor: pointer;
+}
+
+.first-subsection label,
+.third-subsection label {
+  margin: 5px;
+}
+
+.second-subsection {
+  display: flex;
+  justify-content: flex-start; /* Align button to the left */
+  align-items: flex-start; /* Align button to the top */
+  width: 100%;
+}
+
+.horizontal-group{
+  display: flex;
+  flex-direction: row;
+  height: 60px;
+}
+
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.common-button {
+  width: 90%;
+  margin: 5px 5px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  align-items: center;
+  font-size: 18px;
+}
+
+.common-button:disabled {
+  cursor: not-allowed;
+  background-color: lightgrey;
+  color: grey;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.common-button:active {
+  animation: pulse 0.15s ease-out;
+}
+
+.collapse-button {
+  width: 10%;
+  flex: 1;
+  background-color: white;
+  color: black;
+  font-size: 28px;
+  text-align: right;
+}
+
+
+.third-subsection {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 15%;
+}
+
+.lower-section {
+  margin-top: auto;
+  padding: 5px;
+}
+
+.progress-label {
+  margin-top: 0;
+}
+
+.progress-bar {
+  width: 100%;
+}
+
+.hidden {
+  display: none;
+}

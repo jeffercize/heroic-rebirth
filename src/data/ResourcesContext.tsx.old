@@ -1,0 +1,87 @@
+import React, { createContext, useContext, useState, ReactNode } from 'react';
+
+interface MyResourcesContextType {
+  time: number;
+  setTime: React.Dispatch<React.SetStateAction<number>>;
+  maxTime: number;
+  setMaxTime: React.Dispatch<React.SetStateAction<number>>;
+  timeSecond: number;
+  setTimeSecond: React.Dispatch<React.SetStateAction<number>>;
+  mana: number;
+  setMana: React.Dispatch<React.SetStateAction<number>>;
+  maxMana: number;
+  setMaxMana: React.Dispatch<React.SetStateAction<number>>;
+  manaSecond: number;
+  setManaSecond: React.Dispatch<React.SetStateAction<number>>;
+  gold: number;
+  setGold: React.Dispatch<React.SetStateAction<number>>;
+  maxGold: number;
+  setMaxGold: React.Dispatch<React.SetStateAction<number>>;
+  goldSecond: number;
+  setGoldSecond: React.Dispatch<React.SetStateAction<number>>;
+  food: number;
+  setFood: React.Dispatch<React.SetStateAction<number>>;
+  maxFood: number;
+  setMaxFood: React.Dispatch<React.SetStateAction<number>>;
+  foodSecond: number;
+  setFoodSecond: React.Dispatch<React.SetStateAction<number>>;
+  stone: number;
+  setStone: React.Dispatch<React.SetStateAction<number>>;
+  maxStone: number;
+  setMaxStone: React.Dispatch<React.SetStateAction<number>>;
+  stoneSecond: number;
+  setStoneSecond: React.Dispatch<React.SetStateAction<number>>;
+  wood: number;
+  setWood: React.Dispatch<React.SetStateAction<number>>;
+  maxWood: number;
+  setMaxWood: React.Dispatch<React.SetStateAction<number>>;
+  woodSecond: number;
+  setWoodSecond: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const MyResourcesContext = createContext<MyResourcesContextType | undefined>(undefined);
+
+interface ResourcesProviderProps {
+  children: ReactNode;
+}
+
+export const ResourcesProvider: React.FC<ResourcesProviderProps> = ({ children }) => {
+  //Time
+  const [time, setTime] = useState<number>(0);
+  const [maxTime, setMaxTime] = useState<number>(30000);
+  const [timeSecond, setTimeSecond] = useState<number>(1);
+  //MANA
+  const [mana, setMana] = useState<number>(0);
+  const [maxMana, setMaxMana] = useState<number>(100);
+  const [manaSecond, setManaSecond] = useState<number>(1);
+  //GOLD
+  const [gold, setGold] = useState<number>(0);
+  const [maxGold, setMaxGold] = useState<number>(100);
+  const [goldSecond, setGoldSecond] = useState<number>(1);
+  //FOOD
+  const [food, setFood] = useState<number>(0);
+  const [maxFood, setMaxFood] = useState<number>(200);
+  const [foodSecond, setFoodSecond] = useState<number>(1);
+  //Stone
+  const [stone, setStone] = useState<number>(0);
+  const [maxStone, setMaxStone] = useState<number>(12);
+  const [stoneSecond, setStoneSecond] = useState<number>(1);
+  //Wood
+  const [wood, setWood] = useState<number>(0);
+  const [maxWood, setMaxWood] = useState<number>(64);
+  const [woodSecond, setWoodSecond] = useState<number>(1);
+
+  return (
+    <MyResourcesContext.Provider value={{ time, setTime, maxTime, setMaxTime, timeSecond, setTimeSecond, mana, setMana, maxMana, setMaxMana, manaSecond, setManaSecond, gold, setGold, maxGold, setMaxGold, goldSecond, setGoldSecond, food, setFood, maxFood, setMaxFood, foodSecond, setFoodSecond, stone, setStone, maxStone, setMaxStone, stoneSecond, setStoneSecond, wood, setWood, maxWood, setMaxWood, woodSecond, setWoodSecond}}>
+      {children}
+    </MyResourcesContext.Provider>
+  );
+};
+
+export const useMyResourcesContext = (): MyResourcesContextType => {
+  const StatsContext = useContext(MyResourcesContext);
+  if (!StatsContext) {
+    throw new Error('useMyResourcesContext must be used within a ResourcesProvider');
+  }
+  return StatsContext;
+};
