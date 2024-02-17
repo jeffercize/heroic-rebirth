@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/heroic-rebirth/static/css/main.1805a61b.css",
-    "main.js": "/heroic-rebirth/static/js/main.8339027c.js",
+    "main.css": "/heroic-rebirth/static/css/main.6b58dd0c.css",
+    "main.js": "/heroic-rebirth/static/js/main.b05e27b5.js",
     "static/js/592.19752545.chunk.js": "/heroic-rebirth/static/js/592.19752545.chunk.js",
     "index.html": "/heroic-rebirth/index.html",
-    "main.1805a61b.css.map": "/heroic-rebirth/static/css/main.1805a61b.css.map",
-    "main.8339027c.js.map": "/heroic-rebirth/static/js/main.8339027c.js.map",
+    "main.6b58dd0c.css.map": "/heroic-rebirth/static/css/main.6b58dd0c.css.map",
+    "main.b05e27b5.js.map": "/heroic-rebirth/static/js/main.b05e27b5.js.map",
     "592.19752545.chunk.js.map": "/heroic-rebirth/static/js/592.19752545.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.1805a61b.css",
-    "static/js/main.8339027c.js"
+    "static/css/main.6b58dd0c.css",
+    "static/js/main.b05e27b5.js"
   ]
 }
