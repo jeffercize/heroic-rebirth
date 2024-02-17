@@ -86,11 +86,7 @@
 }
 
 
-.button-group {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
+
 
 .common-button {
   width: 90%;
@@ -105,7 +101,8 @@
 }
 
 .common-button:disabled {
-  cursor: not-allowed;
+  cursor: default;
+  pointer-events: none;
   background-color: lightgrey;
   color: grey;
 }
@@ -133,13 +130,6 @@
   color: black;
   font-size: 28px;
   text-align: right;
-}
-
-
-.third-subsection {
-  display: flex;
-  flex-direction: column;
-  flex: 0 0 15%;
 }
 
 .lower-section {

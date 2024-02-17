@@ -1,3 +1,13 @@
+.skill-list-section{
+    border-top: 1px solid #ccc;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 15%;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
 .common-small-button {
     width: 90%;
     background-color: #007bff;
@@ -29,3 +39,31 @@
     font-size: 22px;
     text-align: center;
 }
+
+.mana-cost{
+    display: flex;
+    margin-right: 10px;
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+.mana-cost img{
+    width: 18px;
+    vertical-align: middle;
+}
+
+.small-button-text{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.skill-name-text{
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 15px;
+    margin-right: auto;
+}
+

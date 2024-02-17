@@ -1,98 +1,119 @@
-import React, { createContext, useContext, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, ReactNode, useState } from 'react';
 
-interface MyResourcesContextType {
+export interface MyResourcesContextType {
   time: number;
-  setTime: (newValue: number) => void;
   maxTime: number;
-  setMaxTime: (newValue: number) => void;
   timeSecond: number;
-  setTimeSecond: (newValue: number) => void;
   mana: number;
-  setMana: (newValue: number) => void;
   maxMana: number;
-  setMaxMana: (newValue: number) => void;
   manaSecond: number;
-  setManaSecond: (newValue: number) => void;
   gold: number;
-  setGold: (newValue: number) => void;
   maxGold: number;
-  setMaxGold: (newValue: number) => void;
   goldSecond: number;
-  setGoldSecond: (newValue: number) => void;
   food: number;
-  setFood: (newValue: number) => void;
   maxFood: number;
-  setMaxFood: (newValue: number) => void;
   foodSecond: number;
-  setFoodSecond: (newValue: number) => void;
   stone: number;
-  setStone: (newValue: number) => void;
   maxStone: number;
-  setMaxStone: (newValue: number) => void;
   stoneSecond: number;
-  setStoneSecond: (newValue: number) => void;
   wood: number;
-  setWood: (newValue: number) => void;
   maxWood: number;
-  setMaxWood: (newValue: number) => void;
   woodSecond: number;
+  followers: number;
+  maxFollowers: number;
+  followersSecond: number;
+}
+
+export interface MyResourcesSettersContextType {
+  setTime: (newValue: number) => void;
+  setMaxTime: (newValue: number) => void;
+  setTimeSecond: (newValue: number) => void;
+  setMana: (newValue: number) => void;
+  setMaxMana: (newValue: number) => void;
+  setManaSecond: (newValue: number) => void;
+  setGold: (newValue: number) => void;
+  setMaxGold: (newValue: number) => void;
+  setGoldSecond: (newValue: number) => void;
+  setFood: (newValue: number) => void;
+  setMaxFood: (newValue: number) => void;
+  setFoodSecond: (newValue: number) => void;
+  setStone: (newValue: number) => void;
+  setMaxStone: (newValue: number) => void;
+  setStoneSecond: (newValue: number) => void;
+  setWood: (newValue: number) => void;
+  setMaxWood: (newValue: number) => void;
   setWoodSecond: (newValue: number) => void;
+  setFollowers: (newValue: number) => void;
+  setMaxFollowers: (newValue: number) => void;
+  setFollowersSecond: (newValue: number) => void;
 }
 
 const MyResourcesContext = createContext<MyResourcesContextType | undefined>(undefined);
+const MyResourcesSettersContext = createContext<MyResourcesSettersContextType | undefined>(undefined);
 
 interface ResourcesProviderProps {
   children: ReactNode;
 }
 
 export const ResourcesProvider: React.FC<ResourcesProviderProps> = ({ children }) => {
-  const useBoundedState = <T extends number>(
-    initialValue: T,
-    getMaxValue: () => number
-  ): [T, (newValue: T) => void] => {
-    const [value, setValue] = React.useState<T>(initialValue);
-    
-    const setValueWithMax = (newValue: T) => {
-      setValue(Math.min(newValue, getMaxValue()) as T);
-    };
-  
-    return [value, setValueWithMax];
+  const [time, setTime] = useState<number>(0);
+  const [maxTime, setMaxTime] = useState<number>(30000);
+  const [timeSecond, setTimeSecond] = useState<number>(0);
+
+  const [mana, setMana] = useState<number>(0);
+  const [maxMana, setMaxMana] = useState<number>(100);
+  const [manaSecond, setManaSecond] = useState<number>(0);
+
+  const [gold, setGold] = useState<number>(0);
+  const [maxGold, setMaxGold] = useState<number>(100);
+  const [goldSecond, setGoldSecond] = useState<number>(0);
+
+  const [food, setFood] = useState<number>(0);
+  const [maxFood, setMaxFood] = useState<number>(200);
+  const [foodSecond, setFoodSecond] = useState<number>(0);
+
+  const [stone, setStone] = useState<number>(0);
+  const [maxStone, setMaxStone] = useState<number>(12);
+  const [stoneSecond, setStoneSecond] = useState<number>(0);
+
+  const [wood, setWood] = useState<number>(0);
+  const [maxWood, setMaxWood] = useState<number>(64);
+  const [woodSecond, setWoodSecond] = useState<number>(0);
+
+  const [followers, setFollowers] = useState<number>(0);
+  const [maxFollowers, setMaxFollowers] = useState<number>(1000000);
+  const [followersSecond, setFollowersSecond] = useState<number>(0);
+
+  const values = { time, maxTime, timeSecond, mana, maxMana, manaSecond, gold, maxGold, goldSecond, food, maxFood, foodSecond, stone, maxStone, stoneSecond, wood, maxWood, woodSecond, followers, maxFollowers, followersSecond};
+  const setters = {
+    setTime: (newValue: number) => setTime(Math.min(newValue, maxTime)),
+    setMaxTime,
+    setTimeSecond,
+    setMana: (newValue: number) => setMana(Math.min(newValue, maxMana)),
+    setMaxMana,
+    setManaSecond,
+    setGold: (newValue: number) => setGold(Math.min(newValue, maxGold)),
+    setMaxGold,
+    setGoldSecond,
+    setFood: (newValue: number) => setFood(Math.min(newValue, maxFood)),
+    setMaxFood,
+    setFoodSecond,
+    setStone: (newValue: number) => setStone(Math.min(newValue, maxStone)),
+    setMaxStone,
+    setStoneSecond,
+    setWood: (newValue: number) => setWood(Math.min(newValue, maxWood)),
+    setMaxWood,
+    setWoodSecond,
+    setFollowers: (newValue: number) => setFollowers(Math.min(newValue, maxFollowers)),
+    setMaxFollowers,
+    setFollowersSecond,
   };
 
-  const [maxTime, setMaxTime] = React.useState<number>(30000);
-  const [time, setTime] = useBoundedState<number>(0, () => maxTime);
-  const [timeSecond, setTimeSecond] = useBoundedState<number>(0, () => Infinity);
-
-  const [maxMana, setMaxMana] = React.useState<number>(100);
-  const [mana, setMana] = useBoundedState<number>(0, () => maxMana);
-  const [manaSecond, setManaSecond] = useBoundedState<number>(0, () => Infinity);
-
-  const [maxGold, setMaxGold] = React.useState<number>(100);
-  const [gold, setGold] = useBoundedState<number>(0, () => maxGold);
-  const [goldSecond, setGoldSecond] = useBoundedState<number>(0, () => Infinity);
-
-  const [maxFood, setMaxFood] = React.useState<number>(200);
-  const [food, setFood] = useBoundedState<number>(0, () => maxFood);
-  const [foodSecond, setFoodSecond] = useBoundedState<number>(0, () => Infinity);
-
-  const [maxStone, setMaxStone] = React.useState<number>(12);
-  const [stone, setStone] = useBoundedState<number>(0, () => maxStone);
-  const [stoneSecond, setStoneSecond] = useBoundedState<number>(0, () => Infinity);
-
-  const [maxWood, setMaxWood] = React.useState<number>(64);
-  const [wood, setWood] = useBoundedState<number>(0, () => maxWood);
-  const [woodSecond, setWoodSecond] = useBoundedState<number>(0, () => Infinity);
-
   return (
-    <MyResourcesContext.Provider value={{ 
-      time, setTime, maxTime, setMaxTime, timeSecond, setTimeSecond,
-      mana, setMana, maxMana, setMaxMana, manaSecond, setManaSecond,
-      gold, setGold, maxGold, setMaxGold, goldSecond, setGoldSecond,
-      food, setFood, maxFood, setMaxFood, foodSecond, setFoodSecond,
-      stone, setStone, maxStone, setMaxStone, stoneSecond, setStoneSecond,
-      wood, setWood, maxWood, setMaxWood, woodSecond, setWoodSecond,
-    }}>
-      {children}
+    <MyResourcesContext.Provider value={values}>
+      <MyResourcesSettersContext.Provider value={setters}>
+        {children}
+      </MyResourcesSettersContext.Provider>
     </MyResourcesContext.Provider>
   );
 };
@@ -101,6 +122,14 @@ export const useMyResourcesContext = (): MyResourcesContextType => {
   const context = useContext(MyResourcesContext);
   if (!context) {
     throw new Error('useMyResourcesContext must be used within a ResourcesProvider');
+  }
+  return context;
+};
+
+export const useMyResourcesSettersContext = (): MyResourcesSettersContextType => {
+  const context = useContext(MyResourcesSettersContext);
+  if (!context) {
+    throw new Error('useMyResourcesSettersContext must be used within a ResourcesProvider');
   }
   return context;
 };

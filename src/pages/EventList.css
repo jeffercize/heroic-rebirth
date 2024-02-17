@@ -1,0 +1,20 @@
+.event-list{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow-y: auto; /* add a vertical scrollbar when the content overflows */
+}
+
+.event-list-title{
+    font-size: 22px;
+    text-align: center;
+}
+
+.event-section{
+  border: 1px solid #ccc;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  flex: 0 0 15%;
+}
