@@ -19,9 +19,6 @@ export interface MyResourcesContextType {
   wood: number;
   maxWood: number;
   woodSecond: number;
-  followers: number;
-  maxFollowers: number;
-  followersSecond: number;
   warehouses: number;
 }
 
@@ -44,9 +41,6 @@ export interface MyResourcesSettersContextType {
   setWood: (newValue: number) => void;
   setMaxWood: (newValue: number) => void;
   setWoodSecond: (newValue: number) => void;
-  setFollowers: (newValue: number) => void;
-  setMaxFollowers: (newValue: number) => void;
-  setFollowersSecond: (newValue: number) => void;
   setWarehouses: (newValue: number) => void;
 }
 
@@ -82,13 +76,9 @@ export const ResourcesProvider: React.FC<ResourcesProviderProps> = ({ children }
   const [maxWood, setMaxWood] = useState<number>(64);
   const [woodSecond, setWoodSecond] = useState<number>(0);
 
-  const [followers, setFollowers] = useState<number>(0);
-  const [maxFollowers, setMaxFollowers] = useState<number>(1000000);
-  const [followersSecond, setFollowersSecond] = useState<number>(0);
-
   const [warehouses, setWarehouses] = useState<number>(0);
 
-  const values = { time, maxTime, timeSecond, mana, maxMana, manaSecond, gold, maxGold, goldSecond, food, maxFood, foodSecond, stone, maxStone, stoneSecond, wood, maxWood, woodSecond, followers, maxFollowers, followersSecond, warehouses};
+  const values = { time, maxTime, timeSecond, mana, maxMana, manaSecond, gold, maxGold, goldSecond, food, maxFood, foodSecond, stone, maxStone, stoneSecond, wood, maxWood, woodSecond, warehouses};
   const setters = {
     setTime: (newValue: number) => setTime(Math.min(newValue, maxTime)),
     setMaxTime,
@@ -108,9 +98,6 @@ export const ResourcesProvider: React.FC<ResourcesProviderProps> = ({ children }
     setWood: (newValue: number) => setWood(Math.min(newValue, maxWood)),
     setMaxWood,
     setWoodSecond,
-    setFollowers: (newValue: number) => setFollowers(Math.min(newValue, maxFollowers)),
-    setMaxFollowers,
-    setFollowersSecond,
     setWarehouses: (newValue: number) => setWarehouses(newValue)
   };
 

@@ -9,8 +9,6 @@ export interface BuildingCostContextType {
   warehouseStoneCost: number;
   logCabinWoodCost: number;
   logCabinStoneCost: number;
-  logCabinWoodCostScaler: number;
-  logCabinStoneCostScaler: number;
 }
 
 export interface BuildingCostSettersContextType {
@@ -40,8 +38,6 @@ export const BuildingCostProvider: React.FC<BuildingCostProviderProps> = ({ chil
   const [warehouseStoneCost, setWarehouseStoneCost] = useState<number>(12);
   const [logCabinWoodCost, setLogCabinWoodCost] = useState<number>(5);
   const [logCabinStoneCost, setLogCabinStoneCost] = useState<number>(2);
-  const [logCabinWoodCostScaler, setLogCabinWoodCostScaler] = useState<number>(5);
-  const [logCabinStoneCostScaler, setLogCabinStoneCostScaler] = useState<number>(2);
 
   const values = { 
     lumberyardWoodCost, 
@@ -51,9 +47,7 @@ export const BuildingCostProvider: React.FC<BuildingCostProviderProps> = ({ chil
     warehouseWoodCost, 
     warehouseStoneCost, 
     logCabinWoodCost, 
-    logCabinStoneCost,
-    logCabinWoodCostScaler, 
-    logCabinStoneCostScaler 
+    logCabinStoneCost, 
   };
   
   const setters = {
@@ -65,8 +59,6 @@ export const BuildingCostProvider: React.FC<BuildingCostProviderProps> = ({ chil
     setWarehouseStoneCost,
     setLogCabinWoodCost,
     setLogCabinStoneCost,
-    setLogCabinWoodCostScaler,
-    setLogCabinStoneCostScaler
   };
 
   return (

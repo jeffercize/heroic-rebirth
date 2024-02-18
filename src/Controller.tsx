@@ -8,12 +8,12 @@ import { useEventLogContext } from './data/EventContext'; // adjust the path as 
 
 
 function Controller() {
-  const { mana, maxMana, manaSecond, followers, maxFollowers, followersSecond, gold, maxGold, goldSecond, food, maxFood, foodSecond, stone, maxStone, stoneSecond, wood, maxWood, woodSecond } = useMyResourcesContext();
+  const { mana, maxMana, manaSecond, gold, maxGold, goldSecond, food, maxFood, foodSecond, stone, maxStone, stoneSecond, wood, maxWood, woodSecond } = useMyResourcesContext();
   const { setMana, setMaxMana, setManaSecond, setGold, setMaxGold, setGoldSecond, setFood, setMaxFood, setFoodSecond, setStone, setMaxStone, setStoneSecond, setWood, setMaxWood, setWoodSecond } = useMyResourcesSettersContext();  const { charisma, setCharisma } = useMyStatsContext();
   const { divVisibility } = useVisibilityContext();
   const { setVisibility, toggleVisibility } = useVisibilitySettersContext();
   const { addEvent } = useEventLogContext();
-  const { lumberyard, maxLumberyard, stoneMine, maxStoneMine } = useMyFollowersContext();
+  const { freeFollowers, totalFollowers, lumberyard, maxLumberyard, stoneMine, maxStoneMine } = useMyFollowersContext();
   const { setLumberyard, setStoneMine  } = useMyFollowersSettersContext();
 
 
@@ -88,11 +88,11 @@ function Controller() {
   }, [stone, wood, buildWarhouseChanged]);
 
   useEffect(() => {
-    if (followers > 0 && !buildLumberYardChanged) {
+    if (totalFollowers > 0 && !buildLumberYardChanged) {
         setVisibility('buildLumberYard', false);
         setBuildLumberYardChanged(true);
     }
-  }, [followers, buildLumberYardChanged]);
+  }, [totalFollowers, buildLumberYardChanged]);
 
   //Non-Building Clickables
 
@@ -115,14 +115,22 @@ function Controller() {
     prevStoneMineRef.current = stoneMine;
   }, [stoneMine]);
 
+  const freeFollowersRef = useRef(freeFollowers);
+  useEffect(() => {
+    const freeFollowersPrev = freeFollowersRef.current;
+    const difference = freeFollowers - freeFollowersPrev;
+    setManaSecond(manaSecond + difference);
+    freeFollowersRef.current = freeFollowers;
+  }, [freeFollowers]);
+
   //Per Second effects
   useEffect(() => {
     const interval = setInterval(() => {
-      setMana(Math.min(mana + (manaSecond * 0.1), maxMana));
-      setGold(Math.min(gold + (goldSecond * 0.1), maxGold));
-      setFood(Math.min(food + (foodSecond * 0.1), maxFood));
-      setStone(Math.min(stone + (stoneSecond * 0.1), maxStone));
-      setWood(Math.min(wood + (woodSecond * 0.1), maxWood));
+      setMana(Math.max(0,Math.min(mana + (manaSecond * 0.1), maxMana)));
+      setGold(Math.max(0,Math.min(gold + (goldSecond * 0.1), maxGold)));
+      setFood(Math.max(0,Math.min(food + (foodSecond * 0.1), maxFood)));
+      setStone(Math.max(0,Math.min(stone + (stoneSecond * 0.1), maxStone)));
+      setWood(Math.max(0,Math.min(wood + (woodSecond * 0.1), maxWood)));
     }, 100); // update every 1/10 second
   
 

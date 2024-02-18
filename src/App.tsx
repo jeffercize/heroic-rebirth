@@ -25,6 +25,12 @@ function App() {
     setMainComponent(componentName);
   };
 
+  window.addEventListener('keydown', function(e) {
+    if(e.key === 'Enter') {
+        e.preventDefault();
+    }
+  });
+
   return (
     <StatsProvider>
       <ResourcesProvider>

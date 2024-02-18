@@ -18,10 +18,10 @@ interface TownButtonProps {
     buttonText: string;
     descriptionText: string;
     tipText: string;
-    incrementValue: number;
+    incrementValue: number[]; // Changed to array
     perSecond: boolean;
     maxIncrease: boolean;
-    imgSrc: string;
+    imgSrc: string[]; // Changed to array
     visibilityKey: string;
     visibilityDescriptionKey: string;
     onClickEffect: (param: any) => void;
@@ -36,12 +36,13 @@ const TownButton: React.FC<TownButtonProps> = ({buttonText, descriptionText, tip
     const { divVisibility } = useVisibilityContext();
     const { setVisibility, toggleVisibility } = useVisibilitySettersContext();
 
-    const isCostGreaterThanResource = costs.some(cost => buildingCost[cost.cost] > resources[cost.name]);
+    const isSomeCostGreaterThanResource = costs.some(cost => buildingCost[cost.cost] > resources[cost.name]);
+    const isCostGreaterThanResource = costs.map(cost => buildingCost[cost.cost] > resources[cost.name]);
 
     return (
     <div className={divVisibility[visibilityKey] ? 'hidden' : 'single-button'}>
         <div className="horizontal-group">
-            <button className="common-button" disabled={isCostGreaterThanResource} onClick={() => onClickEffect(() => incrementValue)}>
+            <button className="common-button" disabled={isSomeCostGreaterThanResource} onClick={() => onClickEffect(() => incrementValue)}>
                 {buttonText}
             </button>
             <button className="common-button collapse-button" onClick={() => toggleVisibility(visibilityDescriptionKey)}>V</button>
@@ -49,8 +50,12 @@ const TownButton: React.FC<TownButtonProps> = ({buttonText, descriptionText, tip
         <div className={divVisibility[visibilityDescriptionKey] ? 'hidden' : ''}>
             <span style={{ verticalAlign: 'middle'}}> {descriptionText} </span> 
             <span style={{ verticalAlign: 'middle', fontStyle: 'italic'}}> {tipText} </span> 
-            <span style={{ verticalAlign: 'middle', fontWeight: 'bold' }}> +{incrementValue} </span> <span style={{ verticalAlign: 'middle', fontWeight: 'bold' }} className={maxIncrease ? '' : 'hidden'}>Max </span>
-            <img src={imgSrc} alt={imgSrc}  style={{ width: '22px', height: 'auto', verticalAlign: 'middle' }}></img><span className={perSecond ? '' : 'hidden'}> /sec</span>
+            {incrementValue.map((value, index) => (
+                <React.Fragment key={index}>
+                    <span style={{ verticalAlign: 'middle', fontWeight: 'bold' }}> +{value} </span> <span style={{ verticalAlign: 'middle', fontWeight: 'bold' }} className={maxIncrease ? '' : 'hidden'}>Max </span>
+                    <img src={imgSrc[index]} alt={"img"}  style={{ width: '22px', height: 'auto', verticalAlign: 'middle' }}></img>
+                </React.Fragment>
+            ))}
         </div>
         <div className={divVisibility[visibilityDescriptionKey] ? 'hidden' : 'button-cost'}>
             <div className="cost-label">
@@ -58,12 +63,12 @@ const TownButton: React.FC<TownButtonProps> = ({buttonText, descriptionText, tip
             </div>
             <div className="cost-numbers">
                 {costs.map((cost, index) => (
-                <div className="cost-row" key={index}>
-                    <div className="">
+                <div className={isCostGreaterThanResource[index] ? 'red-text cost-row' : 'cost-row'} key={index}>
+                    <div className={isCostGreaterThanResource[index] ? 'red-text' : ''}>
                         <img src={cost.imgSrc} alt={cost.name}  style={{ width: '20px', height: 'auto', verticalAlign: 'middle' }}></img> {cost.name}:
                     </div>
                     <div className="">
-                        {resources[cost.name]}/{buildingCost[cost.cost]}
+                        {Math.floor(resources[cost.name])}/{Math.floor(buildingCost[cost.cost])}
                     </div>
                 </div>
                 ))}
