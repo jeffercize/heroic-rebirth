@@ -1,40 +1,55 @@
-import React, { useState } from 'react';
-import { StatsProvider, useMyStatsContext } from '../data/StatsContext';
+import React from 'react';
+import { useMyStatsContext } from '../data/StatsContext';
 import { useMyResourcesSettersContext, useMyResourcesContext } from '../data/ResourcesContext';
 import { useVisibilityContext, useVisibilitySettersContext } from '../data/VisibilityContext';
+import { useMyFollowersContext, useMyFollowersSettersContext } from '../data/FollowersContext';
+import { useBuildingCostContext, useBuildingCostSettersContext } from '../data/BuildingCostContext';
 import TownButton from '../components/TownButton';
 import './CampusMain.css';
 
-
-
 export default function CampusMain(eventObject: any) {
-  const { mana, maxMana, manaSecond, gold, maxGold, goldSecond, food, maxFood, foodSecond, stone, maxStone, stoneSecond, wood, maxWood, woodSecond } = useMyResourcesContext();
-  const { setMana, setMaxMana, setManaSecond, setGold, setMaxGold, setGoldSecond, setFood, setMaxFood, setFoodSecond, setStone, setMaxStone, setStoneSecond, setWood, setMaxWood, setWoodSecond } = useMyResourcesSettersContext();
+  const resources = useMyResourcesContext();
+  const setters = useMyResourcesSettersContext();
+  const buildingCost = useBuildingCostContext();
+  const buildingSetterCost = useBuildingCostSettersContext();
   const { charisma, setCharisma } = useMyStatsContext();
   const { divVisibility } = useVisibilityContext();
-  const {  setVisibility, toggleVisibility} = useVisibilitySettersContext();
+  const { setVisibility, toggleVisibility } = useVisibilitySettersContext();
+  const { maxLumberyard, maxStoneMine } = useMyFollowersContext();
+  const { setMaxLumberyard, setMaxStoneMine } = useMyFollowersSettersContext();
 
+  const manaPerClick = 5;
 
   const gatherManaEffect = (param: any) => {
-    setMana(mana+1);
+    setters.setMana(resources.mana + manaPerClick);
   };
 
   const buildCabinEffect = (param: any) => {
-    setMana(mana+1);
+    setters.setMaxFollowers(resources.maxFollowers + 1);
+    setters.setFollowers(resources.followers + 1);
+    setters.setWood(resources.wood - buildingCost.logCabinWoodCost);
+    setters.setStone(resources.stone - buildingCost.logCabinStoneCost);
+    buildingSetterCost.setLogCabinWoodCost(Math.floor(buildingCost.logCabinWoodCost + Math.pow(resources.followers, 1.8)));
+    buildingSetterCost.setLogCabinStoneCost(Math.floor(buildingCost.logCabinStoneCost + Math.pow(resources.followers, 1.6)));
   };
 
   const buildLumberYardEffect = (param: any) => {
-    setMana(mana+1);
+    setters.setWood(resources.wood - buildingCost.lumberyardStoneCost);
+    setters.setStone(resources.stone - buildingCost.lumberyardWoodCost);
+    setMaxLumberyard(maxLumberyard + 1);
+    buildingSetterCost.setLumberyardWoodCost(Math.floor(buildingCost.lumberyardWoodCost + Math.pow(maxLumberyard, 1.8)));
+    buildingSetterCost.setLumberyardStoneCost(Math.floor(buildingCost.lumberyardStoneCost + Math.pow(maxLumberyard, 1.6)));
   };
 
   const buildWarehouseEffect = (param: any) => {
-    setMana(mana+1);
+    setters.setMaxWood(resources.maxWood + 200);
+    setters.setMaxStone(resources.maxStone + 150);
+    setters.setWood(resources.wood - buildingCost.warehouseWoodCost);
+    setters.setStone(resources.stone - buildingCost.warehouseStoneCost);
+    setters.setWarehouses(resources.warehouses + 1);
+    buildingSetterCost.setWarehouseWoodCost(Math.floor(buildingCost.warehouseWoodCost + Math.pow(resources.warehouses+1, 1.8)));
+    buildingSetterCost.setWarehouseStoneCost(Math.floor(buildingCost.warehouseStoneCost + Math.pow(resources.warehouses+1, 1.6)));
   };
-
-const costs = [
-  { name: 'Wood', value: 10, maxValue: 100, imgSrc: 'img/wood_icon.png' },
-  { name: 'Stone', value: 20, maxValue: 200, imgSrc: 'img/stone_icon.png' },
-];
 
   return (
   <div className="second-subsection">
@@ -43,7 +58,7 @@ const costs = [
           buttonText = "Gather Energy"
           descriptionText = "Focus and gather your heroic energy." 
           tipText = "Tip: You CANT press and hold to auto-press!"
-          incrementValue = {1}
+          incrementValue = {manaPerClick}
           perSecond = {false}
           maxIncrease = {false}
           imgSrc = "img/mana_icon.png"
@@ -63,8 +78,8 @@ const costs = [
           visibilityDescriptionKey={'buildLogCabinDescription'}
           onClickEffect = {buildCabinEffect}
           costs = {[
-            { name: 'wood', cost: 25, imgSrc: 'img/wood_icon.png' },
-            { name: 'stone', cost: 5, imgSrc: 'img/stone_icon.png' },
+            { name: 'wood', cost: 'logCabinWoodCost', imgSrc: 'img/wood_icon.png' },
+            { name: 'stone', cost: 'logCabinStoneCost', imgSrc: 'img/stone_icon.png' },
           ]}/>
         <TownButton 
           buttonText = "Build Lumber Yard"
@@ -73,13 +88,13 @@ const costs = [
           incrementValue = {1}
           perSecond = {true}
           maxIncrease = {false}
-          imgSrc = "img/town_icon.png"
+          imgSrc = "img/wood_icon.png"
           visibilityKey={'buildLumberYard'}
           visibilityDescriptionKey={'buildLumberYardDescription'}
           onClickEffect = {buildLumberYardEffect}
           costs = {[
-            { name: 'wood', cost: 25, imgSrc: 'img/wood_icon.png' },
-            { name: 'stone', cost: 5, imgSrc: 'img/stone_icon.png' },
+            { name: 'wood', cost: 'lumberyardWoodCost', imgSrc: 'img/wood_icon.png' },
+            { name: 'stone', cost: 'lumberyardStoneCost', imgSrc: 'img/stone_icon.png' },
           ]}/>
         <TownButton 
           buttonText = "Build Warehouse"
@@ -93,8 +108,8 @@ const costs = [
           visibilityDescriptionKey={'buildWarehouseDescription'}
           onClickEffect = {buildWarehouseEffect}
           costs = {[
-            { name: 'wood', cost: 25, imgSrc: 'img/wood_icon.png' },
-            { name: 'stone', cost: 5, imgSrc: 'img/stone_icon.png' },
+            { name: 'wood', cost: 'warehouseWoodCost', imgSrc: 'img/wood_icon.png' },
+            { name: 'stone', cost: 'warehouseStoneCost', imgSrc: 'img/stone_icon.png' },
           ]}/>
       </div>
   </div>

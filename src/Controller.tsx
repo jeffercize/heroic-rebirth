@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { StatsProvider, useMyStatsContext } from './data/StatsContext';
 import { useMyResourcesSettersContext, useMyResourcesContext } from './data/ResourcesContext';
 import { useVisibilitySettersContext, useVisibilityContext } from './data/VisibilityContext';
+import { useMyFollowersContext, useMyFollowersSettersContext } from './data/FollowersContext';
 import { useEventLogContext } from './data/EventContext'; // adjust the path as needed
 
 
@@ -12,17 +13,48 @@ function Controller() {
   const { divVisibility } = useVisibilityContext();
   const { setVisibility, toggleVisibility } = useVisibilitySettersContext();
   const { addEvent } = useEventLogContext();
+  const { lumberyard, maxLumberyard, stoneMine, maxStoneMine } = useMyFollowersContext();
+  const { setLumberyard, setStoneMine  } = useMyFollowersSettersContext();
 
-  const [chopTreeChanged, setChopTreeChanged] = useState(false);
-  const [mineRockChanged, setMineRockChanged] = useState(false);
-  const [woodDisplayChanged, setWoodDisplayChanged] = useState(false);
-  const [stoneDisplayChanged, setStoneDisplayChanged] = useState(false);
-  const [buildWarhouseChanged, setBuildWarhouseChanged] = useState(false);
-  const [buildLogHouseChanged, setBuildLogHouseChanged] = useState(false);
+
+  //Effect trackers
+    //UI Stuff
+    const [woodDisplayChanged, setWoodDisplayChanged] = useState(false);
+    const [stoneDisplayChanged, setStoneDisplayChanged] = useState(false);
+
+    //Event Type Stuff
+
+    //Skills
+    const [chopTreeChanged, setChopTreeChanged] = useState(false);
+    const [mineRockChanged, setMineRockChanged] = useState(false);
+
+    //Buildings
+    const [buildLogCabinChanged, setBuildLogCabinChanged] = useState(false);
+    const [buildWarhouseChanged, setBuildWarhouseChanged] = useState(false);
+    const [buildLumberYardChanged, setBuildLumberYardChanged] = useState(false);
   
 
+
+
+  //UI Stuff
+  useEffect(() => {
+    if (wood > 0 && !woodDisplayChanged) {
+        setVisibility('woodResource', false);
+        setWoodDisplayChanged(true);
+    }
+  }, [wood, woodDisplayChanged]);
+
+  useEffect(() => {
+    if (stone > 0 && !stoneDisplayChanged) {
+        setVisibility('stoneResource', false);
+        setStoneDisplayChanged(true);
+    }
+  }, [stone, stoneDisplayChanged]);
+
   
-  //Wood cutting + Stone cutting Skills Unlocked Event
+  //Event Type Stuff
+
+  //Skills
   useEffect(() => {
     if (mana >= 10 && !chopTreeChanged) {
         setVisibility('chopTree', false);
@@ -39,51 +71,65 @@ function Controller() {
     }
   }, [mana, mineRockChanged]);
 
-  useEffect(() => {
-    if (wood > 0 && !woodDisplayChanged) {
-        setVisibility('woodResource', false);
-        setWoodDisplayChanged(true);
-    }
-  }, [mana, woodDisplayChanged]);
 
+  //Buildings
   useEffect(() => {
-    if (stone > 0 && !stoneDisplayChanged) {
-        setVisibility('stoneResource', false);
-        setStoneDisplayChanged(true);
-    }
-  }, [mana, stoneDisplayChanged]);
-
-  useEffect(() => {
-    if (stone > 0 && wood > 0 && !buildLogHouseChanged) {
+    if (stone > 0 && wood > 0 && !buildLogCabinChanged) {
         setVisibility('buildLogCabin', false);
-        setBuildLogHouseChanged(true);
+        setBuildLogCabinChanged(true);
     }
-  }, [mana, buildLogHouseChanged]);
+  }, [stone, wood, buildLogCabinChanged]);
 
   useEffect(() => {
     if (stone == maxStone || wood == maxWood && !buildWarhouseChanged) {
         setVisibility('buildWarehouse', false);
         setBuildWarhouseChanged(true);
     }
-  }, [mana, buildWarhouseChanged]);
+  }, [stone, wood, buildWarhouseChanged]);
 
   useEffect(() => {
-    if (followers > 0 && !buildWarhouseChanged) {
+    if (followers > 0 && !buildLumberYardChanged) {
         setVisibility('buildLumberYard', false);
-        setBuildWarhouseChanged(true);
+        setBuildLumberYardChanged(true);
     }
-  }, [mana, buildWarhouseChanged]);
+  }, [followers, buildLumberYardChanged]);
+
+  //Non-Building Clickables
 
 
+  //Per Second Updaters
+  const prevLumberyardRef = useRef(lumberyard);
+  useEffect(() => {
+    const prevLumberyard = prevLumberyardRef.current;
+    const difference = lumberyard - prevLumberyard;
+    setWoodSecond(woodSecond + difference);
+    prevLumberyardRef.current = lumberyard;
+  }, [lumberyard]);
+  
+
+  const prevStoneMineRef = useRef(stoneMine);
+  useEffect(() => {
+    const prevStoneMine = prevStoneMineRef.current;
+    const difference = stoneMine - prevStoneMine;
+    setStoneSecond(stoneSecond + difference);
+    prevStoneMineRef.current = stoneMine;
+  }, [stoneMine]);
+
+  //Per Second effects
   useEffect(() => {
     const interval = setInterval(() => {
-      setMana(Math.min(mana + manaSecond, maxMana));
-      setGold(Math.min(gold + goldSecond, maxGold));
-      setFood(Math.min(food + foodSecond, maxFood));
-      setStone(Math.min(stone + stoneSecond, maxStone));
-      setWood(Math.min(wood + woodSecond, maxWood));
-    }, 1000); // update every second
+      setMana(Math.min(mana + (manaSecond * 0.1), maxMana));
+      setGold(Math.min(gold + (goldSecond * 0.1), maxGold));
+      setFood(Math.min(food + (foodSecond * 0.1), maxFood));
+      setStone(Math.min(stone + (stoneSecond * 0.1), maxStone));
+      setWood(Math.min(wood + (woodSecond * 0.1), maxWood));
+    }, 100); // update every 1/10 second
   
+
+
+
+
+
     return () => clearInterval(interval); // cleanup on unmount
   }, [manaSecond, maxMana, goldSecond, maxGold, foodSecond, maxFood, stoneSecond, maxStone, woodSecond, maxWood, setMana, setGold, setFood, setStone, setWood]);
 

@@ -3,10 +3,14 @@ import './SideBarLeft.css';
 import { StatsProvider, useMyStatsContext } from '../data/StatsContext';
 import { useMyResourcesSettersContext, useMyResourcesContext } from '../data/ResourcesContext';
 import { useVisibilityContext, useVisibilitySettersContext } from '../data/VisibilityContext';
+import { MainComponentType } from '../App';
 
 
+type SideBarLeftProps = {
+    changeMainComponent: (componentName: MainComponentType) => void;
+  };
 
-export default function SideBarLeft(eventObject: any) {
+export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
     const { mana, maxMana, manaSecond, gold, maxGold, goldSecond, food, maxFood, foodSecond, stone, maxStone, stoneSecond, wood, maxWood, woodSecond, time, maxTime, timeSecond } = useMyResourcesContext();
     const { setMana, setMaxMana, setManaSecond, setGold, setMaxGold, setGoldSecond, setFood, setMaxFood, setFoodSecond, setStone, setMaxStone, setStoneSecond, setWood, setMaxWood, setWoodSecond } = useMyResourcesSettersContext();    const { charisma, setCharisma } = useMyStatsContext();
     const { divVisibility } = useVisibilityContext();
@@ -14,23 +18,27 @@ export default function SideBarLeft(eventObject: any) {
     return (
         <div className="first-subsection">
             <h2 className="">Heroic Rebirth</h2>
-            <div className="town-button common-compound-button" role="button" onClick={() => setGold(gold + charisma/2)}>
+            <div className="town-button common-compound-button" role="button" onClick={() => changeMainComponent('CampusMain')}>
                 <img src="img/town_icon.png" alt="town-Icon"></img>
                 <label className="common-button-label">Town</label>
             </div>
-            <div className="common-compound-button" role="button" onClick={() => setGold(gold + charisma/2)}>
+            <div className="common-compound-button" role="button" onClick={() => changeMainComponent('FollowersMain')}>
+                <img src="img/follower_icon.png" alt="follower-Icon"></img>
+                <label className="common-button-label">Followers</label>
+            </div>
+            <div className="common-compound-button" role="button" onClick={() => changeMainComponent('StatsComponent')}>
                 <img src="img/stats_icon.png" alt="stats-Icon"></img>
                 <label className="common-button-label">Help</label>
             </div>
-            <div className="common-compound-button" role="button" onClick={() => setGold(gold + charisma/2)}>
+            <div className="common-compound-button" role="button" onClick={() => changeMainComponent('HelpComponent')}>
                 <img src="img/help_icon.png" alt="help-Icon"></img>
                 <label className="common-button-label">Help</label>
             </div>
-            <div className="common-compound-button" role="button" onClick={() => setGold(gold + charisma/2)}>
+            <div className="common-compound-button" role="button" onClick={() => changeMainComponent('OptionsComponent')}>
                 <img src="img/options_icon.png" alt="options-Icon"></img>
                 <label className="common-button-label">Options</label>
             </div>
-            <div className="common-compound-button" role="button" onClick={() => setGold(gold + charisma/2)}>
+            <div className="common-compound-button" role="button" onClick={() => changeMainComponent('AboutComponent')}>
                 <img src="img/about_icon.png" alt="about-Icon"></img>
                 <label className="common-button-label">About</label>
             </div>
@@ -47,10 +55,10 @@ export default function SideBarLeft(eventObject: any) {
                     </div>
                     <div className="resource-numbers">
                         <div className="resource-capacity">
-                            {mana}/{maxMana}
+                            {Math.floor(mana)}/{Math.floor(maxMana)}
                         </div>
                         <div className="resource-rate">
-                            +{manaSecond}/s
+                            +{Math.floor(manaSecond)}/s
                         </div>
                     </div>
                 </div>
@@ -60,10 +68,10 @@ export default function SideBarLeft(eventObject: any) {
                     </div>
                     <div className="resource-numbers">
                         <div className="resource-capacity">
-                            {wood}/{maxWood}
+                        {Math.floor(wood)}/{Math.floor(maxWood)}
                         </div>
                         <div className="resource-rate">
-                            +{woodSecond}/s
+                            +{Math.floor(woodSecond)}/s
                         </div>
                     </div>
                 </div>
@@ -73,10 +81,10 @@ export default function SideBarLeft(eventObject: any) {
                     </div>
                     <div className="resource-numbers">
                         <div className="resource-capacity">
-                            {stone}/{maxStone}
+                        {Math.floor(stone)}/{Math.floor(maxStone)}
                         </div>
                         <div className="resource-rate">
-                            +{stoneSecond}/s
+                            +{Math.floor(stoneSecond)}/s
                         </div>
                     </div>
                 </div>
@@ -86,10 +94,10 @@ export default function SideBarLeft(eventObject: any) {
                     </div>
                     <div className="resource-numbers">
                         <div className="resource-capacity">
-                            {gold}/{maxGold}
+                        {Math.floor(gold)}/{Math.floor(maxGold)}
                         </div>
                         <div className="resource-rate">
-                            +{goldSecond}/s
+                            +{Math.floor(goldSecond)}/s
                         </div>
                     </div>
                 </div>
@@ -99,10 +107,10 @@ export default function SideBarLeft(eventObject: any) {
                     </div>
                     <div className="resource-numbers">
                         <div className="resource-capacity">
-                            {food}/{maxFood}
+                        {Math.floor(food)}/{Math.floor(maxFood)}
                         </div>
                         <div className="resource-rate">
-                            +{foodSecond}/s
+                            +{Math.floor(foodSecond)}/s
                         </div>
                     </div>
                 </div>
@@ -112,10 +120,10 @@ export default function SideBarLeft(eventObject: any) {
                     </div>
                     <div className="resource-numbers">
                         <div className="resource-capacity">
-                            {time}/{maxTime}
+                        {Math.floor(time)}/{Math.floor(maxTime)}
                         </div>
                         <div className="resource-rate">
-                            +{timeSecond}/s
+                            +{Math.floor(timeSecond)}/s
                         </div>
                     </div>
                 </div>

@@ -22,6 +22,7 @@ export interface MyResourcesContextType {
   followers: number;
   maxFollowers: number;
   followersSecond: number;
+  warehouses: number;
 }
 
 export interface MyResourcesSettersContextType {
@@ -46,6 +47,7 @@ export interface MyResourcesSettersContextType {
   setFollowers: (newValue: number) => void;
   setMaxFollowers: (newValue: number) => void;
   setFollowersSecond: (newValue: number) => void;
+  setWarehouses: (newValue: number) => void;
 }
 
 const MyResourcesContext = createContext<MyResourcesContextType | undefined>(undefined);
@@ -84,7 +86,9 @@ export const ResourcesProvider: React.FC<ResourcesProviderProps> = ({ children }
   const [maxFollowers, setMaxFollowers] = useState<number>(1000000);
   const [followersSecond, setFollowersSecond] = useState<number>(0);
 
-  const values = { time, maxTime, timeSecond, mana, maxMana, manaSecond, gold, maxGold, goldSecond, food, maxFood, foodSecond, stone, maxStone, stoneSecond, wood, maxWood, woodSecond, followers, maxFollowers, followersSecond};
+  const [warehouses, setWarehouses] = useState<number>(0);
+
+  const values = { time, maxTime, timeSecond, mana, maxMana, manaSecond, gold, maxGold, goldSecond, food, maxFood, foodSecond, stone, maxStone, stoneSecond, wood, maxWood, woodSecond, followers, maxFollowers, followersSecond, warehouses};
   const setters = {
     setTime: (newValue: number) => setTime(Math.min(newValue, maxTime)),
     setMaxTime,
@@ -107,6 +111,7 @@ export const ResourcesProvider: React.FC<ResourcesProviderProps> = ({ children }
     setFollowers: (newValue: number) => setFollowers(Math.min(newValue, maxFollowers)),
     setMaxFollowers,
     setFollowersSecond,
+    setWarehouses: (newValue: number) => setWarehouses(newValue)
   };
 
   return (
