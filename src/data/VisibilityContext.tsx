@@ -39,6 +39,8 @@ export const VisibilityProvider: React.FC<VisibilityProviderProps> = ({ children
     buildLogCabinDescription: true,
     buildLumberYard: true,
     buildLumberYardDescription: true,
+    buildStoneMine: true,
+    buildStoneMineDescription: true,
     buildWarehouse: true,
   });
 

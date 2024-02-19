@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode, useState } from 'react';
+import React, { createContext, useContext, ReactNode, useState, useEffect, useRef } from 'react';
 
 export interface MyFollowersContextType {
   freeFollowers: number;
@@ -53,6 +53,20 @@ export const FollowersProvider: React.FC<FollowersProviderProps> = ({ children }
     setStoneMine: (newValue: number) => setStoneMine(Math.max(0, Math.min(newValue, maxStoneMine))),
     setMaxStoneMine: (newValue: number) => setMaxStoneMine(Math.max(0, newValue)),
   };
+
+  useEffect(() => {
+    setTotalFollowers(maxFollowers)
+  }, [maxFollowers]);
+
+
+  const prevTotalFollowersRef = useRef(totalFollowers);
+  useEffect(() => {
+    const prevTotalFollowers = prevTotalFollowersRef.current;
+    const difference = totalFollowers - prevTotalFollowers;
+    setFreeFollowers(freeFollowers + difference);
+    prevTotalFollowersRef.current = totalFollowers;
+  }, [totalFollowers]);
+
 
   return (
     <MyFollowersContextType.Provider value={values}>

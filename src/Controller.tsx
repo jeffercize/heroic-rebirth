@@ -94,6 +94,13 @@ function Controller() {
     }
   }, [totalFollowers, buildLumberYardChanged]);
 
+  useEffect(() => {
+    if (totalFollowers > 0 && !buildLumberYardChanged) {
+        setVisibility('buildStoneMine', false);
+        setBuildLumberYardChanged(true);
+    }
+  }, [totalFollowers, buildLumberYardChanged]);
+
   //Non-Building Clickables
 
 
@@ -132,12 +139,6 @@ function Controller() {
       setStone(Math.max(0,Math.min(stone + (stoneSecond * 0.1), maxStone)));
       setWood(Math.max(0,Math.min(wood + (woodSecond * 0.1), maxWood)));
     }, 100); // update every 1/10 second
-  
-
-
-
-
-
     return () => clearInterval(interval); // cleanup on unmount
   }, [manaSecond, maxMana, goldSecond, maxGold, foodSecond, maxFood, stoneSecond, maxStone, woodSecond, maxWood, setMana, setGold, setFood, setStone, setWood]);
 

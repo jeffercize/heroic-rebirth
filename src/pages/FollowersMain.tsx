@@ -21,6 +21,9 @@ export default function FollowersMain(eventObject: any) {
 
   return (
     <div className="followers-main">
+        <h2 className='followers-header'>
+            Free Followers: {freeFollowers}/{totalFollowers}
+        </h2>
         <div className="followers-row">
             <div className="followers-role">
                 Lumberyard Workers:
@@ -45,20 +48,6 @@ export default function FollowersMain(eventObject: any) {
                     -
                 </button>
                 <button className="follower-add-button"onClick={() => setStoneMine(stoneMine+1)}>
-                    +
-                </button>
-             </div>
-        </div>
-        <div className="followers-row">
-            <div className="followers-role">
-                Cheating Mana Workers:
-            </div>
-             <div className="followers-assigned">
-                <span style={{paddingRight: 10, fontWeight: 'bold' }}>{freeFollowers}/{totalFollowers}</span>
-                <button className="follower-add-button" onClick={() => setFreeFollowers(freeFollowers-1)}>
-                    -
-                </button>
-                <button className="follower-add-button"onClick={() => setFreeFollowers(freeFollowers+1)}>
                     +
                 </button>
              </div>

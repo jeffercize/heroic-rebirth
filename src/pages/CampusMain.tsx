@@ -26,8 +26,6 @@ export default function CampusMain(eventObject: any) {
 
   const buildCabinEffect = (param: any) => {
     setMaxFollowers(maxFollowers + 1);
-    setTotalFollowers(totalFollowers + 1);
-    setFreeFollowers(freeFollowers + 1);
     setters.setWood(resources.wood - buildingCost.logCabinWoodCost);
     setters.setStone(resources.stone - buildingCost.logCabinStoneCost);
     buildingSetterCost.setLogCabinWoodCost(Math.floor(buildingCost.logCabinWoodCost + Math.pow(totalFollowers+1, 1.8)));
@@ -61,7 +59,10 @@ export default function CampusMain(eventObject: any) {
   };
 
   return (
-  <div className="second-subsection">
+  <div className="campus-section">
+      <div className="section-header">
+        <span style={{ paddingTop: '10px'}}>Gather</span> <button className="section-collapse-button" onClick={() => toggleVisibility("")}>V</button>
+      </div>
       <div className="button-group">
         <TownButton 
           buttonText = "Gather Energy"
@@ -70,56 +71,75 @@ export default function CampusMain(eventObject: any) {
           incrementValue = {[manaPerClick]}
           perSecond = {false}
           maxIncrease = {false}
+          incrementText = ""
           imgSrc = {["img/mana_icon.png"]}
           visibilityKey={'gatherMana'}
           visibilityDescriptionKey={'gatherManaDescription'}
           onClickEffect = {gatherManaEffect}
           costs = {[]}/>
+      </div>
+      <div className="section-header">
+        <span style={{ paddingTop: '10px'}}>Housing</span> <button className="section-collapse-button" onClick={() => toggleVisibility("")}>V</button>
+      </div>
+      <div className="button-group">
         <TownButton 
-          buttonText = "Build Log Cabin"
-          descriptionText = "Build a log cabin for living in." 
-          tipText = "Tip: Maybe people will come to visit you!"
-          incrementValue = {[1]}
-          perSecond = {false}
-          maxIncrease = {false}
-          imgSrc = {["img/town_icon.png"]}
-          visibilityKey={'buildLogCabin'}
-          visibilityDescriptionKey={'buildLogCabinDescription'}
-          onClickEffect = {buildCabinEffect}
-          costs = {[
-            { name: 'wood', cost: 'logCabinWoodCost', imgSrc: 'img/wood_icon.png' },
-            { name: 'stone', cost: 'logCabinStoneCost', imgSrc: 'img/stone_icon.png' },
-          ]}/>
+            buttonText = "Build Log Cabin"
+            descriptionText = "Build a log cabin for living in." 
+            tipText = "Tip: Maybe people will come to visit you!"
+            incrementValue = {[1]}
+            perSecond = {false}
+            maxIncrease = {false}
+            incrementText = "Max Followers"
+            imgSrc = {["img/town_icon.png"]}
+            visibilityKey={'buildLogCabin'}
+            visibilityDescriptionKey={'buildLogCabinDescription'}
+            onClickEffect = {buildCabinEffect}
+            costs = {[
+              { name: 'wood', cost: 'logCabinWoodCost', imgSrc: 'img/wood_icon.png' },
+              { name: 'stone', cost: 'logCabinStoneCost', imgSrc: 'img/stone_icon.png' },
+        ]}/>
+      </div>
+      <div className="section-header">
+        <span style={{ paddingTop: '10px'}}>Buildings</span> <button className="section-collapse-button" onClick={() => toggleVisibility("")}>V</button>
+      </div>
+      <div className="button-group">
         <TownButton 
-          buttonText = "Build Lumber Yard"
-          descriptionText = "Build a log yard for followers to work at." 
-          tipText = "Tip: Make sure to assign workers!"
-          incrementValue = {[1]}
-          perSecond = {true}
-          maxIncrease = {false}
-          imgSrc = {["img/wood_icon.png"]}
-          visibilityKey={'buildLumberYard'}
-          visibilityDescriptionKey={'buildLumberYardDescription'}
-          onClickEffect = {buildLumberYardEffect}
-          costs = {[
-            { name: 'wood', cost: 'lumberyardWoodCost', imgSrc: 'img/wood_icon.png' },
-            { name: 'stone', cost: 'lumberyardStoneCost', imgSrc: 'img/stone_icon.png' },
+            buttonText = "Build Lumber Yard"
+            descriptionText = "Build a log yard for followers to work at." 
+            tipText = "Tip: Make sure to assign workers!"
+            incrementValue = {[1]}
+            perSecond = {true}
+            maxIncrease = {false}
+            incrementText = "Max Workers"
+            imgSrc = {["img/wood_icon.png"]}
+            visibilityKey={'buildLumberYard'}
+            visibilityDescriptionKey={'buildLumberYardDescription'}
+            onClickEffect = {buildLumberYardEffect}
+            costs = {[
+              { name: 'wood', cost: 'lumberyardWoodCost', imgSrc: 'img/wood_icon.png' },
+              { name: 'stone', cost: 'lumberyardStoneCost', imgSrc: 'img/stone_icon.png' },
           ]}/>
-        <TownButton 
-          buttonText = "Build Stone Mine"
-          descriptionText = "Build a Stone Mine for followers to work at." 
-          tipText = "Tip: Make sure to assign workers!"
-          incrementValue = {[1]}
-          perSecond = {true}
-          maxIncrease = {false}
-          imgSrc = {["img/stone_icon.png", "img/town_icon.png"]}
-          visibilityKey={'buildStoneMine'}
-          visibilityDescriptionKey={'buildStoneMineDescription'}
-          onClickEffect = {buildStoneMineEffect}
-          costs = {[
-            { name: 'wood', cost: 'stoneMineWoodCost', imgSrc: 'img/wood_icon.png' },
-            { name: 'stone', cost: 'stoneMineStoneCost', imgSrc: 'img/stone_icon.png' },
+          <TownButton 
+            buttonText = "Build Stone Mine"
+            descriptionText = "Build a Stone Mine for followers to work at." 
+            tipText = "Tip: Make sure to assign workers!"
+            incrementValue = {[1]}
+            perSecond = {true}
+            maxIncrease = {false}
+            incrementText = "Max Workers"
+            imgSrc = {["img/stone_icon.png", "img/town_icon.png"]}
+            visibilityKey={'buildStoneMine'}
+            visibilityDescriptionKey={'buildStoneMineDescription'}
+            onClickEffect = {buildStoneMineEffect}
+            costs = {[
+              { name: 'wood', cost: 'stoneMineWoodCost', imgSrc: 'img/wood_icon.png' },
+              { name: 'stone', cost: 'stoneMineStoneCost', imgSrc: 'img/stone_icon.png' },
           ]}/>
+      </div>
+      <div className="section-header">
+        <span style={{ paddingTop: '10px'}}>Storage</span> <button className="section-collapse-button" onClick={() => toggleVisibility("")}>V</button>
+      </div>
+      <div className="button-group">
         <TownButton 
           buttonText = "Build Warehouse"
           descriptionText = "Build a warhouse to store your stuff." 
@@ -127,6 +147,7 @@ export default function CampusMain(eventObject: any) {
           incrementValue = {[200, 150]}
           perSecond = {false}
           maxIncrease = {true}
+          incrementText = ""
           imgSrc = {["img/wood_icon.png", "img/stone_icon.png"]}
           visibilityKey={'buildWarehouse'}
           visibilityDescriptionKey={'buildWarehouseDescription'}
@@ -134,7 +155,7 @@ export default function CampusMain(eventObject: any) {
           costs = {[
             { name: 'wood', cost: 'warehouseWoodCost', imgSrc: 'img/wood_icon.png' },
             { name: 'stone', cost: 'warehouseStoneCost', imgSrc: 'img/stone_icon.png' },
-          ]}/>
+        ]}/>
       </div>
   </div>
   );

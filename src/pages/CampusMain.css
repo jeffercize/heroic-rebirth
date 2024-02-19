@@ -3,3 +3,54 @@
     flex-direction: column;
     width: 100%;
 }
+
+.campus-section {
+    display: flex;
+    justify-content: flex-start; /* Align button to the left */
+    align-items: flex-start; /* Align button to the top */
+    width: 100%;
+    flex: 1;
+    border: 1px solid #ccc;
+    padding: 10px;
+    flex-direction: column;
+  }
+
+.section-header{
+    font-size: 22px;
+    text-align: left;
+    padding-left: 5px;
+    border-bottom: 2px solid darkgray; /* Add a border below the header */
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.section-header span {
+    flex-grow: 1;
+}
+
+.collapse-button {
+    width: 10%;
+    flex: 1;
+    border: none;
+    border-radius: 5px;
+    margin: 5px 5px;
+    padding-right: 25px;
+    background-color: white;
+    color: black;
+    font-size: 24px;
+    text-align: right;
+  }
+
+.section-collapse-button {
+    width: 10%;
+    flex: 1;
+    border: none;
+    border-radius: 5px;
+    margin: 5px 5px;
+    background-color: white;
+    color: black;
+    font-size: 28px;
+    text-align: right;
+    cursor: pointer;
+  }

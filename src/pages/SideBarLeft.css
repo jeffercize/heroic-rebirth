@@ -61,3 +61,11 @@
     justify-content: flex-start;
     padding-right: 10px;
 }
+
+.blue-text{
+    color: blue;
+}
+
+.common-button.red-text {
+    color: lightcoral;
+}

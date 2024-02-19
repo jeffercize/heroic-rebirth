@@ -54,7 +54,7 @@ export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
                         <img src="img/mana_icon.png" alt="mana-Icon"  style={{ width: '22px', height: 'auto', verticalAlign: 'middle' }}></img>Energy:
                     </div>
                     <div className="resource-numbers">
-                        <div className="resource-capacity">
+                        <div className={mana == maxMana ? "blue-text resource-capacity" : "resource-capacity"}>
                             {Math.floor(mana)}/{Math.floor(maxMana)}
                         </div>
                         <div className="resource-rate">
@@ -67,7 +67,7 @@ export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
                         <img src="img/wood_icon.png" alt="wood-Icon"  style={{ width: '22px', height: 'auto', verticalAlign: 'middle' }}></img>Wood:
                     </div>
                     <div className="resource-numbers">
-                        <div className="resource-capacity">
+                        <div className={wood == maxWood ? "blue-text resource-capacity" : "resource-capacity"}>
                         {Math.floor(wood)}/{Math.floor(maxWood)}
                         </div>
                         <div className="resource-rate">
@@ -80,7 +80,7 @@ export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
                         <img src="img/stone_icon.png" alt="stone-Icon"  style={{ width: '22px', height: 'auto', verticalAlign: 'middle' }}></img>Stone:
                     </div>
                     <div className="resource-numbers">
-                        <div className="resource-capacity">
+                        <div className={stone == maxStone ? "blue-text resource-capacity" : "resource-capacity"}>
                         {Math.floor(stone)}/{Math.floor(maxStone)}
                         </div>
                         <div className="resource-rate">
