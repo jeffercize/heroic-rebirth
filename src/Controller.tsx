@@ -56,7 +56,7 @@ function Controller() {
 
   //Skills
   useEffect(() => {
-    if (mana >= 10 && !chopTreeChanged) {
+    if (!chopTreeChanged && mana >= 10 ) {
         setVisibility('chopTree', false);
         setChopTreeChanged(true);
         addEvent({title: "Skills!", body: 'You have unlocked the Chop Tree skill!'});
@@ -64,7 +64,7 @@ function Controller() {
   }, [mana, chopTreeChanged]);
 
   useEffect(() => {
-    if (mana >= 10 && !mineRockChanged) {
+    if (!mineRockChanged && mana >= 10) {
         setVisibility('mineRock', false);
         setMineRockChanged(true);
         addEvent({title: "Rocking!", body: 'You have unlocked the Mine Rock skill!'});

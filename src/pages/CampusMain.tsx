@@ -28,24 +28,27 @@ export default function CampusMain(eventObject: any) {
     setMaxFollowers(maxFollowers + 1);
     setters.setWood(resources.wood - buildingCost.logCabinWoodCost);
     setters.setStone(resources.stone - buildingCost.logCabinStoneCost);
-    buildingSetterCost.setLogCabinWoodCost(Math.floor(buildingCost.logCabinWoodCost + Math.pow(totalFollowers+1, 1.8)));
-    buildingSetterCost.setLogCabinStoneCost(Math.floor(buildingCost.logCabinStoneCost + Math.pow(totalFollowers+1, 1.6)));
+    buildingSetterCost.setLogCabinCost(Math.pow(buildingCost.logCabinCost, 1.20));
+    buildingSetterCost.setLogCabinWoodCost(Math.round(buildingCost.logCabinCost * buildingCost.logCabinWoodCostRatio));
+    buildingSetterCost.setLogCabinStoneCost(Math.round(buildingCost.logCabinCost * buildingCost.logCabinStoneCostRatio));
   };
 
   const buildLumberYardEffect = (param: any) => {
     setters.setWood(resources.wood - buildingCost.lumberyardWoodCost);
     setters.setStone(resources.stone - buildingCost.lumberyardStoneCost);
     setMaxLumberyard(maxLumberyard + 1);
-    buildingSetterCost.setLumberyardWoodCost(Math.floor(buildingCost.lumberyardWoodCost + Math.pow(maxLumberyard, 1.8)));
-    buildingSetterCost.setLumberyardStoneCost(Math.floor(buildingCost.lumberyardStoneCost + Math.pow(maxLumberyard, 1.6)));
+    buildingSetterCost.setLumberyardCost(Math.pow(buildingCost.lumberyardCost, 1.20));
+    buildingSetterCost.setLumberyardWoodCost(Math.round(buildingCost.lumberyardCost * buildingCost.lumberyardWoodCostRatio));
+    buildingSetterCost.setLumberyardStoneCost(Math.round(buildingCost.lumberyardCost * buildingCost.lumberyardStoneCostRatio));
   };
 
   const buildStoneMineEffect = (param: any) => {
     setters.setWood(resources.wood - buildingCost.stoneMineWoodCost);
     setters.setStone(resources.stone - buildingCost.stoneMineStoneCost);
     setMaxStoneMine(maxStoneMine + 1);
-    buildingSetterCost.setStoneMineWoodCost(Math.floor(buildingCost.stoneMineWoodCost + Math.pow(maxStoneMine, 1.8)));
-    buildingSetterCost.setStoneMineStoneCost(Math.floor(buildingCost.stoneMineStoneCost + Math.pow(maxStoneMine, 1.6)));
+    buildingSetterCost.setStoneMineCost(Math.pow(buildingCost.stoneMineCost, 1.20));
+    buildingSetterCost.setStoneMineWoodCost(Math.round(buildingCost.stoneMineCost * buildingCost.stoneMineWoodCostRatio));
+    buildingSetterCost.setStoneMineStoneCost(Math.round(buildingCost.stoneMineCost * buildingCost.stoneMineStoneCostRatio));
   };
 
   const buildWarehouseEffect = (param: any) => {
@@ -54,14 +57,15 @@ export default function CampusMain(eventObject: any) {
     setters.setWood(resources.wood - buildingCost.warehouseWoodCost);
     setters.setStone(resources.stone - buildingCost.warehouseStoneCost);
     setters.setWarehouses(resources.warehouses + 1);
-    buildingSetterCost.setWarehouseWoodCost(Math.floor(buildingCost.warehouseWoodCost + Math.pow(resources.warehouses+1, 1.8)));
-    buildingSetterCost.setWarehouseStoneCost(Math.floor(buildingCost.warehouseStoneCost + Math.pow(resources.warehouses+1, 1.6)));
+    buildingSetterCost.setWarehouseCost(Math.pow(buildingCost.warehouseCost, 1.20));
+    buildingSetterCost.setWarehouseWoodCost(Math.round(buildingCost.warehouseCost * buildingCost.warehouseWoodCostRatio));
+    buildingSetterCost.setWarehouseStoneCost(Math.round(buildingCost.warehouseCost * buildingCost.warehouseStoneCostRatio));
   };
 
   return (
   <div className="campus-section">
       <div className="section-header">
-        <span style={{ paddingTop: '10px'}}>Gather</span> <button className="section-collapse-button" onClick={() => toggleVisibility("")}>V</button>
+        <span style={{ paddingTop: '31px', paddingBottom: "5px"}}>Gather</span> <button className="section-collapse-button" onClick={() => toggleVisibility("")}>V</button>
       </div>
       <div className="button-group">
         <TownButton 

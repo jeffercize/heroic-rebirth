@@ -9,6 +9,18 @@ export interface BuildingCostContextType {
   warehouseStoneCost: number;
   logCabinWoodCost: number;
   logCabinStoneCost: number;
+  lumberyardCost: number;
+  stoneMineCost: number;
+  warehouseCost: number;
+  logCabinCost: number;
+  lumberyardWoodCostRatio: number;
+  lumberyardStoneCostRatio: number;
+  stoneMineWoodCostRatio: number;
+  stoneMineStoneCostRatio: number;
+  warehouseWoodCostRatio: number;
+  warehouseStoneCostRatio: number;
+  logCabinWoodCostRatio: number;
+  logCabinStoneCostRatio: number;
 }
 
 export interface BuildingCostSettersContextType {
@@ -20,6 +32,18 @@ export interface BuildingCostSettersContextType {
   setWarehouseStoneCost: (newValue: number) => void;
   setLogCabinWoodCost: (newValue: number) => void;
   setLogCabinStoneCost: (newValue: number) => void;
+  setLumberyardCost: (newValue: number) => void;
+  setStoneMineCost: (newValue: number) => void;
+  setWarehouseCost: (newValue: number) => void;
+  setLogCabinCost: (newValue: number) => void;
+  setLumberyardWoodCostRatio: (newValue: number) => void;
+  setLumberyardStoneCostRatio: (newValue: number) => void;
+  setStoneMineWoodCostRatio: (newValue: number) => void;
+  setStoneMineStoneCostRatio: (newValue: number) => void;
+  setWarehouseWoodCostRatio: (newValue: number) => void;
+  setWarehouseStoneCostRatio: (newValue: number) => void;
+  setLogCabinWoodCostRatio: (newValue: number) => void;
+  setLogCabinStoneCostRatio: (newValue: number) => void;
 }
 
 const BuildingCostContext = createContext<BuildingCostContextType | undefined>(undefined);
@@ -30,14 +54,27 @@ interface BuildingCostProviderProps {
 }
 
 export const BuildingCostProvider: React.FC<BuildingCostProviderProps> = ({ children }) => {
-  const [lumberyardWoodCost, setLumberyardWoodCost] = useState<number>(15);
-  const [lumberyardStoneCost, setLumberyardStoneCost] = useState<number>(5);
-  const [stoneMineWoodCost, setStoneMineWoodCost] = useState<number>(4);
-  const [stoneMineStoneCost, setStoneMineStoneCost] = useState<number>(10);
-  const [warehouseWoodCost, setWarehouseWoodCost] = useState<number>(30);
-  const [warehouseStoneCost, setWarehouseStoneCost] = useState<number>(12);
-  const [logCabinWoodCost, setLogCabinWoodCost] = useState<number>(5);
-  const [logCabinStoneCost, setLogCabinStoneCost] = useState<number>(2);
+  const [lumberyardWoodCost, setLumberyardWoodCost] = useState<number>(0);
+  const [lumberyardStoneCost, setLumberyardStoneCost] = useState<number>(0);
+  const [stoneMineWoodCost, setStoneMineWoodCost] = useState<number>(0);
+  const [stoneMineStoneCost, setStoneMineStoneCost] = useState<number>(0);
+  const [warehouseWoodCost, setWarehouseWoodCost] = useState<number>(0);
+  const [warehouseStoneCost, setWarehouseStoneCost] = useState<number>(0);
+  const [logCabinWoodCost, setLogCabinWoodCost] = useState<number>(0);
+  const [logCabinStoneCost, setLogCabinStoneCost] = useState<number>(0);
+  const [lumberyardCost, setLumberyardCost] = useState<number>(7);
+  const [stoneMineCost, setStoneMineCost] = useState<number>(7);
+  const [warehouseCost, setWarehouseCost] = useState<number>(10);
+  const [logCabinCost, setLogCabinCost] = useState<number>(2);
+  const [lumberyardWoodCostRatio, setLumberyardWoodCostRatio] = useState<number>(1.5);
+  const [lumberyardStoneCostRatio, setLumberyardStoneCostRatio] = useState<number>(0.5);
+  const [stoneMineWoodCostRatio, setStoneMineWoodCostRatio] = useState<number>(.7);
+  const [stoneMineStoneCostRatio, setStoneMineStoneCostRatio] = useState<number>(1);
+  const [warehouseWoodCostRatio, setWarehouseWoodCostRatio] = useState<number>(3.0);
+  const [warehouseStoneCostRatio, setWarehouseStoneCostRatio] = useState<number>(1.2);
+  const [logCabinWoodCostRatio, setLogCabinWoodCostRatio] = useState<number>(.5);
+  const [logCabinStoneCostRatio, setLogCabinStoneCostRatio] = useState<number>(.2);
+
 
   const values = { 
     lumberyardWoodCost, 
@@ -48,6 +85,18 @@ export const BuildingCostProvider: React.FC<BuildingCostProviderProps> = ({ chil
     warehouseStoneCost, 
     logCabinWoodCost, 
     logCabinStoneCost, 
+    lumberyardCost,
+    stoneMineCost,
+    warehouseCost,
+    logCabinCost,
+    lumberyardWoodCostRatio,
+    lumberyardStoneCostRatio,
+    stoneMineWoodCostRatio,
+    stoneMineStoneCostRatio,
+    warehouseWoodCostRatio,
+    warehouseStoneCostRatio,
+    logCabinWoodCostRatio,
+    logCabinStoneCostRatio,
   };
   
   const setters = {
@@ -59,6 +108,18 @@ export const BuildingCostProvider: React.FC<BuildingCostProviderProps> = ({ chil
     setWarehouseStoneCost,
     setLogCabinWoodCost,
     setLogCabinStoneCost,
+    setLumberyardCost,
+    setStoneMineCost,
+    setWarehouseCost,
+    setLogCabinCost,
+    setLumberyardWoodCostRatio,
+    setLumberyardStoneCostRatio,
+    setStoneMineWoodCostRatio,
+    setStoneMineStoneCostRatio,
+    setWarehouseWoodCostRatio,
+    setWarehouseStoneCostRatio,
+    setLogCabinWoodCostRatio,
+    setLogCabinStoneCostRatio,
   };
 
   return (
