@@ -38,6 +38,11 @@
     cursor: pointer;
   }
 
+.follower-add-button:disabled{
+    background-color: #ccc;
+    cursor: default;
+}
+
   .followers-header{
     font-size: 22px;
     text-align: left;

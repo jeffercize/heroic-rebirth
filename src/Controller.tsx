@@ -118,7 +118,7 @@ function Controller() {
   useEffect(() => {
     const prevStoneMine = prevStoneMineRef.current;
     const difference = stoneMine - prevStoneMine;
-    setStoneSecond(stoneSecond + difference);
+    setStoneSecond(stoneSecond + (difference * 0.5));
     prevStoneMineRef.current = stoneMine;
   }, [stoneMine]);
 

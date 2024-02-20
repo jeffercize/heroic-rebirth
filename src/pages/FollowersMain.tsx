@@ -22,32 +22,36 @@ export default function FollowersMain(eventObject: any) {
   return (
     <div className="followers-main">
         <h2 className='followers-header'>
-            Free Followers: {freeFollowers}/{totalFollowers}
+            Worshiping Followers: {freeFollowers}/{totalFollowers}
         </h2>
         <div className="followers-row">
             <div className="followers-role">
-                Lumberyard Workers:
+                Lumberyard Workers: 1
+                <img src="img/wood_icon.png" alt=" wood"  style={{ width: '20px', height: '20px', verticalAlign: 'middle' }}/>
+                /s per worker = {lumberyard}<img src="img/wood_icon.png" alt=" wood"  style={{ width: '20px', height: '20px', verticalAlign: 'middle' }}/>/s Total
             </div>
              <div className="followers-assigned">
                 <span style={{paddingRight: 10, fontWeight: 'bold' }}>{lumberyard}/{maxLumberyard}</span>
-                <button className="follower-add-button" disabled={wood < buildingCost.lumberyardWoodCost || stone < buildingCost.lumberyardStoneCost} onClick={() => {setLumberyard(lumberyard-1)}}>
+                <button className="follower-add-button" disabled = {lumberyard <= 0} onClick={() => {setLumberyard(lumberyard-1); setFreeFollowers(freeFollowers+1)}}>
                     -
                 </button>
-                <button className="follower-add-button" onClick={() => {setLumberyard(lumberyard+1)}}>
+                <button className="follower-add-button" disabled = {freeFollowers <= 0 || lumberyard >= maxLumberyard} onClick={() => {setLumberyard(lumberyard+1); setFreeFollowers(freeFollowers-1)}}>
                     +
                 </button>
              </div>
         </div>
         <div className="followers-row">
             <div className="followers-role">
-                Stone Mine Workers:
+                Stone Mine Workers: 1
+                <img src="img/stone_icon.png" alt=" stone"  style={{ width: '20px', height: '20px', verticalAlign: 'middle' }}/>
+                /s per worker = {stoneMine}<img src="img/stone_icon.png" alt=" stone"  style={{ width: '20px', height: '20px', verticalAlign: 'middle' }}/>/s Total
             </div>
              <div className="followers-assigned">
                 <span style={{paddingRight: 10, fontWeight: 'bold' }}>{stoneMine}/{maxStoneMine}</span>
-                <button className="follower-add-button" onClick={() => setStoneMine(stoneMine-1)}>
+                <button className="follower-add-button" disabled = {stoneMine <= 0} onClick={() => {setStoneMine(stoneMine-1); setFreeFollowers(freeFollowers+1)}}>
                     -
                 </button>
-                <button className="follower-add-button"onClick={() => setStoneMine(stoneMine+1)}>
+                <button className="follower-add-button" disabled = {freeFollowers <= 0 || stoneMine >= maxStoneMine} onClick={() => {setStoneMine(stoneMine+1); setFreeFollowers(freeFollowers-1)}}>
                     +
                 </button>
              </div>

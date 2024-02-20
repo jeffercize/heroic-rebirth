@@ -58,7 +58,7 @@ export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
                             {Math.floor(mana)}/{Math.floor(maxMana)}
                         </div>
                         <div className="resource-rate">
-                            +{Math.floor(manaSecond)}/s
+                            +{Math.round(manaSecond)}/s
                         </div>
                     </div>
                 </div>
@@ -71,7 +71,7 @@ export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
                         {Math.floor(wood)}/{Math.floor(maxWood)}
                         </div>
                         <div className="resource-rate">
-                            +{Math.floor(woodSecond)}/s
+                            +{Math.round(woodSecond)}/s
                         </div>
                     </div>
                 </div>
@@ -84,7 +84,7 @@ export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
                         {Math.floor(stone)}/{Math.floor(maxStone)}
                         </div>
                         <div className="resource-rate">
-                            +{Math.floor(stoneSecond)}/s
+                            +{Math.round(stoneSecond)}/s
                         </div>
                     </div>
                 </div>
@@ -97,7 +97,7 @@ export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
                         {Math.floor(gold)}/{Math.floor(maxGold)}
                         </div>
                         <div className="resource-rate">
-                            +{Math.floor(goldSecond)}/s
+                            +{Math.round(goldSecond)}/s
                         </div>
                     </div>
                 </div>
@@ -110,7 +110,7 @@ export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
                         {Math.floor(food)}/{Math.floor(maxFood)}
                         </div>
                         <div className="resource-rate">
-                            +{Math.floor(foodSecond)}/s
+                            +{Math.round(foodSecond)}/s
                         </div>
                     </div>
                 </div>
@@ -123,7 +123,7 @@ export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
                         {Math.floor(time)}/{Math.floor(maxTime)}
                         </div>
                         <div className="resource-rate">
-                            +{Math.floor(timeSecond)}/s
+                            +{Math.round(timeSecond)}/s
                         </div>
                     </div>
                 </div>

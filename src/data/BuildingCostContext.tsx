@@ -54,18 +54,18 @@ interface BuildingCostProviderProps {
 }
 
 export const BuildingCostProvider: React.FC<BuildingCostProviderProps> = ({ children }) => {
-  const [lumberyardWoodCost, setLumberyardWoodCost] = useState<number>(0);
-  const [lumberyardStoneCost, setLumberyardStoneCost] = useState<number>(0);
-  const [stoneMineWoodCost, setStoneMineWoodCost] = useState<number>(0);
-  const [stoneMineStoneCost, setStoneMineStoneCost] = useState<number>(0);
-  const [warehouseWoodCost, setWarehouseWoodCost] = useState<number>(0);
-  const [warehouseStoneCost, setWarehouseStoneCost] = useState<number>(0);
-  const [logCabinWoodCost, setLogCabinWoodCost] = useState<number>(0);
-  const [logCabinStoneCost, setLogCabinStoneCost] = useState<number>(0);
+  const [lumberyardWoodCost, setLumberyardWoodCost] = useState<number>(10);
+  const [lumberyardStoneCost, setLumberyardStoneCost] = useState<number>(3);
+  const [stoneMineWoodCost, setStoneMineWoodCost] = useState<number>(7);
+  const [stoneMineStoneCost, setStoneMineStoneCost] = useState<number>(10);
+  const [warehouseWoodCost, setWarehouseWoodCost] = useState<number>(18);
+  const [warehouseStoneCost, setWarehouseStoneCost] = useState<number>(12);
+  const [logCabinWoodCost, setLogCabinWoodCost] = useState<number>(4);
+  const [logCabinStoneCost, setLogCabinStoneCost] = useState<number>(2);
   const [lumberyardCost, setLumberyardCost] = useState<number>(7);
   const [stoneMineCost, setStoneMineCost] = useState<number>(7);
   const [warehouseCost, setWarehouseCost] = useState<number>(10);
-  const [logCabinCost, setLogCabinCost] = useState<number>(2);
+  const [logCabinCost, setLogCabinCost] = useState<number>(10);
   const [lumberyardWoodCostRatio, setLumberyardWoodCostRatio] = useState<number>(1.5);
   const [lumberyardStoneCostRatio, setLumberyardStoneCostRatio] = useState<number>(0.5);
   const [stoneMineWoodCostRatio, setStoneMineWoodCostRatio] = useState<number>(.7);

@@ -37,10 +37,10 @@ export const FollowersProvider: React.FC<FollowersProviderProps> = ({ children }
   const [possibleFollowers, setPossibleFollowers] = useState<number>(0);
 
   const [lumberyard, setLumberyard] = useState<number>(0);
-  const [maxLumberyard, setMaxLumberyard] = useState<number>(5);
+  const [maxLumberyard, setMaxLumberyard] = useState<number>(0);
 
   const [stoneMine, setStoneMine] = useState<number>(0);
-  const [maxStoneMine, setMaxStoneMine] = useState<number>(5);
+  const [maxStoneMine, setMaxStoneMine] = useState<number>(0);
 
   const values = { freeFollowers, totalFollowers, maxFollowers, possibleFollowers, lumberyard, maxLumberyard, stoneMine, maxStoneMine };
   const setters = {
