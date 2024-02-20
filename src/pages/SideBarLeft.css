@@ -69,3 +69,8 @@
 .common-button.red-text {
     color: lightcoral;
 }
+
+.first-subsection{
+    overflow-y: auto;
+    overflow-x: hidden;
+}

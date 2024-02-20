@@ -12,7 +12,6 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 120px;
 }
 
 .cost-numbers{
@@ -23,6 +22,8 @@
     user-select: none;
     padding: 5px;
     font-size: 16px;
+    white-space: nowrap;
+    flex-grow: 1;
 }
 
 .red-text{

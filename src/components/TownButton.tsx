@@ -75,7 +75,7 @@ const TownButton: React.FC<TownButtonProps> = ({buttonText, descriptionText, tip
             <div className="cost-numbers">
                 {costs.map((cost, index) => (
                 <div className={'cost-row'} key={index}>
-                    <div className={''}>
+                    <div style={{paddingRight: '5px'}} className={''}>
                         <img src={cost.imgSrc} alt={cost.name}  style={{ width: '20px', height: 'auto', verticalAlign: 'middle' }}></img> {cost.name}:
                     </div>
                     <div className={''}>

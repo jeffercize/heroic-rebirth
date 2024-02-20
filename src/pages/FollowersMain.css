@@ -7,6 +7,8 @@
     align-items: flex-start; /* Align button to the top */
     width: 100%;
     flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .followers-row{

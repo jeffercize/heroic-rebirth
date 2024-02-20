@@ -47,7 +47,7 @@ export default function FollowersMain(eventObject: any) {
                 /s per worker = {stoneMine}<img src="img/stone_icon.png" alt=" stone"  style={{ width: '20px', height: '20px', verticalAlign: 'middle' }}/>/s Total
             </div>
              <div className="followers-assigned">
-                <span style={{paddingRight: 10, fontWeight: 'bold' }}>{stoneMine}/{maxStoneMine}</span>
+                <span style={{paddingRight: 20, fontWeight: 'bold' }}>Auto-Assign:<input type="checkbox" id="myCheckbox"></input></span><span style={{paddingRight: 10, fontWeight: 'bold' }}>{stoneMine}/{maxStoneMine}</span>
                 <button className="follower-add-button" disabled = {stoneMine <= 0} onClick={() => {setStoneMine(stoneMine-1); setFreeFollowers(freeFollowers+1)}}>
                     -
                 </button>
