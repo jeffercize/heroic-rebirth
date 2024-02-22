@@ -18,21 +18,32 @@ function Controller() {
 
 
   //Effect trackers
-    //UI Stuff
-    const [woodDisplayChanged, setWoodDisplayChanged] = useState(false);
-    const [stoneDisplayChanged, setStoneDisplayChanged] = useState(false);
-
-    //Event Type Stuff
-
-    //Skills
-    const [chopTreeChanged, setChopTreeChanged] = useState(false);
-    const [mineRockChanged, setMineRockChanged] = useState(false);
-
-    //Buildings
-    const [buildLogCabinChanged, setBuildLogCabinChanged] = useState(false);
-    const [buildWarhouseChanged, setBuildWarhouseChanged] = useState(false);
-    const [buildLumberYardChanged, setBuildLumberYardChanged] = useState(false);
+  //Event Type Stuff and Loading
+  const savedState = JSON.parse(localStorage.getItem('state') || '{}');
+  //UI Stuff
+  const [woodDisplayChanged, setWoodDisplayChanged] = useState(savedState.woodDisplayChanged || false);
+  const [stoneDisplayChanged, setStoneDisplayChanged] = useState(savedState.stoneDisplayChanged || false);
+  //Skills
+  const [chopTreeChanged, setChopTreeChanged] = useState(savedState.chopTreeChanged || false);
+  const [mineRockChanged, setMineRockChanged] = useState(savedState.mineRockChanged || false);
+  //Buildings
+  const [buildLogCabinChanged, setBuildLogCabinChanged] = useState(savedState.buildLogCabinChanged || false);
+  const [buildWarhouseChanged, setBuildWarhouseChanged] = useState(savedState.buildWarhouseChanged || false);
+  const [buildLumberYardChanged, setBuildLumberYardChanged] = useState(savedState.buildLumberYardChanged || false);
   
+  //save to local storage
+  useEffect(() => {
+    const values = {
+      woodDisplayChanged,
+      stoneDisplayChanged,
+      chopTreeChanged,
+      mineRockChanged,
+      buildLogCabinChanged,
+      buildWarhouseChanged,
+      buildLumberYardChanged,
+    };
+    localStorage.setItem('state', JSON.stringify(values));
+  }, [woodDisplayChanged, stoneDisplayChanged, chopTreeChanged, mineRockChanged, buildLogCabinChanged, buildWarhouseChanged, buildLumberYardChanged]);
 
 
 
@@ -77,27 +88,32 @@ function Controller() {
     if (stone > 0 && wood > 0 && !buildLogCabinChanged) {
         setVisibility('buildLogCabin', false);
         setBuildLogCabinChanged(true);
+        addEvent({title: "Homebuilder!", body: 'You have unlocked the ability to build Log Cabins, you can start to build yourself a small settlement and make a home for your loyal followers to live!'});
     }
   }, [stone, wood, buildLogCabinChanged]);
 
   useEffect(() => {
-    if (stone == maxStone || wood == maxWood && !buildWarhouseChanged) {
+    if ((stone == maxStone || wood == maxWood) && !buildWarhouseChanged) {
         setVisibility('buildWarehouse', false);
         setBuildWarhouseChanged(true);
+        addEvent({title: "No More Storage", body: 'Sir, we have no more room to store our resources, and your followers refuse to just store things outside...'});
+
     }
   }, [stone, wood, buildWarhouseChanged]);
 
   useEffect(() => {
-    if (totalFollowers > 0 && !buildLumberYardChanged) {
+    if (totalFollowers > 5 && !buildLumberYardChanged) {
         setVisibility('buildLumberYard', false);
+        setVisibility('buildStoneMine', false);
         setBuildLumberYardChanged(true);
+        addEvent({title: "Getting to Work", body: 'Your followers wish to do more than just praise your greatness to help contribute to the settlement, they wish to work!'});
     }
   }, [totalFollowers, buildLumberYardChanged]);
 
   useEffect(() => {
-    if (totalFollowers > 0 && !buildLumberYardChanged) {
-        setVisibility('buildStoneMine', false);
-        setBuildLumberYardChanged(true);
+    if (totalFollowers > 5 && !buildLumberYardChanged) {
+
+
     }
   }, [totalFollowers, buildLumberYardChanged]);
 

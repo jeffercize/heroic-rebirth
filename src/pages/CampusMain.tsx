@@ -15,8 +15,8 @@ export default function CampusMain(eventObject: any) {
   const { charisma, setCharisma } = useMyStatsContext();
   const { divVisibility } = useVisibilityContext();
   const { setVisibility, toggleVisibility } = useVisibilitySettersContext();
-  const { freeFollowers, totalFollowers, maxFollowers, maxLumberyard, maxStoneMine } = useMyFollowersContext();
-  const { setFreeFollowers, setTotalFollowers, setMaxFollowers, setMaxLumberyard, setMaxStoneMine } = useMyFollowersSettersContext();
+  const { freeFollowers, totalFollowers, maxFollowers, lumberyard, maxLumberyard, stoneMine, maxStoneMine, lumberyardAutoAssign, stoneMineAutoAssign } = useMyFollowersContext();
+  const { setFreeFollowers, setTotalFollowers, setMaxFollowers, setLumberyard, setMaxLumberyard, setStoneMine, setMaxStoneMine } = useMyFollowersSettersContext();
 
   const manaPerClick = 5;
 
@@ -40,6 +40,10 @@ export default function CampusMain(eventObject: any) {
     buildingSetterCost.setLumberyardCost(Math.pow(buildingCost.lumberyardCost, 1.20));
     buildingSetterCost.setLumberyardWoodCost(Math.round(buildingCost.lumberyardCost * buildingCost.lumberyardWoodCostRatio));
     buildingSetterCost.setLumberyardStoneCost(Math.round(buildingCost.lumberyardCost * buildingCost.lumberyardStoneCostRatio));
+    if (lumberyardAutoAssign && freeFollowers > 0){
+      setFreeFollowers(freeFollowers - 1);
+      setLumberyard(lumberyard + 1);
+    }
   };
 
   const buildStoneMineEffect = (param: any) => {
@@ -49,6 +53,10 @@ export default function CampusMain(eventObject: any) {
     buildingSetterCost.setStoneMineCost(Math.pow(buildingCost.stoneMineCost, 1.20));
     buildingSetterCost.setStoneMineWoodCost(Math.round(buildingCost.stoneMineCost * buildingCost.stoneMineWoodCostRatio));
     buildingSetterCost.setStoneMineStoneCost(Math.round(buildingCost.stoneMineCost * buildingCost.stoneMineStoneCostRatio));
+    if (stoneMineAutoAssign && freeFollowers > 0){
+      setFreeFollowers(freeFollowers - 1);
+      setStoneMine(stoneMine + 1);
+    }
   };
 
   const buildWarehouseEffect = (param: any) => {
@@ -64,10 +72,10 @@ export default function CampusMain(eventObject: any) {
 
   return (
   <div className="campus-section">
-      <div className="section-header">
-        <span style={{ paddingTop: '31px', paddingBottom: "5px"}}>Gather</span> <button className="section-collapse-button" onClick={() => toggleVisibility("")}>V</button>
+      <div className={divVisibility["gatherHeader"] ? 'hidden' : 'section-header'}>
+        <span style={{ paddingTop: '31px', paddingBottom: "5px"}}>Gather</span> <button className="section-collapse-button" onClick={() => toggleVisibility("gatherGroup")}>V</button>
       </div>
-      <div className="button-group">
+      <div className={divVisibility["gatherGroup"] ? 'hidden' : 'button-group'}>
         <TownButton 
           buttonText = "Gather Energy"
           descriptionText = "Focus and gather your heroic energy." 
@@ -82,10 +90,10 @@ export default function CampusMain(eventObject: any) {
           onClickEffect = {gatherManaEffect}
           costs = {[]}/>
       </div>
-      <div className="section-header">
-        <span style={{ paddingTop: '10px'}}>Housing</span> <button className="section-collapse-button" onClick={() => toggleVisibility("")}>V</button>
+      <div className={divVisibility["housingHeader"] ? 'hidden' : 'section-header'}>
+        <span style={{ paddingTop: '10px'}}>Housing</span> <button className="section-collapse-button" onClick={() => toggleVisibility("housingGroup")}>V</button>
       </div>
-      <div className="button-group">
+      <div className={divVisibility["housingGroup"] ? 'hidden' : 'button-group'}>
         <TownButton 
             buttonText = "Build Log Cabin"
             descriptionText = "Build a log cabin for living in." 
@@ -103,10 +111,10 @@ export default function CampusMain(eventObject: any) {
               { name: 'stone', cost: 'logCabinStoneCost', imgSrc: 'img/stone_icon.png' },
         ]}/>
       </div>
-      <div className="section-header">
-        <span style={{ paddingTop: '10px'}}>Buildings</span> <button className="section-collapse-button" onClick={() => toggleVisibility("")}>V</button>
+      <div className={divVisibility["buildingsHeader"] ? 'hidden' : 'section-header'}>
+        <span style={{ paddingTop: '10px'}}>Buildings</span> <button className="section-collapse-button" onClick={() => toggleVisibility("buildingsGroup")}>V</button>
       </div>
-      <div className="button-group">
+      <div className={divVisibility["buildingsGroup"] ? 'hidden' : 'button-group'}>
         <TownButton 
             buttonText = "Build Lumber Yard"
             descriptionText = "Build a log yard for followers to work at." 
@@ -140,10 +148,10 @@ export default function CampusMain(eventObject: any) {
               { name: 'stone', cost: 'stoneMineStoneCost', imgSrc: 'img/stone_icon.png' },
           ]}/>
       </div>
-      <div className="section-header">
-        <span style={{ paddingTop: '10px'}}>Storage</span> <button className="section-collapse-button" onClick={() => toggleVisibility("")}>V</button>
+      <div className={divVisibility["storageHeader"] ? 'hidden' : 'section-header'}>
+        <span style={{ paddingTop: '10px'}}>Storage</span> <button className="section-collapse-button" onClick={() => toggleVisibility("storageGroup")}>V</button>
       </div>
-      <div className="button-group">
+      <div className={divVisibility["storageGroup"] ? 'hidden' : 'button-group'}>
         <TownButton 
           buttonText = "Build Warehouse"
           descriptionText = "Build a warhouse to store your stuff." 

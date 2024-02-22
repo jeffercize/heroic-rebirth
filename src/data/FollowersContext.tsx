@@ -9,6 +9,8 @@ export interface MyFollowersContextType {
   maxLumberyard: number;
   stoneMine: number;
   maxStoneMine: number;
+  lumberyardAutoAssign: number;
+  stoneMineAutoAssign: number;
 }
 
 export interface MyFollowersSettersContextType {
@@ -20,6 +22,8 @@ export interface MyFollowersSettersContextType {
   setMaxLumberyard: (newValue: number) => void;
   setStoneMine: (newValue: number) => void;
   setMaxStoneMine: (newValue: number) => void;
+  setLumberyardAutoAssign: (newValue: number) => void;
+  setStoneMineAutoAssign: (newValue: number) => void;
 }
 
 const MyFollowersContextType = createContext<MyFollowersContextType | undefined>(undefined);
@@ -29,20 +33,35 @@ interface FollowersProviderProps {
   children: ReactNode;
 }
 
+const getInitialValue = (key: string, defaultValue: number) => {
+  const savedState = JSON.parse(localStorage.getItem('followersState') || '{}');
+  return savedState[key] !== undefined ? savedState[key] : defaultValue;
+};
+
 export const FollowersProvider: React.FC<FollowersProviderProps> = ({ children }) => {
-  const [freeFollowers, setFreeFollowers] = useState<number>(0);
-  const [totalFollowers, setTotalFollowers] = useState<number>(0);
+  const [freeFollowers, setFreeFollowers] = useState<number>(() => getInitialValue('freeFollowers', 0));
+  const [totalFollowers, setTotalFollowers] = useState<number>(() => getInitialValue('totalFollowers', 0));
+  const [maxFollowers, setMaxFollowers] = useState<number>(() => getInitialValue('maxFollowers', 0));
+  const [possibleFollowers, setPossibleFollowers] = useState<number>(() => getInitialValue('possibleFollowers', 0));
+  const [lumberyard, setLumberyard] = useState<number>(() => getInitialValue('lumberyard', 0));
+  const [maxLumberyard, setMaxLumberyard] = useState<number>(() => getInitialValue('maxLumberyard', 0));
+  const [stoneMine, setStoneMine] = useState<number>(() => getInitialValue('stoneMine', 0));
+  const [maxStoneMine, setMaxStoneMine] = useState<number>(() => getInitialValue('maxStoneMine', 0));
+  const [lumberyardAutoAssign, setLumberyardAutoAssign] = useState<number>(() => getInitialValue('lumberyardAutoAssign', 1));
+  const [stoneMineAutoAssign, setStoneMineAutoAssign] = useState<number>(() => getInitialValue('stoneMineAutoAssign', 1));
 
-  const [maxFollowers, setMaxFollowers] = useState<number>(0);
-  const [possibleFollowers, setPossibleFollowers] = useState<number>(0);
+  const values = { 
+    freeFollowers, totalFollowers, maxFollowers, possibleFollowers, 
+    lumberyard, maxLumberyard, stoneMine, maxStoneMine, 
+    lumberyardAutoAssign, stoneMineAutoAssign 
+  };
 
-  const [lumberyard, setLumberyard] = useState<number>(0);
-  const [maxLumberyard, setMaxLumberyard] = useState<number>(0);
+  
+  // Save state to Local Storage
+  useEffect(() => {
+    localStorage.setItem('followersState', JSON.stringify(values));
+  }, [values]);
 
-  const [stoneMine, setStoneMine] = useState<number>(0);
-  const [maxStoneMine, setMaxStoneMine] = useState<number>(0);
-
-  const values = { freeFollowers, totalFollowers, maxFollowers, possibleFollowers, lumberyard, maxLumberyard, stoneMine, maxStoneMine };
   const setters = {
     setFreeFollowers: (newValue: number) => setFreeFollowers(Math.max(0, Math.min(newValue, totalFollowers))),
     setTotalFollowers: (newValue: number) => setTotalFollowers(Math.max(0, Math.min(newValue, maxFollowers))),
@@ -52,12 +71,13 @@ export const FollowersProvider: React.FC<FollowersProviderProps> = ({ children }
     setMaxLumberyard: (newValue: number) => setMaxLumberyard(Math.max(0, newValue)),
     setStoneMine: (newValue: number) => setStoneMine(Math.max(0, Math.min(newValue, maxStoneMine))),
     setMaxStoneMine: (newValue: number) => setMaxStoneMine(Math.max(0, newValue)),
+    setLumberyardAutoAssign,
+    setStoneMineAutoAssign
   };
 
   useEffect(() => {
     setTotalFollowers(maxFollowers)
   }, [maxFollowers]);
-
 
   const prevTotalFollowersRef = useRef(totalFollowers);
   useEffect(() => {
@@ -66,7 +86,6 @@ export const FollowersProvider: React.FC<FollowersProviderProps> = ({ children }
     setFreeFollowers(freeFollowers + difference);
     prevTotalFollowersRef.current = totalFollowers;
   }, [totalFollowers]);
-
 
   return (
     <MyFollowersContextType.Provider value={values}>

@@ -5,6 +5,7 @@ import SkillList from './pages/SkillList';
 import LowerProgressBar from './pages/LowerProgressBar';
 import CampusMain from './pages/CampusMain';
 import FollowersMain from './pages/FollowersMain';
+import ExplorationMain from './pages/ExplorationMain';
 import EventList from './pages/EventList';
 import Controller from './Controller';
 import { StatsProvider, useMyStatsContext } from './data/StatsContext';
@@ -12,14 +13,16 @@ import { ResourcesProvider } from './data/ResourcesContext';
 import { VisibilityProvider, useVisibilityContext } from './data/VisibilityContext';
 import { FollowersProvider } from './data/FollowersContext';
 import { BuildingCostProvider } from './data/BuildingCostContext';
-import {useReducer} from 'react';
-import { EventLogProvider } from './data/EventContext';
+import { EventPopUp } from './components/EventPopUp';
+import { EventLogProvider, useEventLogContext } from './data/EventContext';
 
-export type MainComponentType = 'CampusMain' | 'FollowersMain' | 'HelpComponent' | 'StatsComponent' | 'OptionsComponent' | 'AboutComponent';
+export type MainComponentType = 'CampusMain' | 'FollowersMain' | 'ExplorationMain' |'HelpComponent' | 'StatsComponent' | 'OptionsComponent' | 'AboutComponent';
 
 
 function App() {
   const [mainComponent, setMainComponent] = useState<MainComponentType>('CampusMain');
+
+
 
   const changeMainComponent = (componentName: MainComponentType) => {
     setMainComponent(componentName);
@@ -31,6 +34,7 @@ function App() {
     }
   });
 
+
   return (
     <StatsProvider>
       <ResourcesProvider>
@@ -40,6 +44,7 @@ function App() {
               <BuildingCostProvider>
               <div className="container">
                 <Controller></Controller>
+                
                 {/* Upper section */}
                 <div className="upper-section">
                   <h2 className="upper-label">Heroic Rebirth</h2>
@@ -52,6 +57,7 @@ function App() {
                     switch (mainComponent) {
                       case 'CampusMain': return <CampusMain />;
                       case 'FollowersMain': return <FollowersMain />;
+                      case 'ExplorationMain': return <ExplorationMain />;
                       case 'HelpComponent': return <CampusMain />;
                       case 'StatsComponent': return <CampusMain />;
                       case 'OptionsComponent': return <CampusMain />;
@@ -69,6 +75,8 @@ function App() {
                 </div>
 
               </div>
+
+              <EventPopUp></EventPopUp>
               </BuildingCostProvider>
             </FollowersProvider>
           </EventLogProvider>

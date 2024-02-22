@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode, useState } from 'react';
+import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 
 export interface BuildingCostContextType {
   lumberyardWoodCost: number;
@@ -53,27 +53,32 @@ interface BuildingCostProviderProps {
   children: ReactNode;
 }
 
+const getInitialValue = (key: string, defaultValue: number) => {
+  const savedState = JSON.parse(localStorage.getItem('buildingCostContext') || '{}');
+  return savedState[key] !== undefined ? savedState[key] : defaultValue;
+};
+
 export const BuildingCostProvider: React.FC<BuildingCostProviderProps> = ({ children }) => {
-  const [lumberyardWoodCost, setLumberyardWoodCost] = useState<number>(10);
-  const [lumberyardStoneCost, setLumberyardStoneCost] = useState<number>(3);
-  const [stoneMineWoodCost, setStoneMineWoodCost] = useState<number>(7);
-  const [stoneMineStoneCost, setStoneMineStoneCost] = useState<number>(10);
-  const [warehouseWoodCost, setWarehouseWoodCost] = useState<number>(18);
-  const [warehouseStoneCost, setWarehouseStoneCost] = useState<number>(12);
-  const [logCabinWoodCost, setLogCabinWoodCost] = useState<number>(4);
-  const [logCabinStoneCost, setLogCabinStoneCost] = useState<number>(2);
-  const [lumberyardCost, setLumberyardCost] = useState<number>(7);
-  const [stoneMineCost, setStoneMineCost] = useState<number>(7);
-  const [warehouseCost, setWarehouseCost] = useState<number>(10);
-  const [logCabinCost, setLogCabinCost] = useState<number>(10);
-  const [lumberyardWoodCostRatio, setLumberyardWoodCostRatio] = useState<number>(1.5);
-  const [lumberyardStoneCostRatio, setLumberyardStoneCostRatio] = useState<number>(0.5);
-  const [stoneMineWoodCostRatio, setStoneMineWoodCostRatio] = useState<number>(.7);
-  const [stoneMineStoneCostRatio, setStoneMineStoneCostRatio] = useState<number>(1);
-  const [warehouseWoodCostRatio, setWarehouseWoodCostRatio] = useState<number>(3.0);
-  const [warehouseStoneCostRatio, setWarehouseStoneCostRatio] = useState<number>(1.2);
-  const [logCabinWoodCostRatio, setLogCabinWoodCostRatio] = useState<number>(.5);
-  const [logCabinStoneCostRatio, setLogCabinStoneCostRatio] = useState<number>(.2);
+  const [lumberyardWoodCost, setLumberyardWoodCost] = useState<number>(() => getInitialValue('lumberyardWoodCost', 10));
+  const [lumberyardStoneCost, setLumberyardStoneCost] = useState<number>(() => getInitialValue('lumberyardStoneCost', 3));
+  const [stoneMineWoodCost, setStoneMineWoodCost] = useState<number>(() => getInitialValue('stoneMineWoodCost', 7));
+  const [stoneMineStoneCost, setStoneMineStoneCost] = useState<number>(() => getInitialValue('stoneMineStoneCost', 10));
+  const [warehouseWoodCost, setWarehouseWoodCost] = useState<number>(() => getInitialValue('warehouseWoodCost', 18));
+  const [warehouseStoneCost, setWarehouseStoneCost] = useState<number>(() => getInitialValue('warehouseStoneCost', 12));
+  const [logCabinWoodCost, setLogCabinWoodCost] = useState<number>(() => getInitialValue('logCabinWoodCost', 4));
+  const [logCabinStoneCost, setLogCabinStoneCost] = useState<number>(() => getInitialValue('logCabinStoneCost', 2));
+  const [lumberyardCost, setLumberyardCost] = useState<number>(() => getInitialValue('lumberyardCost', 7));
+  const [stoneMineCost, setStoneMineCost] = useState<number>(() => getInitialValue('stoneMineCost', 7));
+  const [warehouseCost, setWarehouseCost] = useState<number>(() => getInitialValue('warehouseCost', 10));
+  const [logCabinCost, setLogCabinCost] = useState<number>(() => getInitialValue('logCabinCost', 10));
+  const [lumberyardWoodCostRatio, setLumberyardWoodCostRatio] = useState<number>(() => getInitialValue('lumberyardWoodCostRatio', 1.5));
+  const [lumberyardStoneCostRatio, setLumberyardStoneCostRatio] = useState<number>(() => getInitialValue('lumberyardStoneCostRatio', 0.5));
+  const [stoneMineWoodCostRatio, setStoneMineWoodCostRatio] = useState<number>(() => getInitialValue('stoneMineWoodCostRatio', 0.7));
+  const [stoneMineStoneCostRatio, setStoneMineStoneCostRatio] = useState<number>(() => getInitialValue('stoneMineStoneCostRatio', 1));
+  const [warehouseWoodCostRatio, setWarehouseWoodCostRatio] = useState<number>(() => getInitialValue('warehouseWoodCostRatio', 3.0));
+  const [warehouseStoneCostRatio, setWarehouseStoneCostRatio] = useState<number>(() => getInitialValue('warehouseStoneCostRatio', 1.2));
+  const [logCabinWoodCostRatio, setLogCabinWoodCostRatio] = useState<number>(() => getInitialValue('logCabinWoodCostRatio', 0.5));
+  const [logCabinStoneCostRatio, setLogCabinStoneCostRatio] = useState<number>(() => getInitialValue('logCabinStoneCostRatio', 0.2));
 
 
   const values = { 
@@ -121,6 +126,11 @@ export const BuildingCostProvider: React.FC<BuildingCostProviderProps> = ({ chil
     setLogCabinWoodCostRatio,
     setLogCabinStoneCostRatio,
   };
+
+    // Save state to Local Storage
+    useEffect(() => {
+      localStorage.setItem('buildingCostContext', JSON.stringify(values));
+    }, [values]);
 
   return (
     <BuildingCostContext.Provider value={values}>
