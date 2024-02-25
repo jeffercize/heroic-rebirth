@@ -22,7 +22,7 @@ export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
                 <img src="img/town_icon.png" alt="town"></img>
                 <label className="common-button-label">Town</label>
             </div>
-            <div className="common-compound-button" role="button" onClick={() => changeMainComponent('FollowersMain')}>
+            <div className="hidden common-compound-button" role="button" onClick={() => changeMainComponent('FollowersMain')}>
                 <img src="img/follower_icon.png" alt="followers"></img>
                 <label className="common-button-label">Followers</label>
             </div>
