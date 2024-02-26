@@ -3,10 +3,12 @@ import './App.css'; // Import your CSS file for styling
 import SideBarLeft from './pages/SideBarLeft'
 import SkillList from './pages/SkillList';
 import LowerProgressBar from './pages/LowerProgressBar';
+import LowerResourceBar from './pages/LowerResourceBar';
 import CampusMain from './pages/CampusMain';
 import FollowersMain from './pages/FollowersMain';
 import ExplorationMain from './pages/ExplorationMain';
 import EventList from './pages/EventList';
+import LowerSelectionBar from './pages/LowerSelectionBar';
 import Controller from './Controller';
 import { StatsProvider, useMyStatsContext } from './data/StatsContext';
 import { ResourcesProvider } from './data/ResourcesContext';
@@ -21,7 +23,8 @@ export type MainComponentType = 'CampusMain' | 'FollowersMain' | 'ExplorationMai
 
 function App() {
   const [mainComponent, setMainComponent] = useState<MainComponentType>('CampusMain');
-
+  const [showEventList, setShowEventList] = useState(false);
+  const [showSideBarLeft, setShowSideBarLeft] = useState(false);
 
 
   const changeMainComponent = (componentName: MainComponentType) => {
@@ -52,7 +55,11 @@ function App() {
 
                 {/* Middle section */}
                 <div className="middle-section">
-                  <SideBarLeft changeMainComponent={changeMainComponent}></SideBarLeft>
+                  {showSideBarLeft && <SideBarLeft changeMainComponent={changeMainComponent}></SideBarLeft>}
+                  <button onClick={() => {
+                    setShowSideBarLeft(!showSideBarLeft);
+                    if (showEventList) setShowEventList(false);
+                  }}>{showSideBarLeft ? "<" : ">"}</button>
                   {(() => {
                     switch (mainComponent) {
                       case 'CampusMain': return <CampusMain />;
@@ -65,12 +72,18 @@ function App() {
                       default: return null;
                     }
                   })()}
-                  <SkillList></SkillList>
-                  <EventList></EventList>
+                  
+                  <button onClick={() => {
+                    setShowEventList(!showEventList);
+                    if (showSideBarLeft) setShowSideBarLeft(false);
+                  }}>{showEventList ? ">" : "<"}</button>
+                  {showEventList && <EventList></EventList>}
                 </div>
 
                 {/* Lower section */}
                 <div className="lower-section">
+                  <LowerSelectionBar changeMainComponent={changeMainComponent}></LowerSelectionBar>
+                  <LowerResourceBar></LowerResourceBar>
                   <LowerProgressBar></LowerProgressBar>
                 </div>
 

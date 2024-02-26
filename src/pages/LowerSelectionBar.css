@@ -1,0 +1,41 @@
+.selection-bar-container {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    position: relative;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    
+}
+
+.selection-bar-container::-webkit-scrollbar {
+    display: none;
+}
+
+.common-compound-button {
+    margin-right: 10px; /* Add some space between the buttons */
+}
+
+.scroll-indicator {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    color: white;
+}
+
+.scroll-left {
+    left: 0;
+}
+
+.scroll-right {
+    right: 0;
+}
+
+.selection-bar-container.has-right-indicator {
+    padding-right: 20px;  /* Adjust as needed */
+}

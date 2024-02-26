@@ -36,8 +36,13 @@
 .first-subsection {
   display: flex;
   flex-direction: column;
-  width: 20%;
   flex: 0 0 15%;
+}
+
+@media (max-width: 1360px) {
+  .first-subsection {
+    flex: 0 0 210px;
+  }
 }
 
 .first-subsection label {
@@ -135,7 +140,7 @@
 
 .lower-section {
   margin-top: auto;
-  padding: 5px;
+  padding-bottom: 15px;
 }
 
 .progress-label {

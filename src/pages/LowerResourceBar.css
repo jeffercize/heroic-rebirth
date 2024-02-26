@@ -1,0 +1,41 @@
+.resource-bar-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-row-gap: 0; /* set gap between rows to 0 */
+    column-gap: 10px; /* adjust as needed */
+    width: 75%;
+    margin: auto;
+  }
+  
+  @media (max-width: 720px) {
+    .resource-bar-container {
+      width: 100%;
+    }
+  }
+  
+  .resource-row {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .resource-item {
+    display: flex;
+    align-items: center;
+    width: 100px;
+  }
+  
+  .resource-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+  }
+  
+  .resource-label {
+    color: black;
+    font-size: 13px;
+    font-weight: bold;
+  }
+  
+  .max-resource {
+    color: blue;
+  }

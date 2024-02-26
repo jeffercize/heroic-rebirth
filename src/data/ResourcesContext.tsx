@@ -62,9 +62,9 @@ export const ResourcesProvider: React.FC<ResourcesProviderProps> = ({ children }
   const [maxTime, setMaxTime] = useState<number>(() => getInitialValue('maxTime', 30000));
   const [timeSecond, setTimeSecond] = useState<number>(() => getInitialValue('timeSecond', 0));
   
-  const [mana, setMana] = useState<number>(() => getInitialValue('mana', 0));
+  const [mana, setMana] = useState<number>(() => getInitialValue('mana', 50));
   const [maxMana, setMaxMana] = useState<number>(() => getInitialValue('maxMana', 100));
-  const [manaSecond, setManaSecond] = useState<number>(() => getInitialValue('manaSecond', 0));
+  const [manaSecond, setManaSecond] = useState<number>(() => getInitialValue('manaSecond', 1));
   
   const [gold, setGold] = useState<number>(() => getInitialValue('gold', 0));
   const [maxGold, setMaxGold] = useState<number>(() => getInitialValue('maxGold', 100));
@@ -75,11 +75,11 @@ export const ResourcesProvider: React.FC<ResourcesProviderProps> = ({ children }
   const [foodSecond, setFoodSecond] = useState<number>(() => getInitialValue('foodSecond', 0));
   
   const [stone, setStone] = useState<number>(() => getInitialValue('stone', 0));
-  const [maxStone, setMaxStone] = useState<number>(() => getInitialValue('maxStone', 12));
+  const [maxStone, setMaxStone] = useState<number>(() => getInitialValue('maxStone', 100));
   const [stoneSecond, setStoneSecond] = useState<number>(() => getInitialValue('stoneSecond', 0));
   
   const [wood, setWood] = useState<number>(() => getInitialValue('wood', 0));
-  const [maxWood, setMaxWood] = useState<number>(() => getInitialValue('maxWood', 64));
+  const [maxWood, setMaxWood] = useState<number>(() => getInitialValue('maxWood', 200));
   const [woodSecond, setWoodSecond] = useState<number>(() => getInitialValue('woodSecond', 0));
   
   const [warehouses, setWarehouses] = useState<number>(() => getInitialValue('warehouses', 0));

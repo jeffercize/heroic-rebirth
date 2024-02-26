@@ -18,3 +18,9 @@
   width: 20%;
   flex: 0 0 15%;
 }
+
+@media (max-width: 1360px) {
+  .event-section {
+    flex: 0 0 210px;
+  }
+}
