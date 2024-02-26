@@ -19,9 +19,14 @@ export default function CampusMain(eventObject: any) {
   const { setFreeFollowers, setTotalFollowers, setMaxFollowers, setLumberyard, setMaxLumberyard, setStoneMine, setMaxStoneMine } = useMyFollowersSettersContext();
 
   const manaPerClick = 5;
+  const woodPerClick = 1;
 
   const gatherManaEffect = (param: any) => {
     setters.setMana(resources.mana + manaPerClick);
+  };
+
+  const gatherWoodEffect = (param: any) => {
+    setters.setWood(resources.wood + woodPerClick);
   };
 
   const buildCabinEffect = (param: any) => {
@@ -76,6 +81,19 @@ export default function CampusMain(eventObject: any) {
         <span style={{ paddingTop: '31px', paddingBottom: "5px"}}>Gather</span> <button className="section-collapse-button" onClick={() => toggleVisibility("gatherGroup")}>V</button>
       </div>
       <div className={divVisibility["gatherGroup"] ? 'hidden' : 'button-group'}>
+      <TownButton 
+          buttonText = "Chop Tree"
+          descriptionText = "Chop a nearby tree for wood." 
+          tipText = "Tip: You CANT press and hold to auto-press!"
+          incrementValue = {[woodPerClick]}
+          perSecond = {false}
+          maxIncrease = {false}
+          incrementText = ""
+          imgSrc = {["img/wood_icon.png"]}
+          visibilityKey={'gatherWood'}
+          visibilityDescriptionKey={'gatherWoodDescription'}
+          onClickEffect = {gatherWoodEffect}
+          costs = {[]}/>
         <TownButton 
           buttonText = "Gather Energy"
           descriptionText = "Focus and gather your heroic energy." 

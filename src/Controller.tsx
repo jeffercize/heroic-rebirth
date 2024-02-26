@@ -66,16 +66,16 @@ function Controller() {
   //Event Type Stuff
 
   //Skills
-  useEffect(() => {
-    if (!chopTreeChanged && mana >= 10 ) {
+  useEffect(() => { //DISABLED
+    if (false && !chopTreeChanged && mana >= 10 ) {
         setVisibility('chopTree', false);
         setChopTreeChanged(true);
         addEvent({title: "Skills!", body: 'You have unlocked the Chop Tree skill!'});
     }
   }, [mana, chopTreeChanged]);
 
-  useEffect(() => {
-    if (!mineRockChanged && mana >= 10) {
+  useEffect(() => { //DISABLED
+    if (false && !mineRockChanged && mana >= 10) {
         setVisibility('mineRock', false);
         setMineRockChanged(true);
         addEvent({title: "Rocking!", body: 'You have unlocked the Mine Rock skill!'});
@@ -84,16 +84,16 @@ function Controller() {
 
 
   //Buildings
-  useEffect(() => {
-    if (stone > 0 && wood > 0 && !buildLogCabinChanged) {
+  useEffect(() => { //DISABLED
+    if (false && stone > 0 && wood > 0 && !buildLogCabinChanged) {
         setVisibility('buildLogCabin', false);
         setBuildLogCabinChanged(true);
         addEvent({title: "Homebuilder!", body: 'You have unlocked the ability to build Log Cabins, you can start to build yourself a small settlement and make a home for your loyal followers to live!'});
     }
   }, [stone, wood, buildLogCabinChanged]);
 
-  useEffect(() => {
-    if ((stone == maxStone || wood == maxWood) && !buildWarhouseChanged) {
+  useEffect(() => { //DISABLED
+    if (false && (stone == maxStone || wood == maxWood) && !buildWarhouseChanged) {
         setVisibility('buildWarehouse', false);
         setBuildWarhouseChanged(true);
         addEvent({title: "No More Storage", body: 'Sir, we have no more room to store our resources, and your followers refuse to just store things outside...'});
@@ -101,19 +101,12 @@ function Controller() {
     }
   }, [stone, wood, buildWarhouseChanged]);
 
-  useEffect(() => {
-    if (totalFollowers > 5 && !buildLumberYardChanged) {
+  useEffect(() => { //DISABLED
+    if (false && totalFollowers > 5 && !buildLumberYardChanged) {
         setVisibility('buildLumberYard', false);
         setVisibility('buildStoneMine', false);
         setBuildLumberYardChanged(true);
         addEvent({title: "Getting to Work", body: 'Your followers wish to do more than just praise your greatness to help contribute to the settlement, they wish to work!'});
-    }
-  }, [totalFollowers, buildLumberYardChanged]);
-
-  useEffect(() => {
-    if (totalFollowers > 5 && !buildLumberYardChanged) {
-
-
     }
   }, [totalFollowers, buildLumberYardChanged]);
 

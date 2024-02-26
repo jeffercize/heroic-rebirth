@@ -12,8 +12,16 @@
     display: none;
 }
 
-.common-compound-button {
-    margin-right: 10px; /* Add some space between the buttons */
+.selection-bar-button {
+    display: flex;
+    align-items: center;
+    padding-bottom: 5px;
+    cursor: pointer;
+    padding-right: 5px;
+    padding-left: 5px;
+    border-left: 1px solid grey;
+    border-top: 1px solid grey;
+    border-right: 1px solid grey;
 }
 
 .scroll-indicator {
@@ -38,4 +46,23 @@
 
 .selection-bar-container.has-right-indicator {
     padding-right: 20px;  /* Adjust as needed */
+}
+
+.selection-bar-padder {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+  }
+
+.selection-bar-padding{
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 10px;
+    background-color: darkgrey;
+    color: darkgrey;
+}
+
+.selection-bar-button.active {
+    background-color: lightgrey;
+    color: black;
 }

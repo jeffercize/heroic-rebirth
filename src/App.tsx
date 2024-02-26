@@ -25,6 +25,19 @@ function App() {
   const [mainComponent, setMainComponent] = useState<MainComponentType>('CampusMain');
   const [showEventList, setShowEventList] = useState(false);
   const [showSideBarLeft, setShowSideBarLeft] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (windowWidth <= 800 && showEventList && showSideBarLeft) { // Change 800 to your preferred breakpoint
+      setShowEventList(false);
+    }
+  }, [windowWidth, showEventList, showSideBarLeft]);
 
 
   const changeMainComponent = (componentName: MainComponentType) => {
@@ -58,7 +71,7 @@ function App() {
                   {showSideBarLeft && <SideBarLeft changeMainComponent={changeMainComponent}></SideBarLeft>}
                   <button onClick={() => {
                     setShowSideBarLeft(!showSideBarLeft);
-                    if (showEventList) setShowEventList(false);
+                    if (windowWidth <= 800 && showEventList) setShowEventList(false); // Change 800 to your preferred breakpoint
                   }}>{showSideBarLeft ? "<" : ">"}</button>
                   {(() => {
                     switch (mainComponent) {
@@ -75,15 +88,15 @@ function App() {
                   
                   <button onClick={() => {
                     setShowEventList(!showEventList);
-                    if (showSideBarLeft) setShowSideBarLeft(false);
+                    if (windowWidth <= 800 && showSideBarLeft) setShowSideBarLeft(false); // Change 800 to your preferred breakpoint
                   }}>{showEventList ? ">" : "<"}</button>
                   {showEventList && <EventList></EventList>}
                 </div>
 
                 {/* Lower section */}
                 <div className="lower-section">
-                  <LowerSelectionBar changeMainComponent={changeMainComponent}></LowerSelectionBar>
                   <LowerResourceBar></LowerResourceBar>
+                  <LowerSelectionBar changeMainComponent={changeMainComponent} currentMainComponent={mainComponent}></LowerSelectionBar>
                   <LowerProgressBar></LowerProgressBar>
                 </div>
 

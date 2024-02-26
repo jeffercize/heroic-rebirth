@@ -39,8 +39,10 @@ export const VisibilityProvider: React.FC<VisibilityProviderProps> = ({ children
       stoneResource: true,
       woodResource: true,
       timeResource: true,
-      gatherMana: false,
+      gatherMana: true,
       gatherManaDescription: true,
+      gatherWood: false,
+      gatherWoodDescription: true,
       buildLogCabin: true,
       buildLogCabinDescription: true,
       buildLumberYard: true,
@@ -48,6 +50,12 @@ export const VisibilityProvider: React.FC<VisibilityProviderProps> = ({ children
       buildStoneMine: true,
       buildStoneMineDescription: true,
       buildWarehouse: true,
+      buildingsGroup: true,
+      buildingsHeader: true,
+      storageHeader: true,
+      storageGroup: true,
+      housingHeader: true,
+      housingGroup: true,
     };
     const savedState = JSON.parse(localStorage.getItem('visibilityState') || '{}');
     return savedState.divVisibility || defaultValue;
