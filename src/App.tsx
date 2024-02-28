@@ -35,10 +35,14 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (windowWidth <= 800 && showEventList && showSideBarLeft) { // Change 800 to your preferred breakpoint
+    if (windowWidth < 800) { // Change 800 to your preferred breakpoint
       setShowEventList(false);
+      setShowSideBarLeft(false);
+    } else {
+      setShowEventList(true);
+      setShowSideBarLeft(true);
     }
-  }, [windowWidth, showEventList, showSideBarLeft]);
+  }, [windowWidth]);
 
 
   const changeMainComponent = (componentName: MainComponentType) => {
@@ -55,15 +59,39 @@ function App() {
 
   const handlers = useSwipeable({
     onSwipedLeft: () => {
-      setShowEventList(true);
-      setShowSideBarLeft(false);
+      if(showSideBarLeft){
+        setShowEventList(false);
+        setShowSideBarLeft(false);
+      }
+      else{
+        setShowEventList(true);
+      }
     },
     onSwipedRight: () => {
-      setShowSideBarLeft(true);
-      setShowEventList(false);
+      if(showEventList){
+        setShowSideBarLeft(false);
+        setShowEventList(false);
+      }
+      else{
+        setShowSideBarLeft(true);
+      }
     },
     trackMouse: true
   });
+
+  const sideBarRef = React.useRef<HTMLDivElement>(null);
+  const eventListRef = React.useRef<HTMLDivElement>(null);
+
+  const handleClickOutside = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (windowWidth <= 800){
+      if (sideBarRef.current && !sideBarRef.current.contains(event.target as Node)) {
+        setShowSideBarLeft(false);
+      }
+      if (eventListRef.current && !eventListRef.current.contains(event.target as Node)) {
+        setShowEventList(false);
+      }
+    }
+  };
 
 
   return (
@@ -73,51 +101,50 @@ function App() {
           <EventLogProvider>
             <FollowersProvider>
               <BuildingCostProvider>
-              <div className="container" {...handlers}>
-                <Controller></Controller>
-                
-                {/* Upper section */}
-                <div className="upper-section">
-                  <h2 className="upper-label">Heroic Rebirth</h2>
-                </div>
-
-                {/* Middle section */}
-                <div className="middle-section">
-                  {showSideBarLeft && <SideBarLeft changeMainComponent={changeMainComponent}></SideBarLeft>}
-                  {!isMobile && <button onClick={() => {
-                    setShowSideBarLeft(!showSideBarLeft);
-                    if (windowWidth <= 800 && showEventList) setShowEventList(false); // Change 800 to your preferred breakpoint
-                  }}>{showSideBarLeft ? "<" : ">"}</button>}
-                  {(() => {
-                    switch (mainComponent) {
-                      case 'CampusMain': return <CampusMain />;
-                      case 'FollowersMain': return <FollowersMain />;
-                      case 'ExplorationMain': return <ExplorationMain />;
-                      case 'HelpComponent': return <CampusMain />;
-                      case 'StatsComponent': return <CampusMain />;
-                      case 'OptionsComponent': return <CampusMain />;
-                      case 'AboutComponent': return <CampusMain />;
-                      default: return null;
-                    }
-                  })()}
+                <div className="container" {...handlers} onClick={handleClickOutside}>
+                  <Controller></Controller>
                   
-                  {!isMobile && <button onClick={() => {
-                    setShowEventList(!showEventList);
-                    if (windowWidth <= 800 && showSideBarLeft) setShowSideBarLeft(false); // Change 800 to your preferred breakpoint
-                  }}>{showEventList ? ">" : "<"}</button>}
-                  {showEventList && <EventList></EventList>}
+                  {/* Upper section */}
+                  <div className="upper-section">
+                    <h2 className="upper-label">Heroic Rebirth</h2>
+                  </div>
+
+                  {/* Middle section */}
+                  <div className="middle-section">
+                  
+                  {showSideBarLeft && <div ref={sideBarRef}><SideBarLeft changeMainComponent={changeMainComponent}></SideBarLeft></div>}
+                  {windowWidth < 800 && !isMobile && <button onClick={() => {
+                    setShowSideBarLeft(!showSideBarLeft);
+                    if (windowWidth <= 800 && showEventList) setShowEventList(false);
+                  }}>{showSideBarLeft ? "<" : ">"}</button>}
+                    {(() => {
+                      switch (mainComponent) {
+                        case 'CampusMain': return <CampusMain />;
+                        case 'FollowersMain': return <FollowersMain />;
+                        case 'ExplorationMain': return <ExplorationMain />;
+                        case 'HelpComponent': return <CampusMain />;
+                        case 'StatsComponent': return <CampusMain />;
+                        case 'OptionsComponent': return <CampusMain />;
+                        case 'AboutComponent': return <CampusMain />;
+                        default: return null;
+                      }
+                    })()}
+                    
+                    {windowWidth < 800 && !isMobile && <button onClick={() => {
+                      setShowEventList(!showEventList);
+                      if (windowWidth <= 800 && showSideBarLeft) setShowSideBarLeft(false);
+                    }}>{showEventList ? ">" : "<"}</button>}
+                    {showEventList && <div ref={eventListRef}><EventList></EventList></div>}
+                  </div>
+
+                  {/* Lower section */}
+                  <div className="lower-section">
+                    <LowerResourceBar></LowerResourceBar>
+                    <LowerSelectionBar changeMainComponent={changeMainComponent} currentMainComponent={mainComponent}></LowerSelectionBar>
+                    <LowerProgressBar></LowerProgressBar>
+                  </div>
                 </div>
-
-                {/* Lower section */}
-                <div className="lower-section">
-                  <LowerResourceBar></LowerResourceBar>
-                  <LowerSelectionBar changeMainComponent={changeMainComponent} currentMainComponent={mainComponent}></LowerSelectionBar>
-                  <LowerProgressBar></LowerProgressBar>
-                </div>
-
-              </div>
-
-              <EventPopUp></EventPopUp>
+                <EventPopUp></EventPopUp>
               </BuildingCostProvider>
             </FollowersProvider>
           </EventLogProvider>

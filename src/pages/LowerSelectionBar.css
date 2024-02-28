@@ -5,7 +5,6 @@
     position: relative;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
-    
 }
 
 .selection-bar-container::-webkit-scrollbar {
@@ -50,17 +49,20 @@
 
 .selection-bar-padder {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: stretch;
   }
 
 .selection-bar-padding{
+    flex-grow: 1;
     padding-left: 5px;
     padding-right: 5px;
     width: 10px;
     background-color: darkgrey;
     color: darkgrey;
 }
+
+
 
 .selection-bar-button.active {
     background-color: lightgrey;

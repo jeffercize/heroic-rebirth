@@ -34,7 +34,7 @@ export default function LowerSelectionBar({ changeMainComponent, currentMainComp
 
   return (
     <div className="selection-bar-padder">
-      <div className="selection-bar-padding">_</div>
+      <div className="selection-bar-padding">{'<'}</div>
       <div className="selection-bar-container" ref={containerRef}>
       <div className={`selection-bar-button ${currentMainComponent === 'CampusMain' ? 'active' : ''}`} role="button" onClick={() => changeMainComponent('CampusMain')}>
               <img src="img/town_icon.png" alt="town"></img>
@@ -65,7 +65,7 @@ export default function LowerSelectionBar({ changeMainComponent, currentMainComp
               <label className="common-button-label">About</label>
           </div>
       </div>
-      <div className="selection-bar-padding">_</div>
+      <div className="selection-bar-padding">{'>'}</div>
     </div>
   );
 };
