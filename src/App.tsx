@@ -55,12 +55,12 @@ function App() {
 
   const handlers = useSwipeable({
     onSwipedLeft: () => {
-      setShowEventList(false);
-      setShowSideBarLeft(true);
+      setShowEventList(true);
+      setShowSideBarLeft(false);
     },
     onSwipedRight: () => {
-      setShowSideBarLeft(false);
-      setShowEventList(true);
+      setShowSideBarLeft(true);
+      setShowEventList(false);
     },
     trackMouse: true
   });
