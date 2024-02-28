@@ -128,35 +128,35 @@
 }
 
 .slide-in-left {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
   animation: slide-in-left 0.3s forwards;
 }
 
 .slide-out-left {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
   animation: slide-out-left 0.3s forwards;
 }
 
 .slide-in-right {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
   animation: slide-in-right 0.3s forwards;
 }
 
 .slide-out-right {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
   animation: slide-out-right 0.3s forwards;
+}
+
+@media (max-width: 800px) {
+  .slide-in-left, .slide-out-left, .slide-in-right, .slide-out-right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+  }
+
+  .slide-in-left, .slide-out-left {
+    left: 0;
+  }
+
+  .slide-in-right, .slide-out-right {
+    right: 0;
+  }
 }
 
 .common-button {
