@@ -27,6 +27,7 @@ function App() {
   const [showEventList, setShowEventList] = useState(false);
   const [showSideBarLeft, setShowSideBarLeft] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const lowerSelectionBarRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -58,7 +59,10 @@ function App() {
   const isMobile = /iPhone|iPad|iPod|Android/i.test(window.navigator.userAgent);
 
   const handlers = useSwipeable({
-    onSwipedLeft: () => {
+    onSwipedLeft: (eventData) => {
+      if (lowerSelectionBarRef.current && lowerSelectionBarRef.current.contains(eventData.event.target as Node)) {
+        return;
+      }
       if(showSideBarLeft){
         setShowEventList(false);
         setShowSideBarLeft(false);
@@ -67,7 +71,10 @@ function App() {
         setShowEventList(true);
       }
     },
-    onSwipedRight: () => {
+    onSwipedRight: (eventData) => {
+      if (lowerSelectionBarRef.current && lowerSelectionBarRef.current.contains(eventData.event.target as Node)) {
+        return;
+      }
       if(showEventList){
         setShowSideBarLeft(false);
         setShowEventList(false);
@@ -140,7 +147,9 @@ function App() {
                   {/* Lower section */}
                   <div className="lower-section">
                     <LowerResourceBar></LowerResourceBar>
-                    <LowerSelectionBar changeMainComponent={changeMainComponent} currentMainComponent={mainComponent}></LowerSelectionBar>
+                    <div ref={lowerSelectionBarRef}>
+                      <LowerSelectionBar changeMainComponent={changeMainComponent} currentMainComponent={mainComponent}></LowerSelectionBar>
+                    </div>                    
                     <LowerProgressBar></LowerProgressBar>
                   </div>
                 </div>
