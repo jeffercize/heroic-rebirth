@@ -55,16 +55,12 @@ function App() {
 
   const handlers = useSwipeable({
     onSwipedLeft: () => {
-      if (!isMobile) {
-        setShowEventList(false);
-        setShowSideBarLeft(true);
-      }
+      setShowEventList(false);
+      setShowSideBarLeft(true);
     },
     onSwipedRight: () => {
-      if (!isMobile) {
-        setShowSideBarLeft(false);
-        setShowEventList(true);
-      }
+      setShowSideBarLeft(false);
+      setShowEventList(true);
     },
     trackMouse: true
   });
@@ -77,7 +73,7 @@ function App() {
           <EventLogProvider>
             <FollowersProvider>
               <BuildingCostProvider>
-              <div className="container">
+              <div className="container" {...handlers}>
                 <Controller></Controller>
                 
                 {/* Upper section */}
