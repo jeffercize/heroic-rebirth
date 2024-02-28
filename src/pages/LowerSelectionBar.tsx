@@ -32,6 +32,18 @@ export default function LowerSelectionBar({ changeMainComponent, currentMainComp
     };
   }, []);
 
+  const goFullscreen = () => {
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen();
+    } else if ((document.documentElement as any).mozRequestFullScreen) { /* Firefox */
+      (document.documentElement as any).mozRequestFullScreen();
+    } else if ((document.documentElement as any).webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+      (document.documentElement as any).webkitRequestFullscreen();
+    } else if ((document.documentElement as any).msRequestFullscreen) { /* IE/Edge */
+      (document.documentElement as any).msRequestFullscreen();
+    }
+  };
+
   return (
     <div className="selection-bar-padder">
       <div className="selection-bar-padding">{'<'}</div>
@@ -56,11 +68,11 @@ export default function LowerSelectionBar({ changeMainComponent, currentMainComp
               <img src="img/help_icon.png" alt="help"></img>
               <label className="common-button-label">Help</label>
           </div>
-          <div className={`selection-bar-button ${currentMainComponent === 'OptionsComponent' ? 'active' : ''}`} onClick={() => changeMainComponent('OptionsComponent')}>
+          <div className={`selection-bar-button ${currentMainComponent === 'OptionsComponent' ? 'active' : ''}`} onClick={() => goFullscreen()}>
               <img src="img/options_icon.png" alt="options"></img>
               <label className="common-button-label">Options</label>
           </div>
-          <div className={`selection-bar-button ${currentMainComponent === 'AboutComponent' ? 'active' : ''}`} onClick={() => changeMainComponent('AboutComponent')}>
+          <div className={`selection-bar-button ${currentMainComponent === 'AboutComponent' ? 'active' : ''}`} onClick={() => goFullscreen()}>
               <img src="img/about_icon.png" alt="about"></img>
               <label className="common-button-label">About</label>
           </div>
