@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSwipeable } from 'react-swipeable';
 import './App.css'; // Import your CSS file for styling
 import SideBarLeft from './pages/SideBarLeft'
 import SkillList from './pages/SkillList';
@@ -50,6 +51,24 @@ function App() {
     }
   });
 
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(window.navigator.userAgent);
+
+  const handlers = useSwipeable({
+    onSwipedLeft: () => {
+      if (!isMobile) {
+        setShowEventList(false);
+        setShowSideBarLeft(true);
+      }
+    },
+    onSwipedRight: () => {
+      if (!isMobile) {
+        setShowSideBarLeft(false);
+        setShowEventList(true);
+      }
+    },
+    trackMouse: true
+  });
+
 
   return (
     <StatsProvider>
@@ -69,10 +88,10 @@ function App() {
                 {/* Middle section */}
                 <div className="middle-section">
                   {showSideBarLeft && <SideBarLeft changeMainComponent={changeMainComponent}></SideBarLeft>}
-                  <button onClick={() => {
+                  {!isMobile && <button onClick={() => {
                     setShowSideBarLeft(!showSideBarLeft);
                     if (windowWidth <= 800 && showEventList) setShowEventList(false); // Change 800 to your preferred breakpoint
-                  }}>{showSideBarLeft ? "<" : ">"}</button>
+                  }}>{showSideBarLeft ? "<" : ">"}</button>}
                   {(() => {
                     switch (mainComponent) {
                       case 'CampusMain': return <CampusMain />;
@@ -86,10 +105,10 @@ function App() {
                     }
                   })()}
                   
-                  <button onClick={() => {
+                  {!isMobile && <button onClick={() => {
                     setShowEventList(!showEventList);
                     if (windowWidth <= 800 && showSideBarLeft) setShowSideBarLeft(false); // Change 800 to your preferred breakpoint
-                  }}>{showEventList ? ">" : "<"}</button>
+                  }}>{showEventList ? ">" : "<"}</button>}
                   {showEventList && <EventList></EventList>}
                 </div>
 
