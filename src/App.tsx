@@ -34,12 +34,15 @@ function App() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
+  
+  const [hasWindowWidthCollapse, setHasWindowWidthCollapse] = useState(false);
   useEffect(() => {
-    if (windowWidth < 800) { // Change 800 to your preferred breakpoint
+    if (windowWidth < 800 && !hasWindowWidthCollapse) { 
+      setHasWindowWidthCollapse(true);
       setShowEventList(false);
       setShowSideBarLeft(false);
-    } else {
+    } else if (windowWidth >= 800) {
+      setHasWindowWidthCollapse(false);
       setShowEventList(true);
       setShowSideBarLeft(true);
     }
@@ -118,12 +121,11 @@ function App() {
 
                   {/* Middle section */}
                   <div className="middle-section">
-                  
-                  {showSideBarLeft && <div ref={sideBarRef}><SideBarLeft changeMainComponent={changeMainComponent}></SideBarLeft></div>}
-                  {windowWidth < 800 && !isMobile && <button onClick={() => {
-                    setShowSideBarLeft(!showSideBarLeft);
-                    if (windowWidth <= 800 && showEventList) setShowEventList(false);
-                  }}>{showSideBarLeft ? "<" : ">"}</button>}
+                    {showSideBarLeft && <div ref={sideBarRef} className={showSideBarLeft ? 'slide-in-left' : 'slide-out-left'}><SideBarLeft changeMainComponent={changeMainComponent}></SideBarLeft></div>}
+                    {windowWidth < 800 && !isMobile && <button onClick={() => {
+                      setShowSideBarLeft(!showSideBarLeft);
+                      if (windowWidth <= 800 && showEventList) setShowEventList(false);
+                    }}>{showSideBarLeft ? "<" : ">"}</button>}
                     {(() => {
                       switch (mainComponent) {
                         case 'CampusMain': return <CampusMain />;
@@ -141,7 +143,7 @@ function App() {
                       setShowEventList(!showEventList);
                       if (windowWidth <= 800 && showSideBarLeft) setShowSideBarLeft(false);
                     }}>{showEventList ? ">" : "<"}</button>}
-                    {showEventList && <div ref={eventListRef}><EventList></EventList></div>}
+                    {showEventList && <div ref={eventListRef} className={showEventList ? 'slide-in-right' : 'slide-out-right'}><EventList></EventList></div>}
                   </div>
 
                   {/* Lower section */}
