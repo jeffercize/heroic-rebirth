@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { StatsProvider, useMyStatsContext } from '../data/StatsContext';
 import { useMyResourcesContext, MyResourcesContextType } from '../data/ResourcesContext';
 import { BuildingCostContextType, useBuildingCostContext } from '../data/BuildingCostContext';
@@ -37,12 +37,45 @@ const TownButton: React.FC<TownButtonProps> = ({buttonText, descriptionText, tip
     const { divVisibility } = useVisibilityContext();
     const { setVisibility, toggleVisibility } = useVisibilitySettersContext();
 
+    const [autoClicking, setAutoClicking] = useState(false);
+    const [buttonKey, setButtonKey] = useState(0);
+    const [mouseDown, setMouseDown] = useState(false);
+
+    useEffect(() => {
+        let intervalId: NodeJS.Timeout | null = null;
+    
+        if (mouseDown) {
+            intervalId = setInterval(() => {
+                onClickEffect(incrementValue);
+                setButtonKey(prevKey => prevKey + 1);
+            }, 500);
+        } else if (intervalId !== null) {
+            clearInterval(intervalId);
+        }
+    
+        return () => {
+            if (intervalId !== null) {
+                clearInterval(intervalId);
+            }
+        };
+    }, [mouseDown, onClickEffect, incrementValue]);
+    
+    const handleMouseDown = () => {
+        setMouseDown(true);
+        setAutoClicking(true);
+    };
+    
+    const handleMouseUp = () => {
+        setMouseDown(false);
+        setAutoClicking(false);
+    };
+
     const isSomeCostGreaterThanResource = costs.some(cost => buildingCost[cost.cost] > resources[cost.name]);
     const isCostGreaterThanResource = costs.map(cost => buildingCost[cost.cost] > resources[cost.name]);
     const isCostGreaterThanMaxResource = costs.map(cost => {
         const maxResourceKey = `max${cost.name.charAt(0).toUpperCase() + cost.name.slice(1)}` as keyof typeof resources;
         return buildingCost[cost.cost] > resources[maxResourceKey];
-      });
+    });
 
     const isSomeCostGreaterThanMaxResource = costs.some(cost => {
         const maxResourceKey = `max${cost.name.charAt(0).toUpperCase() + cost.name.slice(1)}` as keyof typeof resources;
@@ -52,7 +85,7 @@ const TownButton: React.FC<TownButtonProps> = ({buttonText, descriptionText, tip
     return (
     <div className={divVisibility[visibilityKey] ? 'hidden' : 'single-button'}>
         <div className="horizontal-group">
-            <button className={isSomeCostGreaterThanMaxResource ? 'common-button red-text' : 'common-button'} disabled={isSomeCostGreaterThanResource} onClick={() => onClickEffect(() => incrementValue)}>
+            <button key={buttonKey} className={`${isSomeCostGreaterThanMaxResource ? 'common-button red-text' : 'common-button'} ${autoClicking ? 'auto-clicking' : ''}`} disabled={isSomeCostGreaterThanResource} onClick={() => onClickEffect(() => incrementValue)} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp}>
                 {buttonText}
             </button>
             <button className="common-button collapse-button" onClick={() => toggleVisibility(visibilityDescriptionKey)}>V</button>

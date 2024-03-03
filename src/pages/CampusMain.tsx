@@ -17,7 +17,7 @@ export default function CampusMain(eventObject: any) {
   const { setVisibility, toggleVisibility } = useVisibilitySettersContext();
   const { freeFollowers, totalFollowers, maxFollowers, lumberyard, maxLumberyard, stoneMine, maxStoneMine, lumberyardAutoAssign, stoneMineAutoAssign } = useMyFollowersContext();
   const { setFreeFollowers, setTotalFollowers, setMaxFollowers, setLumberyard, setMaxLumberyard, setStoneMine, setMaxStoneMine } = useMyFollowersSettersContext();
-
+  
   const manaPerClick = 5;
   const woodPerClick = 1;
 
@@ -26,7 +26,7 @@ export default function CampusMain(eventObject: any) {
   };
 
   const gatherWoodEffect = (param: any) => {
-    setters.setWood(resources.wood + woodPerClick);
+    setters.setWood(woodPerClick);
   };
 
   const buildCabinEffect = (param: any) => {

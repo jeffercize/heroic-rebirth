@@ -73,7 +73,6 @@
 .first-subsection{
     overflow-y: auto;
     overflow-x: hidden;
-    position: relative;
     background-color: white;
     height: 100%;
     box-sizing: border-box;

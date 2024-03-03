@@ -62,7 +62,7 @@ export const ResourcesProvider: React.FC<ResourcesProviderProps> = ({ children }
   const [maxTime, setMaxTime] = useState<number>(() => getInitialValue('maxTime', 30000));
   const [timeSecond, setTimeSecond] = useState<number>(() => getInitialValue('timeSecond', 0));
   
-  const [mana, setMana] = useState<number>(() => getInitialValue('mana', 50));
+  const [mana, setMana] = useState<number>(() => getInitialValue('mana', 100));
   const [maxMana, setMaxMana] = useState<number>(() => getInitialValue('maxMana', 100));
   const [manaSecond, setManaSecond] = useState<number>(() => getInitialValue('manaSecond', 1));
   
@@ -79,7 +79,7 @@ export const ResourcesProvider: React.FC<ResourcesProviderProps> = ({ children }
   const [stoneSecond, setStoneSecond] = useState<number>(() => getInitialValue('stoneSecond', 0));
   
   const [wood, setWood] = useState<number>(() => getInitialValue('wood', 0));
-  const [maxWood, setMaxWood] = useState<number>(() => getInitialValue('maxWood', 200));
+  const [maxWood, setMaxWood] = useState<number>(() => getInitialValue('maxWood', 2000000));
   const [woodSecond, setWoodSecond] = useState<number>(() => getInitialValue('woodSecond', 0));
   
   const [warehouses, setWarehouses] = useState<number>(() => getInitialValue('warehouses', 0));
@@ -101,7 +101,7 @@ export const ResourcesProvider: React.FC<ResourcesProviderProps> = ({ children }
     setStone: (newValue: number) => setStone(Math.min(newValue, maxStone)),
     setMaxStone,
     setStoneSecond,
-    setWood: (newValue: number) => setWood(Math.min(newValue, maxWood)),
+    setWood: (incrementValue: number) => setWood(prevWood => Math.max(0,Math.min(prevWood + incrementValue, maxWood))),
     setMaxWood,
     setWoodSecond,
     setWarehouses: (newValue: number) => setWarehouses(newValue)

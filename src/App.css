@@ -19,7 +19,6 @@
 }
 
 .middle-section {
-  position:relative;
   display: flex;
   flex-direction: row;
   height: 50%;
@@ -145,9 +144,10 @@
 
 @media (max-width: 800px) {
   .slide-in-left, .slide-out-left, .slide-in-right, .slide-out-right {
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
+    overflow: auto; /* This will add a scrollbar if the content is taller than the element */
   }
 
   .slide-in-left, .slide-out-left {
@@ -206,7 +206,7 @@
 
 .lower-section {
   margin-top: auto;
-  padding-bottom: 15px;
+  padding-bottom: 5px;
 }
 
 .progress-label {
@@ -223,4 +223,6 @@
 
 body {
   overscroll-behavior: none;
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
 }

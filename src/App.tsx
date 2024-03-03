@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import './App.css'; // Import your CSS file for styling
 import SideBarLeft from './pages/SideBarLeft'
@@ -103,6 +103,31 @@ function App() {
     }
   };
 
+  const [sidebarHeight, setSidebarHeight] = useState(0);
+  const [sidebarOffset, setSidebarOffset] = useState(0);
+  const upperSectionRef = useRef<HTMLDivElement>(null);
+  const lowerSectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const updateSidebarHeight = (event?: Event) => {
+      const upperSectionHeight = upperSectionRef.current ? upperSectionRef.current.offsetHeight : 0;
+      const lowerSectionHeight = lowerSectionRef.current ? lowerSectionRef.current.offsetHeight : 0;
+      const viewportHeight = window.innerHeight;
+      const sidebarHeight = viewportHeight - upperSectionHeight - lowerSectionHeight;
+      setSidebarHeight(sidebarHeight);
+      setSidebarOffset(upperSectionHeight);
+    };
+
+    // Call the function initially to set the height
+    updateSidebarHeight();
+
+    // Add the event listener when the component mounts
+    window.addEventListener('resize', updateSidebarHeight);
+
+    // Remove the event listener when the component unmounts
+    return () => window.removeEventListener('resize', updateSidebarHeight);
+  }, []);
+
 
   return (
     <StatsProvider>
@@ -115,17 +140,24 @@ function App() {
                   <Controller></Controller>
                   
                   {/* Upper section */}
-                  <div className="upper-section">
+                  <div className="upper-section" ref={upperSectionRef}>
                     <h2 className="upper-label">Heroic Rebirth</h2>
                   </div>
 
+                  
+
                   {/* Middle section */}
                   <div className="middle-section">
-                    {showSideBarLeft && <div ref={sideBarRef} className={showSideBarLeft ? 'slide-in-left' : 'slide-out-left'}><SideBarLeft changeMainComponent={changeMainComponent}></SideBarLeft></div>}
-                    {windowWidth < 800 && !isMobile && <button onClick={() => {
+                  <div ref={sideBarRef}>
+                    <div className={showSideBarLeft ? 'slide-in-left' : 'slide-out-left'} style={{top: sidebarOffset, height: sidebarHeight }}>
+                      <SideBarLeft changeMainComponent={changeMainComponent}></SideBarLeft>
+                    </div>
+                    {windowWidth < 800 && !isMobile && <button style={{ height: '100%' }} onClick={() => {
                       setShowSideBarLeft(!showSideBarLeft);
                       if (windowWidth <= 800 && showEventList) setShowEventList(false);
                     }}>{showSideBarLeft ? "<" : ">"}</button>}
+                  </div>
+
                     {(() => {
                       switch (mainComponent) {
                         case 'CampusMain': return <CampusMain />;
@@ -138,16 +170,19 @@ function App() {
                         default: return null;
                       }
                     })()}
-                    
-                    {windowWidth < 800 && !isMobile && <button onClick={() => {
-                      setShowEventList(!showEventList);
-                      if (windowWidth <= 800 && showSideBarLeft) setShowSideBarLeft(false);
-                    }}>{showEventList ? ">" : "<"}</button>}
-                    {showEventList && <div ref={eventListRef} className={showEventList ? 'slide-in-right' : 'slide-out-right'}><EventList></EventList></div>}
+                    <div ref={eventListRef}>
+                      {windowWidth < 800 && !isMobile && <button style={{ height: '100%' }} onClick={() => {
+                        setShowEventList(!showEventList);
+                        if (windowWidth <= 800 && showSideBarLeft) setShowSideBarLeft(false);
+                      }}>{showEventList ? ">" : "<"}</button>}
+                      <div ref={eventListRef} className={showEventList ? 'slide-in-right' : 'slide-out-right'} style={{top: sidebarOffset, height: sidebarHeight }}>
+                        <EventList></EventList>
+                      </div>
+                    </div>
                   </div>
 
                   {/* Lower section */}
-                  <div className="lower-section">
+                  <div className="lower-section" ref={lowerSectionRef}>
                     <LowerResourceBar></LowerResourceBar>
                     <div ref={lowerSelectionBarRef}>
                       <LowerSelectionBar changeMainComponent={changeMainComponent} currentMainComponent={mainComponent}></LowerSelectionBar>

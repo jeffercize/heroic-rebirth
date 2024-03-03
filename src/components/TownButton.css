@@ -29,3 +29,14 @@
 .red-text{
     color: red;
 }
+
+
+@keyframes clickAnimation {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
+
+.auto-clicking {
+    animation: clickAnimation 0.1s linear;
+}
