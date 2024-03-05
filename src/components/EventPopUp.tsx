@@ -3,14 +3,17 @@ import './EventPopUp.css';
 import { useEventLogContext } from '../data/EventContext';
 
 export const EventPopUp: React.FC = () => {
-    const { eventLog, hasNewEvent, setHasNewEvent } = useEventLogContext();
-    const [eventQueue, setEventQueue] = useState(eventLog);
+    const { eventLog, hasNewEvent, setEventDisplayed } = useEventLogContext();
+    const [eventQueue, setEventQueue] = useState(eventLog.filter(event => !event.displayed));
     const textBoxRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
       if (hasNewEvent) {
-        const newEvents = eventLog.filter(event => !event.displayed);
-        setEventQueue(prevQueue => [...prevQueue, ...newEvents]);
+        const newEvent = eventLog.find(event => !event.displayed);
+        if (newEvent) {
+          setEventQueue(prevQueue => [...prevQueue, newEvent]);
+          setEventDisplayed(newEvent, true);
+        }
       }
     }, [hasNewEvent, eventLog]);
 

@@ -6,6 +6,7 @@ interface EventLogContextType {
   addEvent: (event: EventCardProps) => void;
   hasNewEvent: boolean;
   setHasNewEvent: (hasNewEvent: boolean) => void;
+  setEventDisplayed: (event: EventCardProps, val: boolean) => void;
 }
 
 const EventLogContext = createContext<EventLogContextType | undefined>(undefined);
@@ -21,12 +22,21 @@ const EventLogProvider: React.FC<EventLogProviderProps> = ({ children }) => {
   
   const [eventLog, setEventLog] = useState<EventCardProps[]>(savedState);
   const [hasNewEvent, setHasNewEvent] = useState<boolean>(savedHasNewEvent);
+
   
   const addEvent = (event: EventCardProps) => {
     setEventLog(prevLog => [...prevLog, event]);
     setHasNewEvent(true);
   };
 
+  const setEventDisplayed = (event: EventCardProps, val: boolean) => {
+    const index = eventLog.findIndex(e => e === event);
+    if (eventLog && eventLog[index]) {
+      eventLog[index].displayed = val;
+      setEventLog([...eventLog]);
+    }
+    
+  };
   // Save state to Local Storage
   useEffect(() => {
     localStorage.setItem('eventState', JSON.stringify(eventLog));
@@ -34,7 +44,7 @@ const EventLogProvider: React.FC<EventLogProviderProps> = ({ children }) => {
   }, [eventLog, hasNewEvent]);
 
   return (
-    <EventLogContext.Provider value={{ eventLog, addEvent, hasNewEvent, setHasNewEvent }}>
+    <EventLogContext.Provider value={{ eventLog, addEvent, hasNewEvent, setHasNewEvent, setEventDisplayed }}>
       {children}
     </EventLogContext.Provider>
   );

@@ -22,6 +22,8 @@ function Controller() {
   const savedState = JSON.parse(localStorage.getItem('state') || '{}');
   //Story
   const [gameStartEvent, setGameStartEvent] = useState(savedState.gameStartEvent || false);
+  //Crafting
+  const [woodAxeCraftable, setWoodAxeCraftable] = useState(savedState.woodAxeCraftable || false);
   //UI Stuff
   const [woodDisplayChanged, setWoodDisplayChanged] = useState(savedState.woodDisplayChanged || false);
   const [stoneDisplayChanged, setStoneDisplayChanged] = useState(savedState.stoneDisplayChanged || false);
@@ -52,6 +54,7 @@ function Controller() {
   //could also add a feature in the eventlog that checks for the same event happening one after another, 
   //which should be unlikely/impossible in normal gameplay so we would disallow it programaticly
   const hasGameStartEvent = useRef(false);
+  const hasWoodAxeCraftable = useRef(false);
 
   //UI Stuff
   useEffect(() => {
@@ -84,6 +87,15 @@ function Controller() {
         addEvent({title: "Beginnings", body: 'The king\'s men leave you in a vast forest, you figure it would be a good idea to gather some wood to make a shelter.', displayed:false});
     }
   }, []);
+
+  //Crafting
+  useEffect(() => {
+    if (!hasWoodAxeCraftable.current && wood >= 10) {
+        setWoodAxeCraftable(true);
+        hasWoodAxeCraftable.current = true;
+        setVisibility('craftWoodenAxe', false);
+    }
+  }, [wood]);
 
   //Skills
   useEffect(() => { //DISABLED
