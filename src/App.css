@@ -207,6 +207,7 @@
 .lower-section {
   margin-top: auto;
   padding-bottom: 5px;
+  flex-shrink: 1;
 }
 
 .progress-label {

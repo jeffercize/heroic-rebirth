@@ -15,6 +15,21 @@ export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
     const { setMana, setMaxMana, setManaSecond, setGold, setMaxGold, setGoldSecond, setFood, setMaxFood, setFoodSecond, setStone, setMaxStone, setStoneSecond, setWood, setMaxWood, setWoodSecond } = useMyResourcesSettersContext();    const { charisma, setCharisma } = useMyStatsContext();
     const { divVisibility } = useVisibilityContext();
     const { setVisibility, toggleVisibility} = useVisibilitySettersContext();
+
+    function formatNumber(num: number): string {
+        if (num >= 1000000) {
+          return (num / 1000000).toPrecision(3) + 'M';
+        } else if (num >= 10000) {
+          return (num / 1000).toPrecision(3) + 'K';
+        } else if (num >= 10) {
+          return num.toPrecision(4);
+        } else if (num >= 1) {
+          return num.toPrecision(3);
+        } else {
+          return num.toPrecision(2);
+        }
+      }
+
     return (
         <div className="first-subsection">
             <h2 className="">Heroic Rebirth</h2>
@@ -59,7 +74,7 @@ export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
                     </div>
                     <div className="resource-numbers">
                         <div className={mana == maxMana ? "blue-text resource-capacity" : "resource-capacity"}>
-                            {Math.floor(mana)}/{Math.floor(maxMana)}
+                            {formatNumber(mana)}/{formatNumber(maxMana)}
                         </div>
                         <div className="resource-rate">
                             +{Math.round(manaSecond)}/s
@@ -72,7 +87,7 @@ export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
                     </div>
                     <div className="resource-numbers">
                         <div className={wood == maxWood ? "blue-text resource-capacity" : "resource-capacity"}>
-                        {Math.floor(wood)}/{Math.floor(maxWood)}
+                        {formatNumber(wood)}/{formatNumber(maxWood)}
                         </div>
                         <div className="resource-rate">
                             +{Math.round(woodSecond)}/s
@@ -85,7 +100,7 @@ export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
                     </div>
                     <div className="resource-numbers">
                         <div className={stone == maxStone ? "blue-text resource-capacity" : "resource-capacity"}>
-                        {Math.floor(stone)}/{Math.floor(maxStone)}
+                        {formatNumber(stone)}/{formatNumber(maxStone)}
                         </div>
                         <div className="resource-rate">
                             +{Math.round(stoneSecond)}/s
@@ -98,7 +113,7 @@ export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
                     </div>
                     <div className="resource-numbers">
                         <div className="resource-capacity">
-                        {Math.floor(gold)}/{Math.floor(maxGold)}
+                        {formatNumber(gold)}/{formatNumber(maxGold)}
                         </div>
                         <div className="resource-rate">
                             +{Math.round(goldSecond)}/s
@@ -111,7 +126,7 @@ export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
                     </div>
                     <div className="resource-numbers">
                         <div className="resource-capacity">
-                        {Math.floor(food)}/{Math.floor(maxFood)}
+                        {formatNumber(food)}/{formatNumber(maxFood)}
                         </div>
                         <div className="resource-rate">
                             +{Math.round(foodSecond)}/s
@@ -124,7 +139,7 @@ export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
                     </div>
                     <div className="resource-numbers">
                         <div className="resource-capacity">
-                        {Math.floor(time)}/{Math.floor(maxTime)}
+                        {formatNumber(time)}/{formatNumber(maxTime)}
                         </div>
                         <div className="resource-rate">
                             +{Math.round(timeSecond)}/s

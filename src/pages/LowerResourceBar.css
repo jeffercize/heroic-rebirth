@@ -5,37 +5,41 @@
     column-gap: 10px; /* adjust as needed */
     width: 75%;
     margin: auto;
-  }
+}
   
-  @media (max-width: 720px) {
-    .resource-bar-container {
-      width: 100%;
-    }
+@media (max-width: 720px) {
+  .resource-bar-container {
+    width: 100%;
   }
-  
-  .resource-row {
-    display: flex;
-    justify-content: center;
-  }
-  
-  .resource-item {
-    display: flex;
-    align-items: center;
-    width: 100px;
-  }
-  
-  .resource-icon {
-    width: 20px;
-    height: 20px;
-    margin-right: 5px;
-  }
-  
-  .resource-label {
-    color: black;
-    font-size: 13px;
-    font-weight: bold;
-  }
-  
-  .max-resource {
-    color: blue;
-  }
+}
+
+.resource-row {
+  display: flex;
+  justify-content: center;
+}
+
+.resource-item {
+  display: flex;
+  align-items: center;
+  width: 101px;
+}
+
+.resource-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.resource-label {
+  color: black;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.max-resource {
+  color: blue;
+}
+
+.hidden {
+  display: none;
+}

@@ -12,7 +12,7 @@ const EventLog: React.FC = () => {
         <h2 className="event-list-title">Events</h2>
         <div className="event-list">
             {[...eventLog].reverse().map((event, index) => (
-                <EventCard key={index} title={event.title} body={event.body} />
+                <EventCard key={index} title={event.title} body={event.body} displayed={event.displayed} />
             ))}
         </div>
     </div>

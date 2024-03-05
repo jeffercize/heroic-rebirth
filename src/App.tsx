@@ -10,6 +10,7 @@ import FollowersMain from './pages/FollowersMain';
 import ExplorationMain from './pages/ExplorationMain';
 import EventList from './pages/EventList';
 import LowerSelectionBar from './pages/LowerSelectionBar';
+import GoalBar from './pages/GoalBar';
 import Controller from './Controller';
 import { StatsProvider, useMyStatsContext } from './data/StatsContext';
 import { ResourcesProvider } from './data/ResourcesContext';
@@ -18,6 +19,7 @@ import { FollowersProvider } from './data/FollowersContext';
 import { BuildingCostProvider } from './data/BuildingCostContext';
 import { EventPopUp } from './components/EventPopUp';
 import { EventLogProvider, useEventLogContext } from './data/EventContext';
+
 
 export type MainComponentType = 'CampusMain' | 'FollowersMain' | 'ExplorationMain' |'HelpComponent' | 'StatsComponent' | 'OptionsComponent' | 'AboutComponent';
 
@@ -86,7 +88,6 @@ function App() {
         setShowSideBarLeft(true);
       }
     },
-    trackMouse: true
   });
 
   const sideBarRef = React.useRef<HTMLDivElement>(null);
@@ -121,13 +122,31 @@ function App() {
     // Call the function initially to set the height
     updateSidebarHeight();
 
+      // Create a new ResizeObserver instance
+      const resizeObserver = new ResizeObserver(entries => {
+        for (let entry of entries) {
+          if (entry.target === lowerSectionRef.current) {
+            updateSidebarHeight();
+          }
+        }
+      });
+
     // Add the event listener when the component mounts
     window.addEventListener('resize', updateSidebarHeight);
 
-    // Remove the event listener when the component unmounts
-    return () => window.removeEventListener('resize', updateSidebarHeight);
-  }, []);
+    // Start observing the lowerSection element
+    if (lowerSectionRef.current) {
+      resizeObserver.observe(lowerSectionRef.current);
+    }
 
+    // Remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', updateSidebarHeight);
+      if (lowerSectionRef.current) {
+        resizeObserver.unobserve(lowerSectionRef.current);
+      }
+    }
+  }, []);
 
   return (
     <StatsProvider>
@@ -148,15 +167,15 @@ function App() {
 
                   {/* Middle section */}
                   <div className="middle-section">
-                  <div ref={sideBarRef}>
-                    <div className={showSideBarLeft ? 'slide-in-left' : 'slide-out-left'} style={{top: sidebarOffset, height: sidebarHeight }}>
-                      <SideBarLeft changeMainComponent={changeMainComponent}></SideBarLeft>
-                    </div>
-                    {windowWidth < 800 && !isMobile && <button style={{ height: '100%' }} onClick={() => {
-                      setShowSideBarLeft(!showSideBarLeft);
-                      if (windowWidth <= 800 && showEventList) setShowEventList(false);
-                    }}>{showSideBarLeft ? "<" : ">"}</button>}
-                  </div>
+                    {!isMobile && (<div ref={sideBarRef}>
+                      <div className={showSideBarLeft ? 'slide-in-left' : 'slide-out-left'} style={{top: sidebarOffset, height: sidebarHeight }}>
+                        <SideBarLeft changeMainComponent={changeMainComponent}></SideBarLeft>
+                      </div>
+                      {windowWidth < 800 && !isMobile && <button style={{ height: '100%' }} onClick={() => {
+                        setShowSideBarLeft(!showSideBarLeft);
+                        if (windowWidth <= 800 && showEventList) setShowEventList(false);
+                      }}>{showSideBarLeft ? "<" : ">"}</button>}
+                    </div>)}
 
                     {(() => {
                       switch (mainComponent) {
@@ -170,6 +189,16 @@ function App() {
                         default: return null;
                       }
                     })()}
+                    {/* SideBarLeft is here as well as above to deal with a layout issue with the sidebar showing under everything else on mobile */}
+                    {isMobile && (<div ref={sideBarRef}>
+                      <div className={showSideBarLeft ? 'slide-in-left' : 'slide-out-left'} style={{top: sidebarOffset, height: sidebarHeight }}>
+                        <SideBarLeft changeMainComponent={changeMainComponent}></SideBarLeft>
+                      </div>
+                      {windowWidth < 800 && !isMobile && <button style={{ height: '100%' }} onClick={() => {
+                        setShowSideBarLeft(!showSideBarLeft);
+                        if (windowWidth <= 800 && showEventList) setShowEventList(false);
+                      }}>{showSideBarLeft ? "<" : ">"}</button>}
+                    </div>)}
                     <div ref={eventListRef}>
                       {windowWidth < 800 && !isMobile && <button style={{ height: '100%' }} onClick={() => {
                         setShowEventList(!showEventList);
@@ -183,10 +212,11 @@ function App() {
 
                   {/* Lower section */}
                   <div className="lower-section" ref={lowerSectionRef}>
+                    <GoalBar></GoalBar>
                     <LowerResourceBar></LowerResourceBar>
                     <div ref={lowerSelectionBarRef}>
                       <LowerSelectionBar changeMainComponent={changeMainComponent} currentMainComponent={mainComponent}></LowerSelectionBar>
-                    </div>                    
+                    </div>
                     <LowerProgressBar></LowerProgressBar>
                   </div>
                 </div>

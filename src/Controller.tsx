@@ -20,6 +20,8 @@ function Controller() {
   //Effect trackers
   //Event Type Stuff and Loading
   const savedState = JSON.parse(localStorage.getItem('state') || '{}');
+  //Story
+  const [gameStartEvent, setGameStartEvent] = useState(savedState.gameStartEvent || false);
   //UI Stuff
   const [woodDisplayChanged, setWoodDisplayChanged] = useState(savedState.woodDisplayChanged || false);
   const [stoneDisplayChanged, setStoneDisplayChanged] = useState(savedState.stoneDisplayChanged || false);
@@ -34,6 +36,7 @@ function Controller() {
   //save to local storage
   useEffect(() => {
     const values = {
+      gameStartEvent,
       woodDisplayChanged,
       stoneDisplayChanged,
       chopTreeChanged,
@@ -43,9 +46,12 @@ function Controller() {
       buildLumberYardChanged,
     };
     localStorage.setItem('state', JSON.stringify(values));
-  }, [woodDisplayChanged, stoneDisplayChanged, chopTreeChanged, mineRockChanged, buildLogCabinChanged, buildWarhouseChanged, buildLumberYardChanged]);
+  }, [gameStartEvent, woodDisplayChanged, stoneDisplayChanged, chopTreeChanged, mineRockChanged, buildLogCabinChanged, buildWarhouseChanged, buildLumberYardChanged]);
 
-
+  //Single Event checker that is a direct ref so it wont get double called on render, other events should be fine without this
+  //could also add a feature in the eventlog that checks for the same event happening one after another, 
+  //which should be unlikely/impossible in normal gameplay so we would disallow it programaticly
+  const hasGameStartEvent = useRef(false);
 
   //UI Stuff
   useEffect(() => {
@@ -65,20 +71,34 @@ function Controller() {
   
   //Event Type Stuff
 
+  //Story
+  useEffect(() => {
+    if (!hasGameStartEvent.current && !gameStartEvent) {
+        console.log('useEffect is running');
+        setVisibility('gatherWood', false);
+        setGameStartEvent(true);
+        hasGameStartEvent.current = true;
+        addEvent({title: "A New World!", body: 'You have been summoned to a magical new world by the king of the land along with a handful of other people as the heroes, destined to save the world from evil! But something seems off...', displayed:false});
+        addEvent({title: "The weakest of the weak", body: 'The heroes all have their potenial power assested by a large glass orb and are everybody is amazed by the potential of the heroes as the orb glows brilliantly, they are all SS rank or stronger but when it comes time for your test the orb turns a dull grey... you are an E rank, the weakest possible...', displayed:false});
+        addEvent({title: "Exiled", body: 'The king exiles you deeming you a bad omen and exiles you from his kingdom. But you are determined to show them that you will be the greatest of heroes!', displayed:false});
+        addEvent({title: "Beginnings", body: 'The king\'s men leave you in a vast forest, you figure it would be a good idea to gather some wood to make a shelter.', displayed:false});
+    }
+  }, []);
+
   //Skills
   useEffect(() => { //DISABLED
     if (false && !chopTreeChanged && mana >= 10 ) {
         setVisibility('chopTree', false);
         setChopTreeChanged(true);
-        addEvent({title: "Skills!", body: 'You have unlocked the Chop Tree skill!'});
+        //addEvent({title: "Skills!", body: 'You have unlocked the Chop Tree skill!'});
     }
-  }, [mana, chopTreeChanged]);
+  }, [mana]);
 
   useEffect(() => { //DISABLED
     if (false && !mineRockChanged && mana >= 10) {
         setVisibility('mineRock', false);
         setMineRockChanged(true);
-        addEvent({title: "Rocking!", body: 'You have unlocked the Mine Rock skill!'});
+        //addEvent({title: "Rocking!", body: 'You have unlocked the Mine Rock skill!'});
     }
   }, [mana, mineRockChanged]);
 
@@ -88,7 +108,7 @@ function Controller() {
     if (false && stone > 0 && wood > 0 && !buildLogCabinChanged) {
         setVisibility('buildLogCabin', false);
         setBuildLogCabinChanged(true);
-        addEvent({title: "Homebuilder!", body: 'You have unlocked the ability to build Log Cabins, you can start to build yourself a small settlement and make a home for your loyal followers to live!'});
+        //addEvent({title: "Homebuilder!", body: 'You have unlocked the ability to build Log Cabins, you can start to build yourself a small settlement and make a home for your loyal followers to live!'});
     }
   }, [stone, wood, buildLogCabinChanged]);
 
@@ -96,7 +116,7 @@ function Controller() {
     if (false && (stone == maxStone || wood == maxWood) && !buildWarhouseChanged) {
         setVisibility('buildWarehouse', false);
         setBuildWarhouseChanged(true);
-        addEvent({title: "No More Storage", body: 'Sir, we have no more room to store our resources, and your followers refuse to just store things outside...'});
+        //addEvent({title: "No More Storage", body: 'Sir, we have no more room to store our resources, and your followers refuse to just store things outside...'});
 
     }
   }, [stone, wood, buildWarhouseChanged]);
@@ -106,7 +126,7 @@ function Controller() {
         setVisibility('buildLumberYard', false);
         setVisibility('buildStoneMine', false);
         setBuildLumberYardChanged(true);
-        addEvent({title: "Getting to Work", body: 'Your followers wish to do more than just praise your greatness to help contribute to the settlement, they wish to work!'});
+        //addEvent({title: "Getting to Work", body: 'Your followers wish to do more than just praise your greatness to help contribute to the settlement, they wish to work!'});
     }
   }, [totalFollowers, buildLumberYardChanged]);
 

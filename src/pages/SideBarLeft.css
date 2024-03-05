@@ -75,5 +75,6 @@
     overflow-x: hidden;
     background-color: white;
     height: 100%;
+    width: 260px;
     box-sizing: border-box;
 }

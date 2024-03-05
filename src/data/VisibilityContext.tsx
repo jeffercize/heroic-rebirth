@@ -41,7 +41,7 @@ export const VisibilityProvider: React.FC<VisibilityProviderProps> = ({ children
       timeResource: true,
       gatherMana: true,
       gatherManaDescription: true,
-      gatherWood: false,
+      gatherWood: true,
       gatherWoodDescription: true,
       buildLogCabin: true,
       buildLogCabinDescription: true,

@@ -4,6 +4,7 @@ import './EventCard.css';
 export interface EventCardProps {
     title: string;
     body: string;
+    displayed: boolean;
 }
 
 const EventCard: React.FC<EventCardProps> = ({ title, body }) => {

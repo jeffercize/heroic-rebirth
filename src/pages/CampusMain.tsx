@@ -19,7 +19,7 @@ export default function CampusMain(eventObject: any) {
   const { setFreeFollowers, setTotalFollowers, setMaxFollowers, setLumberyard, setMaxLumberyard, setStoneMine, setMaxStoneMine } = useMyFollowersSettersContext();
   
   const manaPerClick = 5;
-  const woodPerClick = 1;
+  const woodPerClick = 0.1;
 
   const gatherManaEffect = (param: any) => {
     setters.setMana(resources.mana + manaPerClick);
@@ -27,6 +27,7 @@ export default function CampusMain(eventObject: any) {
 
   const gatherWoodEffect = (param: any) => {
     setters.setWood(woodPerClick);
+    //setters.setMana(resources.mana - 1);
   };
 
   const buildCabinEffect = (param: any) => {
@@ -80,8 +81,12 @@ export default function CampusMain(eventObject: any) {
       <div className={divVisibility["gatherHeader"] ? 'hidden' : 'section-header'}>
         <span style={{ paddingTop: '31px', paddingBottom: "5px"}}>Gather</span> <button className="section-collapse-button" onClick={() => toggleVisibility("gatherGroup")}>V</button>
       </div>
+      <button onClick={() => {
+        localStorage.clear();
+        window.location.reload();
+      }}>Clear Local Storage and Refresh</button>
       <div className={divVisibility["gatherGroup"] ? 'hidden' : 'button-group'}>
-      <TownButton 
+        <TownButton 
           buttonText = "Chop Tree"
           descriptionText = "Chop a nearby tree for wood." 
           tipText = "Tip: You CANT press and hold to auto-press!"
