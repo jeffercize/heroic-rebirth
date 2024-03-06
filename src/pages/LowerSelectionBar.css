@@ -14,6 +14,7 @@
 .selection-bar-button {
     display: flex;
     align-items: center;
+    flex-direction: column;
     padding-bottom: 5px;
     cursor: pointer;
     padding-right: 5px;
@@ -43,6 +44,11 @@
     right: 0;
 }
 
+.selection-image {
+    width: 32px;
+    height: 32px;
+  }
+
 .selection-bar-container.has-right-indicator {
     padding-right: 20px;  /* Adjust as needed */
 }
@@ -60,6 +66,10 @@
     width: 10px;
     background-color: darkgrey;
     color: darkgrey;
+}
+
+.lower-button-label{
+    font-size: 12px;
 }
 
 

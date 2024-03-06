@@ -8,6 +8,7 @@
   background-color: red;
   padding: 20px;
   display: flex;
+  height: 2%;
   justify-content: center; /* Center-align the label horizontally */
   align-items: center; /* Center-align the label vertically */
 }

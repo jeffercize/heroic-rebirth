@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { useMyResourcesContext } from '../data/ResourcesContext';
 import { MainComponentType } from '../App';
-import { useVisibilityContext } from '../data/VisibilityContext';
+import { useVisibilityContext, useVisibilitySettersContext } from '../data/VisibilityContext';
 import './LowerSelectionBar.css';
 
 type LowerResourceBarProps = {
@@ -12,6 +12,7 @@ type LowerResourceBarProps = {
 export default function LowerSelectionBar({ changeMainComponent, currentMainComponent }: { changeMainComponent: (componentName: MainComponentType) => void, currentMainComponent: MainComponentType }) {
   const resources = useMyResourcesContext();
   const { divVisibility } = useVisibilityContext();
+  const { setVisibility, toggleVisibility} = useVisibilitySettersContext();
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -49,37 +50,69 @@ export default function LowerSelectionBar({ changeMainComponent, currentMainComp
     <div className="selection-bar-padder">
       <div className="selection-bar-padding">{'<'}</div>
       <div className="selection-bar-container" ref={containerRef}>
-      <div className={`selection-bar-button ${currentMainComponent === 'CampusMain' ? 'active' : ''}`} role="button" onClick={() => changeMainComponent('CampusMain')}>
-              <img src="img/town_icon.png" alt="town"></img>
-              <label className="common-button-label">Home</label>
+      <div className={`selection-bar-button ${currentMainComponent === 'CampusMain' ? 'active' : ''}`} role="button" onClick={() => {
+                changeMainComponent('CampusMain')
+                setVisibility('resourceBar', false)
+                setVisibility('goalBar', false)
+                }}>
+              <img src="img/town_icon.png" alt="town" className="selection-image"></img>
+              <label className="lower-button-label">Home</label>
           </div>
-          <div className={`selection-bar-button ${divVisibility["inventoryTab"] ? 'hidden' : ''} ${currentMainComponent === 'InventoryMain' ? 'active' : ''}`} role="button" onClick={() => changeMainComponent('InventoryMain')}>
-              <img src="img/inventory_icon.png" alt=""></img>
-              <label className="common-button-label">Inventory</label>
+          <div className={`selection-bar-button ${divVisibility["inventoryTab"] ? 'hidden' : ''} ${currentMainComponent === 'InventoryMain' ? 'active' : ''}`} role="button" onClick={() => {
+                changeMainComponent('InventoryMain')
+                setVisibility('resourceBar', true)
+                setVisibility('goalBar', true)
+                }}>
+              <img src="img/inventory_icon.png" alt="" className="selection-image"></img>
+              <label className="lower-button-label">Inventory</label>
           </div>
-          <div className={`selection-bar-button ${divVisibility["explorationTab"] ? 'hidden' : ''} ${currentMainComponent === 'ExplorationMain' ? 'active' : ''}`} role="button" onClick={() => changeMainComponent('ExplorationMain')}>
-              <img src="img/exploration_icon.png" alt="exploration"></img>
-              <label className="common-button-label">Exploration</label>
+          <div className={`selection-bar-button ${divVisibility["explorationTab"] ? 'hidden' : ''} ${currentMainComponent === 'ExplorationMain' ? 'active' : ''}`} role="button" onClick={() => {
+                changeMainComponent('ExplorationMain')
+                setVisibility('resourceBar', true)
+                setVisibility('goalBar', true)
+                }}>
+              <img src="img/exploration_icon.png" alt="exploration" className="selection-image"></img>
+              <label className="lower-button-label">Exploration</label>
           </div>
-          <div className={`selection-bar-button ${divVisibility["followersTab"] ? 'hidden' : ''} ${currentMainComponent === 'FollowersMain' ? 'active' : ''}`} role="button" onClick={() => changeMainComponent('FollowersMain')}>
-              <img src="img/follower_icon.png" alt="followers"></img>
-              <label className="common-button-label">Followers</label>
+          <div className={`selection-bar-button ${divVisibility["followersTab"] ? 'hidden' : ''} ${currentMainComponent === 'FollowersMain' ? 'active' : ''}`} role="button" onClick={() => {
+                changeMainComponent('FollowersMain')
+                setVisibility('resourceBar', false)
+                setVisibility('goalBar', true)
+                }}>
+              <img src="img/follower_icon.png" alt="followers" className="selection-image"></img>
+              <label className="lower-button-label">Followers</label>
           </div>
-          <div className={`selection-bar-button ${currentMainComponent === 'StatsComponent' ? 'active' : ''}`} onClick={() => changeMainComponent('StatsComponent')}>
-              <img src="img/stats_icon.png" alt="stats"></img>
-              <label className="common-button-label">Stats</label>
+          <div className={`selection-bar-button ${currentMainComponent === 'StatsComponent' ? 'active' : ''}`} onClick={() => {
+                changeMainComponent('StatsComponent')
+                setVisibility('resourceBar', false)
+                setVisibility('goalBar', false)
+                }}>
+              <img src="img/stats_icon.png" alt="stats" className="selection-image"></img>
+              <label className="lower-button-label">Stats</label>
           </div>
-          <div className={`selection-bar-button ${divVisibility["explorationTab"] ? '' : 'hidden'} ${currentMainComponent === 'HelpComponent' ? 'active' : ''}`} onClick={() => changeMainComponent('HelpComponent')}>
-              <img src="img/help_icon.png" alt="help"></img>
-              <label className="common-button-label">Help</label>
+          <div className={`selection-bar-button ${currentMainComponent === 'HelpComponent' ? 'active' : ''}`} onClick={() => {
+                changeMainComponent('HelpComponent')
+                setVisibility('resourceBar', false)
+                setVisibility('goalBar', false)
+                }}>
+              <img src="img/help_icon.png" alt="help" className="selection-image"></img>
+              <label className="lower-button-label">Help</label>
           </div>
-          <div className={`selection-bar-button ${currentMainComponent === 'OptionsComponent' ? 'active' : ''}`} onClick={() => goFullscreen()}>
-              <img src="img/options_icon.png" alt="options"></img>
-              <label className="common-button-label">Options</label>
+          <div className={`selection-bar-button ${currentMainComponent === 'OptionsComponent' ? 'active' : ''}`} onClick={() => {
+                changeMainComponent('OptionsComponent')
+                setVisibility('resourceBar', false)
+                setVisibility('goalBar', false)
+                }}>
+              <img src="img/options_icon.png" alt="options" className="selection-image"></img>
+              <label className="lower-button-label">Options</label>
           </div>
-          <div className={`selection-bar-button ${currentMainComponent === 'AboutComponent' ? 'active' : ''}`} onClick={() => goFullscreen()}>
-              <img src="img/about_icon.png" alt="about"></img>
-              <label className="common-button-label">About</label>
+          <div className={`selection-bar-button ${currentMainComponent === 'AboutComponent' ? 'active' : ''}`} onClick={() => {
+                changeMainComponent('AboutComponent')
+                setVisibility('resourceBar', false)
+                setVisibility('goalBar', false)
+                }}>
+              <img src="img/about_icon.png" alt="about" className="selection-image"></img>
+              <label className="lower-button-label">About</label>
           </div>
       </div>
       <div className="selection-bar-padding">{'>'}</div>

@@ -1,11 +1,13 @@
 import React from 'react';
 import { useEventLogContext } from '../data/EventContext';
+import { useVisibilityContext } from '../data/VisibilityContext';
 import './LowerResourceBar.css';
 
 export default function LowerResourceBar() {
   const { eventLog } = useEventLogContext();
+  const { divVisibility } = useVisibilityContext();
   return (
-    <div className="goal-container">
+    <div className={`resource-row ${divVisibility['goalBar'] ? 'hidden' : 'goal-container'}`}>
         {eventLog.map((event, index) => (
           <div className="goal-item" key={index}>
             <div className="goal-label">

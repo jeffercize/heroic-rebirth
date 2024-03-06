@@ -39,7 +39,7 @@ export default function LowerResourceBar() {
   const { divVisibility } = useVisibilityContext();
 
   return (
-    <div className="resource-bar-container">
+    <div className={`resource-row ${divVisibility['resourceBar'] ? 'hidden' : 'resource-bar-container'}`}>
         {createResourceItem(resources, 'wood', divVisibility)}
         {createResourceItem(resources, 'stone', divVisibility)}
         {createResourceItem(resources, 'gold', divVisibility)}

@@ -22,9 +22,9 @@ export default function InventoryMain(eventObject: any) {
   const imageNames = ['strength', 'inventory', 'mana', 'wood', 'stone', 'gold', 'follower'];
 
   return (
-    <div>
-      <div className="inventory-container">
-        <h1>Inventory</h1>
+    <div className="inventory-main-container">
+      <div className="title-container">
+        <div className="title-label">Equipment</div>
         <button className="crafting-button" >Crafting</button>
       </div>
       <div className="equipment-grid">
@@ -36,10 +36,12 @@ export default function InventoryMain(eventObject: any) {
         ))}
       </div>
       <hr className="inventory-line" />
-      <div className="inventory-series">
-        {imageNames.map((imageName, index) => (
-          <img key={index} src={`img/${imageName}_icon.png`} alt={imageName} className="inventory-image" />
-        ))}
+      <div className="inventory-container">
+        <div className="inventory-series">
+          {imageNames.map((imageName, index) => (
+            <img key={index} src={`img/${imageName}_icon.png`} alt={imageName} className="inventory-image" />
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -38,35 +38,67 @@ export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
     return (
         <div className="first-subsection">
             <h2 className="">Heroic Rebirth</h2>
-            <div className="town-button common-compound-button" role="button" onClick={() => changeMainComponent('CampusMain')}>
+            <div className="town-button common-compound-button" role="button" onClick={() => {
+                changeMainComponent('CampusMain')
+                setVisibility('resourceBar', false)
+                setVisibility('goalBar', false)
+                }}>
                 <img src="img/town_icon.png" alt="town"></img>
                 <label className="common-button-label">Home</label>
             </div>
-            <div className={`common-compound-button ${divVisibility["inventoryTab"] ? 'hidden' : ''}`} role="button" onClick={() => changeMainComponent('InventoryMain')}>
+            <div className={`common-compound-button ${divVisibility["inventoryTab"] ? 'hidden' : ''}`} role="button" onClick={() => {
+                changeMainComponent('InventoryMain')
+                setVisibility('resourceBar', true)
+                setVisibility('goalBar', true)
+                }}>
                 <img src="img/inventory_icon.png" alt=""></img>
                 <label className="common-button-label">Inventory</label>
             </div>
-            <div className={`common-compound-button ${divVisibility["explorationTab"] ? 'hidden' : ''}`} role="button" onClick={() => changeMainComponent('ExplorationMain')}>
+            <div className={`common-compound-button ${divVisibility["explorationTab"] ? 'hidden' : ''}`} role="button" onClick={() => {
+                changeMainComponent('ExplorationMain')
+                setVisibility('resourceBar', true)
+                setVisibility('goalBar', true)
+                }}>
                 <img src="img/exploration_icon.png" alt="exploration"></img>
                 <label className="common-button-label">Exploration</label>
             </div>
-            <div className={`common-compound-button ${divVisibility["followersTab"] ? 'hidden' : ''}`} role="button" onClick={() => changeMainComponent('FollowersMain')}>
+            <div className={`common-compound-button ${divVisibility["followersTab"] ? 'hidden' : ''}`} role="button" onClick={() => {
+                changeMainComponent('FollowersMain')
+                setVisibility('resourceBar', false)
+                setVisibility('goalBar', true)
+                }}>
                 <img src="img/follower_icon.png" alt="followers"></img>
                 <label className="common-button-label">Followers</label>
             </div>
-            <div className="common-compound-button" role="button" onClick={() => changeMainComponent('StatsComponent')}>
+            <div className="common-compound-button" role="button" onClick={() => {
+                changeMainComponent('StatsComponent')
+                setVisibility('resourceBar', false)
+                setVisibility('goalBar', false)
+                }}>
                 <img src="img/stats_icon.png" alt="stats"></img>
                 <label className="common-button-label">Stats</label>
             </div>
-            <div className="common-compound-button" role="button" onClick={() => changeMainComponent('HelpComponent')}>
+            <div className="common-compound-button" role="button" onClick={() => {
+                changeMainComponent('HelpComponent')
+                setVisibility('resourceBar', false)
+                setVisibility('goalBar', false)
+                }}>
                 <img src="img/help_icon.png" alt="help"></img>
                 <label className="common-button-label">Help</label>
             </div>
-            <div className="common-compound-button" role="button" onClick={() => changeMainComponent('OptionsComponent')}>
+            <div className="common-compound-button" role="button" onClick={() => {
+                changeMainComponent('OptionsComponent')
+                setVisibility('resourceBar', false)
+                setVisibility('goalBar', false)
+                }}>
                 <img src="img/options_icon.png" alt="options"></img>
                 <label className="common-button-label">Options</label>
             </div>
-            <div className="common-compound-button" role="button" onClick={() => changeMainComponent('AboutComponent')}>
+            <div className="common-compound-button" role="button" onClick={() => {
+                changeMainComponent('AboutComponent')
+                setVisibility('resourceBar', false)
+                setVisibility('goalBar', false)
+                }}>
                 <img src="img/about_icon.png" alt="about"></img>
                 <label className="common-button-label">About</label>
             </div>
