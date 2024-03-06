@@ -24,8 +24,8 @@ const getInitialValue = (key: string, defaultValue: number) => {
 };
 
 export const StatsProvider: React.FC<StatsProviderProps> = ({ children }) => {
-  const [strength, setStrength] = useState<number>(0);
-  const [strengthSecond, setStrengthSecond] = useState<number>(0);
+  const [strength, setStrength] = useState<number>(() => getInitialValue('strength', 0));
+  const [strengthSecond, setStrengthSecond] = useState<number>(() => getInitialValue('strengthSecond', 0));
 
   const values = { strength, strengthSecond};
   const setters = { setStrength, setStrengthSecond };

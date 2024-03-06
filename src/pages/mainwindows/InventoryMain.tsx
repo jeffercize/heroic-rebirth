@@ -10,8 +10,8 @@ import './InventoryMain.css';
 
 
 export default function InventoryMain(eventObject: any) {
-  const { mana, maxMana, manaSecond, gold, maxGold, goldSecond, food, maxFood, foodSecond, stone, maxStone, stoneSecond, wood, maxWood, woodSecond } = useMyResourcesContext();
-  const { setMana, setMaxMana, setManaSecond, setGold, setMaxGold, setGoldSecond, setFood, setMaxFood, setFoodSecond, setStone, setMaxStone, setStoneSecond, setWood, setMaxWood, setWoodSecond } = useMyResourcesSettersContext();
+  const resources = useMyResourcesContext();
+  const resourcesSetters = useMyResourcesSettersContext();
   const buildingCost = useBuildingCostContext();
   const buildingSetterCost = useBuildingCostSettersContext();
   const { divVisibility } = useVisibilityContext();
@@ -19,9 +19,28 @@ export default function InventoryMain(eventObject: any) {
   const followers = useMyFollowersContext();
   const followersSetters = useMyFollowersSettersContext();
 
+  const imageNames = ['strength', 'inventory', 'mana', 'wood', 'stone', 'gold', 'follower'];
+
   return (
-    <div className="inventory-main">
-      
+    <div>
+      <div className="inventory-container">
+        <h1>Inventory</h1>
+        <button className="crafting-button" >Crafting</button>
+      </div>
+      <div className="equipment-grid">
+        {imageNames.slice(0, 6).map((imageName, index) => (
+          <div key={index} className="equipment-item">
+            <img src={`img/${imageName}_icon.png`} alt={imageName} className="equipment-image" />
+            <button className="equipment-button">Unequip</button>
+          </div>
+        ))}
+      </div>
+      <hr className="inventory-line" />
+      <div className="inventory-series">
+        {imageNames.map((imageName, index) => (
+          <img key={index} src={`img/${imageName}_icon.png`} alt={imageName} className="inventory-image" />
+        ))}
+      </div>
     </div>
   );
-};
+}
