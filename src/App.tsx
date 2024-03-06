@@ -5,9 +5,10 @@ import SideBarLeft from './pages/SideBarLeft'
 import SkillList from './pages/SkillList';
 import LowerProgressBar from './pages/LowerProgressBar';
 import LowerResourceBar from './pages/LowerResourceBar';
-import CampusMain from './pages/CampusMain';
-import FollowersMain from './pages/FollowersMain';
-import ExplorationMain from './pages/ExplorationMain';
+import CampusMain from './pages/mainwindows/CampusMain';
+import FollowersMain from './pages/mainwindows/FollowersMain';
+import ExplorationMain from './pages/mainwindows/ExplorationMain';
+import InventoryMain from './pages/mainwindows/InventoryMain';
 import EventList from './pages/EventList';
 import LowerSelectionBar from './pages/LowerSelectionBar';
 import GoalBar from './pages/GoalBar';
@@ -21,7 +22,7 @@ import { EventPopUp } from './components/EventPopUp';
 import { EventLogProvider, useEventLogContext } from './data/EventContext';
 
 
-export type MainComponentType = 'CampusMain' | 'FollowersMain' | 'ExplorationMain' |'HelpComponent' | 'StatsComponent' | 'OptionsComponent' | 'AboutComponent';
+export type MainComponentType = 'CampusMain' | 'InventoryMain' |'ExplorationMain' | 'FollowersMain' |'HelpComponent' | 'StatsComponent' | 'OptionsComponent' | 'AboutComponent';
 
 
 function App() {
@@ -180,8 +181,9 @@ function App() {
                     {(() => {
                       switch (mainComponent) {
                         case 'CampusMain': return <CampusMain />;
-                        case 'FollowersMain': return <FollowersMain />;
+                        case 'InventoryMain': return <InventoryMain />;
                         case 'ExplorationMain': return <ExplorationMain />;
+                        case 'FollowersMain': return <FollowersMain />;
                         case 'HelpComponent': return <CampusMain />;
                         case 'StatsComponent': return <CampusMain />;
                         case 'OptionsComponent': return <CampusMain />;

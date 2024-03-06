@@ -33,7 +33,7 @@ interface TownButtonProps {
 const TownButton: React.FC<TownButtonProps> = ({buttonText, descriptionText, tipText, incrementValue, perSecond, maxIncrease, incrementText, imgSrc, visibilityKey, visibilityDescriptionKey, onClickEffect, costs}) => {
     const resources = useMyResourcesContext();
     const buildingCost = useBuildingCostContext();
-    const { charisma, setCharisma } = useMyStatsContext();
+    const stats = useMyStatsContext();
     const { divVisibility } = useVisibilityContext();
     const { setVisibility, toggleVisibility } = useVisibilitySettersContext();
 

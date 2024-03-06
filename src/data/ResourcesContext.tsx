@@ -39,6 +39,7 @@ export interface MyResourcesSettersContextType {
   setMaxStone: (newValue: number) => void;
   setStoneSecond: (newValue: number) => void;
   setWood: (newValue: number) => void;
+  incrementWood: (incrementValue: number) => void;
   setMaxWood: (newValue: number) => void;
   setWoodSecond: (newValue: number) => void;
   setWarehouses: (newValue: number) => void;
@@ -101,7 +102,8 @@ export const ResourcesProvider: React.FC<ResourcesProviderProps> = ({ children }
     setStone: (newValue: number) => setStone(Math.min(newValue, maxStone)),
     setMaxStone,
     setStoneSecond,
-    setWood: (incrementValue: number) => setWood(prevWood => Math.max(0,Math.min(prevWood + incrementValue, maxWood))),
+    setWood: (newValue: number) => setWood(Math.min(newValue, maxWood)),
+    incrementWood: (incrementValue: number) => setWood(prevWood => Math.max(0,Math.min(prevWood + incrementValue, maxWood))),
     setMaxWood,
     setWoodSecond,
     setWarehouses: (newValue: number) => setWarehouses(newValue)

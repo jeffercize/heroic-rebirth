@@ -56,6 +56,10 @@ export const VisibilityProvider: React.FC<VisibilityProviderProps> = ({ children
       storageGroup: true,
       housingHeader: true,
       housingGroup: true,
+      inventoryTab: false,
+      explorationTab: true,
+      followersTab: true,
+      stats: false,
     };
     const savedState = JSON.parse(localStorage.getItem('visibilityState') || '{}');
     return savedState.divVisibility || defaultValue;

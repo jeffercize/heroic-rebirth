@@ -12,21 +12,26 @@ type SideBarLeftProps = {
 
 export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
     const { mana, maxMana, manaSecond, gold, maxGold, goldSecond, food, maxFood, foodSecond, stone, maxStone, stoneSecond, wood, maxWood, woodSecond, time, maxTime, timeSecond } = useMyResourcesContext();
-    const { setMana, setMaxMana, setManaSecond, setGold, setMaxGold, setGoldSecond, setFood, setMaxFood, setFoodSecond, setStone, setMaxStone, setStoneSecond, setWood, setMaxWood, setWoodSecond } = useMyResourcesSettersContext();    const { charisma, setCharisma } = useMyStatsContext();
+    const { setMana, setMaxMana, setManaSecond, setGold, setMaxGold, setGoldSecond, setFood, setMaxFood, setFoodSecond, setStone, setMaxStone, setStoneSecond, setWood, setMaxWood, setWoodSecond } = useMyResourcesSettersContext();    
+    const stats = useMyStatsContext();
     const { divVisibility } = useVisibilityContext();
     const { setVisibility, toggleVisibility} = useVisibilitySettersContext();
 
     function formatNumber(num: number): string {
         if (num >= 1000000) {
-          return (num / 1000000).toPrecision(3) + 'M';
+            return (num / 1000000).toPrecision(3) + 'M';
         } else if (num >= 10000) {
-          return (num / 1000).toPrecision(3) + 'K';
+            return (num / 1000).toPrecision(3) + 'K';
         } else if (num >= 10) {
-          return num.toPrecision(4);
+            return num.toPrecision(4);
         } else if (num >= 1) {
-          return num.toPrecision(3);
+            return num.toPrecision(3);
+        } else if (num >= 0.1){
+            return num.toPrecision(3);
+        } else if (num >= 0.01){
+            return num.toPrecision(2);
         } else {
-          return num.toPrecision(2);
+            return num.toPrecision(1);
         }
       }
 
@@ -35,15 +40,19 @@ export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
             <h2 className="">Heroic Rebirth</h2>
             <div className="town-button common-compound-button" role="button" onClick={() => changeMainComponent('CampusMain')}>
                 <img src="img/town_icon.png" alt="town"></img>
-                <label className="common-button-label">Town</label>
+                <label className="common-button-label">Home</label>
             </div>
-            <div className="hidden common-compound-button" role="button" onClick={() => changeMainComponent('FollowersMain')}>
-                <img src="img/follower_icon.png" alt="followers"></img>
-                <label className="common-button-label">Followers</label>
+            <div className={`common-compound-button ${divVisibility["inventoryTab"] ? 'hidden' : ''}`} role="button" onClick={() => changeMainComponent('InventoryMain')}>
+                <img src="img/inventory_icon.png" alt=""></img>
+                <label className="common-button-label">Inventory</label>
             </div>
-            <div className="common-compound-button" role="button" onClick={() => changeMainComponent('ExplorationMain')}>
+            <div className={`common-compound-button ${divVisibility["explorationTab"] ? 'hidden' : ''}`} role="button" onClick={() => changeMainComponent('ExplorationMain')}>
                 <img src="img/exploration_icon.png" alt="exploration"></img>
                 <label className="common-button-label">Exploration</label>
+            </div>
+            <div className={`common-compound-button ${divVisibility["followersTab"] ? 'hidden' : ''}`} role="button" onClick={() => changeMainComponent('FollowersMain')}>
+                <img src="img/follower_icon.png" alt="followers"></img>
+                <label className="common-button-label">Followers</label>
             </div>
             <div className="common-compound-button" role="button" onClick={() => changeMainComponent('StatsComponent')}>
                 <img src="img/stats_icon.png" alt="stats"></img>
@@ -60,6 +69,29 @@ export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
             <div className="common-compound-button" role="button" onClick={() => changeMainComponent('AboutComponent')}>
                 <img src="img/about_icon.png" alt="about"></img>
                 <label className="common-button-label">About</label>
+            </div>
+            <div className="section-compound-button" role="button" onClick={() => toggleVisibility('stats')}>
+                <label className="section-label">
+                Character Stats
+                </label>
+                <button className="common-button side-bar-button">V</button>
+            </div>
+            <div className={divVisibility.stats ? 'hidden resource-section' : 'resource-section'}>
+                <div className={divVisibility.manaResouce ? 'hidden' : 'resource-row'}>
+                    <div className="resource-name">
+                        <img src="img/strength_icon.png" alt=""  style={{ width: '22px', height: 'auto', verticalAlign: 'middle' }}></img>Strength:
+                    </div>
+                    <div className="resource-numbers">
+                        <div className={mana == maxMana ? "blue-text resource-capacity" : "resource-capacity"}>
+                            {formatNumber(stats.strength)}
+                        </div>
+                        {stats.strengthSecond !== 0 && (
+                            <div className="resource-rate">
+                                +{formatNumber(stats.strengthSecond)}/s
+                            </div>
+                        )}
+                    </div>
+                </div>
             </div>
             <div className="section-compound-button" role="button" onClick={() => toggleVisibility('resources')}>
                 <label className="section-label">

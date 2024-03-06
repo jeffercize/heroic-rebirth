@@ -1,0 +1,54 @@
+.exploration-main{
+    flex: 1;
+    border: 1px solid #ccc;
+    padding: 10px;
+    display: flex;
+    justify-content: flex-start; /* Align button to the left */
+    align-items: flex-start; /* Align button to the top */
+    width: 100%;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.followers-row{
+    display: flex;
+    align-self: stretch;
+    justify-content: space-between;
+    border-bottom: 2px solid #ccc;
+    padding: 10px;
+}
+
+.followers-role{
+    display: flex;
+    flex: 1;
+
+}
+
+.follower-add-button {
+    display: inline-block;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+
+.follower-add-button:disabled{
+    background-color: #ccc;
+    cursor: default;
+}
+
+  .followers-header{
+    font-size: 22px;
+    text-align: left;
+    padding-left: 5px;
+    border-bottom: 2px solid darkgray; /* Add a border below the header */
+    width: 100%;
+}

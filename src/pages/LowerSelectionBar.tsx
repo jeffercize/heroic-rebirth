@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { useMyResourcesContext } from '../data/ResourcesContext';
 import { MainComponentType } from '../App';
+import { useVisibilityContext } from '../data/VisibilityContext';
 import './LowerSelectionBar.css';
 
 type LowerResourceBarProps = {
@@ -10,8 +11,8 @@ type LowerResourceBarProps = {
 
 export default function LowerSelectionBar({ changeMainComponent, currentMainComponent }: { changeMainComponent: (componentName: MainComponentType) => void, currentMainComponent: MainComponentType }) {
   const resources = useMyResourcesContext();
+  const { divVisibility } = useVisibilityContext();
   const containerRef = useRef<HTMLDivElement | null>(null);
-  console.log(currentMainComponent);
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
@@ -50,21 +51,25 @@ export default function LowerSelectionBar({ changeMainComponent, currentMainComp
       <div className="selection-bar-container" ref={containerRef}>
       <div className={`selection-bar-button ${currentMainComponent === 'CampusMain' ? 'active' : ''}`} role="button" onClick={() => changeMainComponent('CampusMain')}>
               <img src="img/town_icon.png" alt="town"></img>
-              <label className="common-button-label">Town</label>
+              <label className="common-button-label">Home</label>
           </div>
-          <div className={`selection-bar-button ${currentMainComponent === 'FollowersMain' ? 'active' : ''}`} role="button" onClick={() => changeMainComponent('FollowersMain')}>
-              <img src="img/follower_icon.png" alt="followers"></img>
-              <label className="common-button-label">Followers</label>
+          <div className={`selection-bar-button ${divVisibility["inventoryTab"] ? 'hidden' : ''} ${currentMainComponent === 'InventoryMain' ? 'active' : ''}`} role="button" onClick={() => changeMainComponent('InventoryMain')}>
+              <img src="img/inventory_icon.png" alt=""></img>
+              <label className="common-button-label">Inventory</label>
           </div>
-          <div className={`selection-bar-button ${currentMainComponent === 'ExplorationMain' ? 'active' : ''}`} role="button" onClick={() => changeMainComponent('ExplorationMain')}>
+          <div className={`selection-bar-button ${divVisibility["explorationTab"] ? 'hidden' : ''} ${currentMainComponent === 'ExplorationMain' ? 'active' : ''}`} role="button" onClick={() => changeMainComponent('ExplorationMain')}>
               <img src="img/exploration_icon.png" alt="exploration"></img>
               <label className="common-button-label">Exploration</label>
+          </div>
+          <div className={`selection-bar-button ${divVisibility["followersTab"] ? 'hidden' : ''} ${currentMainComponent === 'FollowersMain' ? 'active' : ''}`} role="button" onClick={() => changeMainComponent('FollowersMain')}>
+              <img src="img/follower_icon.png" alt="followers"></img>
+              <label className="common-button-label">Followers</label>
           </div>
           <div className={`selection-bar-button ${currentMainComponent === 'StatsComponent' ? 'active' : ''}`} onClick={() => changeMainComponent('StatsComponent')}>
               <img src="img/stats_icon.png" alt="stats"></img>
               <label className="common-button-label">Stats</label>
           </div>
-          <div className={`selection-bar-button ${currentMainComponent === 'HelpComponent' ? 'active' : ''}`} onClick={() => changeMainComponent('HelpComponent')}>
+          <div className={`selection-bar-button ${divVisibility["explorationTab"] ? '' : 'hidden'} ${currentMainComponent === 'HelpComponent' ? 'active' : ''}`} onClick={() => changeMainComponent('HelpComponent')}>
               <img src="img/help_icon.png" alt="help"></img>
               <label className="common-button-label">Help</label>
           </div>

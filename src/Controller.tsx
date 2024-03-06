@@ -8,8 +8,9 @@ import { useEventLogContext } from './data/EventContext'; // adjust the path as 
 
 
 function Controller() {
-  const { mana, maxMana, manaSecond, gold, maxGold, goldSecond, food, maxFood, foodSecond, stone, maxStone, stoneSecond, wood, maxWood, woodSecond } = useMyResourcesContext();
-  const { setMana, setMaxMana, setManaSecond, setGold, setMaxGold, setGoldSecond, setFood, setMaxFood, setFoodSecond, setStone, setMaxStone, setStoneSecond, setWood, setMaxWood, setWoodSecond } = useMyResourcesSettersContext();  const { charisma, setCharisma } = useMyStatsContext();
+  const resources = useMyResourcesContext();
+  const resourceSetters = useMyResourcesSettersContext();  
+  const stats = useMyStatsContext();
   const { divVisibility } = useVisibilityContext();
   const { setVisibility, toggleVisibility } = useVisibilitySettersContext();
   const { addEvent } = useEventLogContext();
@@ -58,18 +59,18 @@ function Controller() {
 
   //UI Stuff
   useEffect(() => {
-    if (wood > 0 && !woodDisplayChanged) {
+    if (resources.wood > 0 && !woodDisplayChanged) {
         setVisibility('woodResource', false);
         setWoodDisplayChanged(true);
     }
-  }, [wood, woodDisplayChanged]);
+  }, [resources.wood, woodDisplayChanged]);
 
   useEffect(() => {
-    if (stone > 0 && !stoneDisplayChanged) {
+    if (resources.stone > 0 && !stoneDisplayChanged) {
         setVisibility('stoneResource', false);
         setStoneDisplayChanged(true);
     }
-  }, [stone, stoneDisplayChanged]);
+  }, [resources.stone, stoneDisplayChanged]);
 
   
   //Event Type Stuff
@@ -84,54 +85,54 @@ function Controller() {
         addEvent({title: "A New World!", body: 'You have been summoned to a magical new world by the king of the land along with a handful of other people as the heroes, destined to save the world from evil! But something seems off...', displayed:false});
         addEvent({title: "The weakest of the weak", body: 'The heroes all have their potenial power assested by a large glass orb and are everybody is amazed by the potential of the heroes as the orb glows brilliantly, they are all SS rank or stronger but when it comes time for your test the orb turns a dull grey... you are an E rank, the weakest possible...', displayed:false});
         addEvent({title: "Exiled", body: 'The king exiles you deeming you a bad omen and exiles you from his kingdom. But you are determined to show them that you will be the greatest of heroes!', displayed:false});
-        addEvent({title: "Beginnings", body: 'The king\'s men leave you in a vast forest, you figure it would be a good idea to gather some wood to make a shelter.', displayed:false});
+        addEvent({title: "Beginnings", body: 'The king\'s men leave you in a vast forest, you figure it would be a good idea to gather some resources.wood to make a shelter.', displayed:false});
     }
   }, []);
 
   //Crafting
   useEffect(() => {
-    if (!hasWoodAxeCraftable.current && wood >= 10) {
+    if (!woodAxeCraftable && !hasWoodAxeCraftable.current && resources.wood >= 5) {
         setWoodAxeCraftable(true);
         hasWoodAxeCraftable.current = true;
         setVisibility('craftWoodenAxe', false);
     }
-  }, [wood]);
+  }, [resources.wood]);
 
   //Skills
   useEffect(() => { //DISABLED
-    if (false && !chopTreeChanged && mana >= 10 ) {
+    if (false && !chopTreeChanged && resources.mana >= 10 ) {
         setVisibility('chopTree', false);
         setChopTreeChanged(true);
         //addEvent({title: "Skills!", body: 'You have unlocked the Chop Tree skill!'});
     }
-  }, [mana]);
+  }, [resources.mana]);
 
   useEffect(() => { //DISABLED
-    if (false && !mineRockChanged && mana >= 10) {
+    if (false && !mineRockChanged && resources.mana >= 10) {
         setVisibility('mineRock', false);
         setMineRockChanged(true);
         //addEvent({title: "Rocking!", body: 'You have unlocked the Mine Rock skill!'});
     }
-  }, [mana, mineRockChanged]);
+  }, [resources.mana, mineRockChanged]);
 
 
   //Buildings
   useEffect(() => { //DISABLED
-    if (false && stone > 0 && wood > 0 && !buildLogCabinChanged) {
+    if (false && resources.stone > 0 && resources.wood > 0 && !buildLogCabinChanged) {
         setVisibility('buildLogCabin', false);
         setBuildLogCabinChanged(true);
         //addEvent({title: "Homebuilder!", body: 'You have unlocked the ability to build Log Cabins, you can start to build yourself a small settlement and make a home for your loyal followers to live!'});
     }
-  }, [stone, wood, buildLogCabinChanged]);
+  }, [resources.stone, resources.wood, buildLogCabinChanged]);
 
   useEffect(() => { //DISABLED
-    if (false && (stone == maxStone || wood == maxWood) && !buildWarhouseChanged) {
+    if (false && (resources.stone == resources.maxStone || resources.wood == resources.maxWood) && !buildWarhouseChanged) {
         setVisibility('buildWarehouse', false);
         setBuildWarhouseChanged(true);
         //addEvent({title: "No More Storage", body: 'Sir, we have no more room to store our resources, and your followers refuse to just store things outside...'});
 
     }
-  }, [stone, wood, buildWarhouseChanged]);
+  }, [resources.stone, resources.wood, buildWarhouseChanged]);
 
   useEffect(() => { //DISABLED
     if (false && totalFollowers > 5 && !buildLumberYardChanged) {
@@ -150,7 +151,7 @@ function Controller() {
   useEffect(() => {
     const prevLumberyard = prevLumberyardRef.current;
     const difference = lumberyard - prevLumberyard;
-    setWoodSecond(woodSecond + difference);
+    resourceSetters.setWoodSecond(resources.woodSecond + difference);
     prevLumberyardRef.current = lumberyard;
   }, [lumberyard]);
   
@@ -159,7 +160,7 @@ function Controller() {
   useEffect(() => {
     const prevStoneMine = prevStoneMineRef.current;
     const difference = stoneMine - prevStoneMine;
-    setStoneSecond(stoneSecond + (difference * 0.5));
+    resourceSetters.setStoneSecond(resources.stoneSecond + (difference * 0.5));
     prevStoneMineRef.current = stoneMine;
   }, [stoneMine]);
 
@@ -167,21 +168,21 @@ function Controller() {
   useEffect(() => {
     const freeFollowersPrev = freeFollowersRef.current;
     const difference = freeFollowers - freeFollowersPrev;
-    setManaSecond(manaSecond + difference);
+    resourceSetters.setManaSecond(resources.manaSecond + difference);
     freeFollowersRef.current = freeFollowers;
   }, [freeFollowers]);
 
   //Per Second effects
   useEffect(() => {
     const interval = setInterval(() => {
-      setMana(Math.max(0,Math.min(mana + (manaSecond * 0.1), maxMana)));
-      setGold(Math.max(0,Math.min(gold + (goldSecond * 0.1), maxGold)));
-      setFood(Math.max(0,Math.min(food + (foodSecond * 0.1), maxFood)));
-      setStone(Math.max(0,Math.min(stone + (stoneSecond * 0.1), maxStone)));
-      setWood(Math.min(woodSecond * 0.1));
+      resourceSetters.setMana(Math.max(0,Math.min(resources.mana + (resources.manaSecond * 0.1), resources.maxMana)));
+      resourceSetters.setGold(Math.max(0,Math.min(resources.gold + (resources.goldSecond * 0.1), resources.maxGold)));
+      resourceSetters.setFood(Math.max(0,Math.min(resources.food + (resources.foodSecond * 0.1), resources.maxFood)));
+      resourceSetters.setStone(Math.max(0,Math.min(resources.stone + (resources.stoneSecond * 0.1), resources.maxStone)));
+      resourceSetters.incrementWood(Math.min(resources.woodSecond * 0.1));
     }, 100); // update every 1/10 second
     return () => clearInterval(interval); // cleanup on unmount
-  }, [manaSecond, maxMana, goldSecond, maxGold, foodSecond, maxFood, stoneSecond, maxStone, woodSecond, maxWood, setMana, setGold, setFood, setStone, setWood]);
+  }, [resources.manaSecond, resources.maxMana, resources.goldSecond, resources.maxGold, resources.foodSecond, resources.maxFood, resources.stoneSecond, resources.maxStone, resources.woodSecond, resources.maxWood, resourceSetters.setMana, resourceSetters.setGold, resourceSetters.setFood, resourceSetters.setStone, resourceSetters.setWood]);
 
   return (
     <div>
