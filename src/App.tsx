@@ -5,6 +5,7 @@ import SideBarLeft from './pages/SideBarLeft'
 import SkillList from './pages/SkillList';
 import LowerProgressBar from './pages/LowerProgressBar';
 import LowerResourceBar from './pages/LowerResourceBar';
+import LowerStatBar from './pages/LowerStatBar';
 import CampusMain from './pages/mainwindows/CampusMain';
 import FollowersMain from './pages/mainwindows/FollowersMain';
 import ExplorationMain from './pages/mainwindows/ExplorationMain';
@@ -215,6 +216,7 @@ function App() {
                   {/* Lower section */}
                   <div className="lower-section" ref={lowerSectionRef}>
                     <GoalBar></GoalBar>
+                    <LowerStatBar></LowerStatBar>
                     <LowerResourceBar></LowerResourceBar>
                     <div ref={lowerSelectionBarRef}>
                       <LowerSelectionBar changeMainComponent={changeMainComponent} currentMainComponent={mainComponent}></LowerSelectionBar>

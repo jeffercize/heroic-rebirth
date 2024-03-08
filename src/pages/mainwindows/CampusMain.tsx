@@ -86,9 +86,9 @@ export default function CampusMain(eventObject: any) {
       <div className={divVisibility["gatherGroup"] ? 'hidden' : 'button-group'}>
         <TownButton 
           buttonText = "Chop Tree"
-          descriptionText = "Chop a nearby tree for wood." 
-          tipText = "Tip: You CANT press and hold to auto-press!"
-          incrementValue = {[woodPerClick]}
+          descriptionText = "Chop a nearby tree for wood. " 
+          tipText = "Tip: Strength increases how much wood you get per tap (Strength + 0.001)"
+          incrementValue = {[stats.strength + 0.001]}
           perSecond = {false}
           maxIncrease = {false}
           incrementText = ""

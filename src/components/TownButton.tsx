@@ -29,6 +29,20 @@ interface TownButtonProps {
     costs: Cost[];
 }
 
+function formatNumber(num: number): string {
+    if (num >= 1000000) {
+      return (num / 1000000).toPrecision(3) + 'M';
+    } else if (num >= 10000) {
+      return (num / 1000).toPrecision(3) + 'K';
+    } else if (num >= 10) {
+      return num.toPrecision(4);
+    } else if (num >= 1) {
+      return num.toPrecision(3);
+    } else {
+      return num.toPrecision(2);
+    }
+  }
+
 
 const TownButton: React.FC<TownButtonProps> = ({buttonText, descriptionText, tipText, incrementValue, perSecond, maxIncrease, incrementText, imgSrc, visibilityKey, visibilityDescriptionKey, onClickEffect, costs}) => {
     const resources = useMyResourcesContext();
@@ -95,16 +109,18 @@ const TownButton: React.FC<TownButtonProps> = ({buttonText, descriptionText, tip
             <span style={{ verticalAlign: 'middle', fontStyle: 'italic'}}> {tipText} </span> 
             {incrementValue.map((value, index) => (
                 <React.Fragment key={index}>
-                    <span style={{ verticalAlign: 'middle', fontWeight: 'bold' }}> +{value} </span> <span style={{ verticalAlign: 'middle', fontWeight: 'bold' }} className={maxIncrease ? '' : 'hidden'}>Max </span>
+                    <span style={{ verticalAlign: 'middle', fontWeight: 'bold' }}> +{formatNumber(value)} </span> <span style={{ verticalAlign: 'middle', fontWeight: 'bold' }} className={maxIncrease ? '' : 'hidden'}>Max </span>
                     <span style={{ verticalAlign: 'middle', fontWeight: 'bold' }}>{incrementText}</span>
                     <img src={imgSrc[index]} alt={"img"}  style={{ width: '22px', height: 'auto', verticalAlign: 'middle' }}></img>
                 </React.Fragment>
             ))}
         </div>
         <div className={divVisibility[visibilityDescriptionKey] ? 'hidden' : 'button-cost'}>
+            {costs.length > 0 && (
             <div className="cost-label">
                 Cost: 
             </div>
+            )}
             <div className="cost-numbers">
                 {costs.map((cost, index) => (
                 <div className={'cost-row'} key={index}>
