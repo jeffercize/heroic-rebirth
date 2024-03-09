@@ -28,6 +28,8 @@ function Controller() {
   //UI Stuff
   const [woodDisplayChanged, setWoodDisplayChanged] = useState(savedState.woodDisplayChanged || false);
   const [stoneDisplayChanged, setStoneDisplayChanged] = useState(savedState.stoneDisplayChanged || false);
+  //UI Stat Stuff
+  const [strengthChanged, setStrengthChanged] = useState(savedState.strengthChanged || false);
   //Skills
   const [chopTreeChanged, setChopTreeChanged] = useState(savedState.chopTreeChanged || false);
   const [mineRockChanged, setMineRockChanged] = useState(savedState.mineRockChanged || false);
@@ -47,9 +49,10 @@ function Controller() {
       buildLogCabinChanged,
       buildWarhouseChanged,
       buildLumberYardChanged,
+      strengthChanged,
     };
     localStorage.setItem('state', JSON.stringify(values));
-  }, [gameStartEvent, woodDisplayChanged, stoneDisplayChanged, chopTreeChanged, mineRockChanged, buildLogCabinChanged, buildWarhouseChanged, buildLumberYardChanged]);
+  }, [gameStartEvent, woodDisplayChanged, stoneDisplayChanged, chopTreeChanged, mineRockChanged, buildLogCabinChanged, buildWarhouseChanged, buildLumberYardChanged, strengthChanged]);
 
   //Single Event checker that is a direct ref so it wont get double called on render, other events should be fine without this
   //could also add a feature in the eventlog that checks for the same event happening one after another, 
@@ -71,6 +74,14 @@ function Controller() {
         setStoneDisplayChanged(true);
     }
   }, [resources.stone, stoneDisplayChanged]);
+
+  //UI Stat Stuff
+  useEffect(() => {
+    if (stats.strength > 0 && !strengthChanged) {
+        setVisibility('strengthStat', false);
+        setStrengthChanged(true);
+    }
+  }, [stats.strength, strengthChanged]);
 
   
   //Event Type Stuff

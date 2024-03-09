@@ -1,16 +1,25 @@
 .progress-bar {
     width: 100%;
-    background-color: #f3f3f3;
+    background: repeating-linear-gradient(
+        to right,
+        #f3f3f3,
+        #f3f3f3 95%,
+        lightgrey 95%,
+        lightgrey 100%
+    );
+    background-size: 20px 100%;
     height: 30px; /* Adjust this to change the height of the bar */
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-top: 1px solid lightgrey; /* Adjust this to change the color and thickness of the top border */
+    border-bottom: 1px solid lightgrey;
   }
   
 .progress-bar-fill {
     height: 100%;
-    background-color: rgb(241, 190, 63);
+    background-color: purple;
     border-radius: inherit;
     transition: width .05s ease-in;
     position: absolute;

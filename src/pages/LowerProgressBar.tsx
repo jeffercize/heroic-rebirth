@@ -10,15 +10,16 @@ import { useMyResourcesContext } from '../data/ResourcesContext';
 
 export default function LowerProgressBar(eventObject: any) {
     const resources = useMyResourcesContext();
+    const stats = useMyStatsContext();
     return (
         <div className="progress-container">
             <div className="progress-bar">
-                <div className="progress-bar-fill" style={{width: `${(resources.mana/resources.maxMana)*100}%`}}></div>
+                <div className="progress-bar-fill" style={{width: `${(stats.experience/stats.experienceLevelUp)*100}%`}}></div>
                 <div className="progress-label">
                     <div className="progress-display">
-                        <img src={`img/stamina_icon.png`} alt={"stamina"} className="progress-icon" />{Math.floor(resources.mana)}/{parseFloat(resources.maxMana.toFixed(2))}
-                        {resources.manaSecond !== 0 && 
-                            ` (${resources.manaSecond > 0 ? '+' : '-'}${Math.abs(Math.floor(resources.manaSecond))}/s)`}
+                        <img src={`img/xp_icon.png`} alt={"stamina"} className="progress-icon" />{Math.floor(stats.experience)}/{parseFloat(stats.experienceLevelUp.toFixed(2))}
+                        {stats.experienceSecond !== 0 && 
+                            ` (${stats.experienceSecond > 0 ? '+' : '-'}${Math.abs(Math.floor(stats.experienceSecond))}/s)`}
                     </div>
                 </div>
             </div>

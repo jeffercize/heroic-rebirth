@@ -3,11 +3,19 @@ import React, { createContext, useContext, useState, ReactNode, useEffect } from
 export interface MyStatsContextType {
   strength: number;
   strengthSecond: number;
+  experience: number;
+  experienceSecond: number;
+  experienceLevelUp: number;
+  level: number;
 }
 
 export interface MyStatsSettersContextType {
   setStrength: React.Dispatch<React.SetStateAction<number>>;
   setStrengthSecond: React.Dispatch<React.SetStateAction<number>>;
+  setExperience: React.Dispatch<React.SetStateAction<number>>;
+  setExperienceSecond: React.Dispatch<React.SetStateAction<number>>;
+  setExperienceLevelUp: React.Dispatch<React.SetStateAction<number>>;
+  setLevel: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const MyStatsContext = createContext<MyStatsContextType | undefined>(undefined);
@@ -26,9 +34,14 @@ const getInitialValue = (key: string, defaultValue: number) => {
 export const StatsProvider: React.FC<StatsProviderProps> = ({ children }) => {
   const [strength, setStrength] = useState<number>(() => getInitialValue('strength', 0));
   const [strengthSecond, setStrengthSecond] = useState<number>(() => getInitialValue('strengthSecond', 0));
+  const [experience, setExperience] = useState<number>(() => getInitialValue('experience', 0));
+  const [experienceSecond, setExperienceSecond] = useState<number>(() => getInitialValue('experienceSecond', 0));
+  const [experienceLevelUp, setExperienceLevelUp] = useState<number>(() => getInitialValue('experienceLevelUp', 100));
+  const [level, setLevel] = useState<number>(() => getInitialValue('level', 0));
+  
 
-  const values = { strength, strengthSecond};
-  const setters = { setStrength, setStrengthSecond };
+  const values = { strength, strengthSecond, experience, experienceSecond, experienceLevelUp, level};
+  const setters = { setStrength, setStrengthSecond, setExperience, setExperienceSecond, setExperienceLevelUp, setLevel };
 
 
     // Save state to Local Storage

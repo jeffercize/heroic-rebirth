@@ -1,43 +1,38 @@
-.resource-bar-container {
+.stat-bar-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     grid-row-gap: 0; /* set gap between rows to 0 */
     column-gap: 10px; /* adjust as needed */
-    width: 75%;
+    width: 100%;
     margin: auto;
     border-top: 1px solid #ccc;
 }
-  
-@media (max-width: 720px) {
-  .resource-bar-container {
-    width: 100%;
-  }
-}
 
-.resource-row {
+
+.stat-row {
   display: flex;
   justify-content: center;
 }
 
-.resource-item {
+.stat-item {
   display: flex;
   align-items: center;
   width: 101px;
 }
 
-.resource-icon {
+.stat-icon {
   width: 20px;
   height: 20px;
   margin-right: 5px;
 }
 
-.resource-label {
+.stat-label {
   color: black;
   font-size: 13px;
   font-weight: bold;
 }
 
-.max-resource {
+.max-stat {
   color: blue;
 }
 
