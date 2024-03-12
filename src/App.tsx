@@ -56,6 +56,10 @@ function App() {
 
   const changeMainComponent = (componentName: MainComponentType) => {
     setMainComponent(componentName);
+    if (windowWidth < 800){
+      setShowEventList(false);
+      setShowSideBarLeft(false);
+    }
   };
 
   window.addEventListener('keydown', function(e) {
@@ -99,9 +103,17 @@ function App() {
   const handleClickOutside = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (windowWidth <= 800){
       if (sideBarRef.current && !sideBarRef.current.contains(event.target as Node)) {
+        // Check if the click event happened on one of the buttons
+        if (event.target instanceof HTMLButtonElement) {
+          return;
+        }
         setShowSideBarLeft(false);
       }
       if (eventListRef.current && !eventListRef.current.contains(event.target as Node)) {
+        // Check if the click event happened on one of the buttons
+        if (event.target instanceof HTMLButtonElement) {
+          return;
+        }
         setShowEventList(false);
       }
     }
@@ -165,9 +177,17 @@ function App() {
                     {/* Upper section */}
                     <div className="upper-section" ref={upperSectionRef}>
                       <h2 className="upper-label">Heroic Rebirth</h2>
-                    </div>
-
-                    
+                      <div className="button-container">
+                        {windowWidth < 800 && !isMobile && <button onClick={() => {
+                          setShowSideBarLeft(!showSideBarLeft);
+                          if (windowWidth <= 800 && showEventList) setShowEventList(false);
+                        }}>{showSideBarLeft ? "<" : ">"}</button>}
+                        {windowWidth < 800 && !isMobile && <button onClick={() => {
+                          setShowEventList(!showEventList);
+                          if (windowWidth <= 800 && showSideBarLeft) setShowSideBarLeft(false);
+                        }}>{showEventList ? ">" : "<"}</button>}
+                      </div>
+                    </div>                  
 
                     {/* Middle section */}
                     <div className="middle-section">
@@ -175,10 +195,6 @@ function App() {
                         <div className={showSideBarLeft ? 'slide-in-left' : 'slide-out-left'} style={{top: sidebarOffset, height: sidebarHeight }}>
                           <SideBarLeft changeMainComponent={changeMainComponent}></SideBarLeft>
                         </div>
-                        {windowWidth < 800 && !isMobile && <button style={{ height: '100%' }} onClick={() => {
-                          setShowSideBarLeft(!showSideBarLeft);
-                          if (windowWidth <= 800 && showEventList) setShowEventList(false);
-                        }}>{showSideBarLeft ? "<" : ">"}</button>}
                       </div>)}
 
                       {(() => {
@@ -199,16 +215,8 @@ function App() {
                         <div className={showSideBarLeft ? 'slide-in-left' : 'slide-out-left'} style={{top: sidebarOffset, height: sidebarHeight }}>
                           <SideBarLeft changeMainComponent={changeMainComponent}></SideBarLeft>
                         </div>
-                        {windowWidth < 800 && !isMobile && <button style={{ height: '100%' }} onClick={() => {
-                          setShowSideBarLeft(!showSideBarLeft);
-                          if (windowWidth <= 800 && showEventList) setShowEventList(false);
-                        }}>{showSideBarLeft ? "<" : ">"}</button>}
                       </div>)}
                       <div ref={eventListRef}>
-                        {windowWidth < 800 && !isMobile && <button style={{ height: '100%' }} onClick={() => {
-                          setShowEventList(!showEventList);
-                          if (windowWidth <= 800 && showSideBarLeft) setShowSideBarLeft(false);
-                        }}>{showEventList ? ">" : "<"}</button>}
                         <div ref={eventListRef} className={showEventList ? 'slide-in-right' : 'slide-out-right'} style={{top: sidebarOffset, height: sidebarHeight }}>
                           <EventList></EventList>
                         </div>

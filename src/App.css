@@ -6,11 +6,16 @@
 
 .upper-section {
   background-color: red;
-  padding: 20px;
   display: flex;
-  height: 2%;
-  justify-content: center; /* Center-align the label horizontally */
-  align-items: center; /* Center-align the label vertically */
+  height: 60px;
+  justify-content: space-between; /* Center-align the label horizontally */
+  display:flex;
+  flex-direction: column;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
 }
 
 .upper-label {

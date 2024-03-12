@@ -28,7 +28,7 @@
   .equipment-item {
     display: flex;
     align-items: center;
-    margin: 10px;
+    margin: 7px;
   }
   
   .equipment-image {

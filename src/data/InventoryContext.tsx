@@ -64,7 +64,7 @@ const InventoryProvider: React.FC<InventoryProviderProps> = ({ children }) => {
   });
 
   useEffect(() => {
-    fetch('/items.json')
+    fetch(process.env.PUBLIC_URL + '/items.json')
       .then(response => response.json())
       .then(data => setItems(data))
       .catch(error => console.error('Error:', error));
@@ -113,6 +113,10 @@ const InventoryProvider: React.FC<InventoryProviderProps> = ({ children }) => {
   };
 
   const unequipItem = (itemType: keyof EquippedItems) => {
+    if (inventory.length >= inventoryMax) {
+      // Inventory is full, don't unequip
+      return;
+    }
     setEquippedItems(prevItems => {
       const unequippedItemId = prevItems[itemType];
       if (unequippedItemId !== null && inventory.length < inventoryMax) {
