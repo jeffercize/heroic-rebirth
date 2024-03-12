@@ -23,8 +23,7 @@ export default function InventoryMain(eventObject: any) {
   const itemsContext = useItemsContext();
 
   const [popupItem, setPopupItem] = useState<{ item: Item | null, index: number | null }>({ item: null, index: null });
-  const imageNames = ['strength', 'inventory', 'mana', 'wood', 'stone', 'gold', 'follower'];
-
+  const [selectedEquipment, setSelectedEquipment] = useState<{ item: Item | null, type: keyof EquippedItems | null }>({ item: null, type: null });
   const equipmentTypes: (keyof EquippedItems)[] = ['helmet', 'chestpiece', 'pants', 'weapon', 'accessory', 'offhand'];
 
   return (
@@ -43,6 +42,11 @@ export default function InventoryMain(eventObject: any) {
               <img 
                 src={equippedItem ? `img/${equippedItem.imageName}.png` : `img/about_icon.png`} 
                 className="equipment-image" 
+                onClick={() => {
+                  if (equippedItem) {
+                    setSelectedEquipment({ item: equippedItem, type });
+                  }
+                }}  
               />
               <button className="equipment-button" onClick={() => inventoryContext.unequipItem(type)}>Unequip</button>
             </div>
@@ -89,7 +93,26 @@ export default function InventoryMain(eventObject: any) {
           <button onClick={() => setPopupItem({ item: null, index: null })}>Close</button>
         </div>
       </div>
-    )}
+      )}
+      {selectedEquipment && selectedEquipment.item && (
+        <div className="popup">
+          <div style={{ fontSize: '20px', fontWeight: 'bold' }}>
+            <img src={`img/${selectedEquipment.item.imageName}.png`}/> {selectedEquipment.item.id}
+          </div>
+          <p>{selectedEquipment.item.equipType}</p>
+          <div style={{ textAlign: 'right' }}>
+            <button onClick={() => {
+              if (selectedEquipment.type) {
+                inventoryContext.unequipItem(selectedEquipment.type);
+              }
+              setSelectedEquipment({ item: null, type: null });
+            }}>Unequip</button>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <button onClick={() => setSelectedEquipment({ item: null, type: null })}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
