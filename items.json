@@ -1,0 +1,37 @@
+[
+    {
+      "id": 1,
+      "imageName": "strength_icon",
+      "equipType": "helmet"
+    },
+    {
+      "id": 2,
+      "imageName": "inventory_icon",
+      "equipType": "chestpiece"
+    },
+    {
+      "id": 3,
+      "imageName": "mana_icon",
+      "equipType": "pants"
+    },
+    {
+      "id": 4,
+      "imageName": "wood_icon",
+      "equipType": "weapon"
+    },
+    {
+      "id": 5,
+      "imageName": "stone_icon",
+      "equipType": "accessory"
+    },
+    {
+      "id": 6,
+      "imageName": "gold_icon",
+      "equipType": "offhand"
+    },
+    {
+      "id": 7,
+      "imageName": "follower_icon",
+      "equipType": "weapon"
+    }
+]
