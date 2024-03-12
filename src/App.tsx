@@ -21,6 +21,7 @@ import { FollowersProvider } from './data/FollowersContext';
 import { BuildingCostProvider } from './data/BuildingCostContext';
 import { EventPopUp } from './components/EventPopUp';
 import { EventLogProvider, useEventLogContext } from './data/EventContext';
+import { InventoryContext, InventoryProvider } from './data/InventoryContext';
 
 
 export type MainComponentType = 'CampusMain' | 'InventoryMain' |'ExplorationMain' | 'FollowersMain' |'HelpComponent' | 'StatsComponent' | 'OptionsComponent' | 'AboutComponent';
@@ -157,74 +158,76 @@ function App() {
           <EventLogProvider>
             <FollowersProvider>
               <BuildingCostProvider>
-                <div className="container" {...handlers} onClick={handleClickOutside}>
-                  <Controller></Controller>
-                  
-                  {/* Upper section */}
-                  <div className="upper-section" ref={upperSectionRef}>
-                    <h2 className="upper-label">Heroic Rebirth</h2>
-                  </div>
+                <InventoryProvider>
+                  <div className="container" {...handlers} onClick={handleClickOutside}>
+                    <Controller></Controller>
+                    
+                    {/* Upper section */}
+                    <div className="upper-section" ref={upperSectionRef}>
+                      <h2 className="upper-label">Heroic Rebirth</h2>
+                    </div>
 
-                  
+                    
 
-                  {/* Middle section */}
-                  <div className="middle-section">
-                    {!isMobile && (<div ref={sideBarRef}>
-                      <div className={showSideBarLeft ? 'slide-in-left' : 'slide-out-left'} style={{top: sidebarOffset, height: sidebarHeight }}>
-                        <SideBarLeft changeMainComponent={changeMainComponent}></SideBarLeft>
-                      </div>
-                      {windowWidth < 800 && !isMobile && <button style={{ height: '100%' }} onClick={() => {
-                        setShowSideBarLeft(!showSideBarLeft);
-                        if (windowWidth <= 800 && showEventList) setShowEventList(false);
-                      }}>{showSideBarLeft ? "<" : ">"}</button>}
-                    </div>)}
+                    {/* Middle section */}
+                    <div className="middle-section">
+                      {!isMobile && (<div ref={sideBarRef}>
+                        <div className={showSideBarLeft ? 'slide-in-left' : 'slide-out-left'} style={{top: sidebarOffset, height: sidebarHeight }}>
+                          <SideBarLeft changeMainComponent={changeMainComponent}></SideBarLeft>
+                        </div>
+                        {windowWidth < 800 && !isMobile && <button style={{ height: '100%' }} onClick={() => {
+                          setShowSideBarLeft(!showSideBarLeft);
+                          if (windowWidth <= 800 && showEventList) setShowEventList(false);
+                        }}>{showSideBarLeft ? "<" : ">"}</button>}
+                      </div>)}
 
-                    {(() => {
-                      switch (mainComponent) {
-                        case 'CampusMain': return <CampusMain />;
-                        case 'InventoryMain': return <InventoryMain />;
-                        case 'ExplorationMain': return <ExplorationMain />;
-                        case 'FollowersMain': return <FollowersMain />;
-                        case 'HelpComponent': return <CampusMain />;
-                        case 'StatsComponent': return <CampusMain />;
-                        case 'OptionsComponent': return <CampusMain />;
-                        case 'AboutComponent': return <CampusMain />;
-                        default: return null;
-                      }
-                    })()}
-                    {/* SideBarLeft is here as well as above to deal with a layout issue with the sidebar showing under everything else on mobile */}
-                    {isMobile && (<div ref={sideBarRef}>
-                      <div className={showSideBarLeft ? 'slide-in-left' : 'slide-out-left'} style={{top: sidebarOffset, height: sidebarHeight }}>
-                        <SideBarLeft changeMainComponent={changeMainComponent}></SideBarLeft>
-                      </div>
-                      {windowWidth < 800 && !isMobile && <button style={{ height: '100%' }} onClick={() => {
-                        setShowSideBarLeft(!showSideBarLeft);
-                        if (windowWidth <= 800 && showEventList) setShowEventList(false);
-                      }}>{showSideBarLeft ? "<" : ">"}</button>}
-                    </div>)}
-                    <div ref={eventListRef}>
-                      {windowWidth < 800 && !isMobile && <button style={{ height: '100%' }} onClick={() => {
-                        setShowEventList(!showEventList);
-                        if (windowWidth <= 800 && showSideBarLeft) setShowSideBarLeft(false);
-                      }}>{showEventList ? ">" : "<"}</button>}
-                      <div ref={eventListRef} className={showEventList ? 'slide-in-right' : 'slide-out-right'} style={{top: sidebarOffset, height: sidebarHeight }}>
-                        <EventList></EventList>
+                      {(() => {
+                        switch (mainComponent) {
+                          case 'CampusMain': return <CampusMain />;
+                          case 'InventoryMain': return <InventoryMain />;
+                          case 'ExplorationMain': return <ExplorationMain />;
+                          case 'FollowersMain': return <FollowersMain />;
+                          case 'HelpComponent': return <CampusMain />;
+                          case 'StatsComponent': return <CampusMain />;
+                          case 'OptionsComponent': return <CampusMain />;
+                          case 'AboutComponent': return <CampusMain />;
+                          default: return null;
+                        }
+                      })()}
+                      {/* SideBarLeft is here as well as above to deal with a layout issue with the sidebar showing under everything else on mobile */}
+                      {isMobile && (<div ref={sideBarRef}>
+                        <div className={showSideBarLeft ? 'slide-in-left' : 'slide-out-left'} style={{top: sidebarOffset, height: sidebarHeight }}>
+                          <SideBarLeft changeMainComponent={changeMainComponent}></SideBarLeft>
+                        </div>
+                        {windowWidth < 800 && !isMobile && <button style={{ height: '100%' }} onClick={() => {
+                          setShowSideBarLeft(!showSideBarLeft);
+                          if (windowWidth <= 800 && showEventList) setShowEventList(false);
+                        }}>{showSideBarLeft ? "<" : ">"}</button>}
+                      </div>)}
+                      <div ref={eventListRef}>
+                        {windowWidth < 800 && !isMobile && <button style={{ height: '100%' }} onClick={() => {
+                          setShowEventList(!showEventList);
+                          if (windowWidth <= 800 && showSideBarLeft) setShowSideBarLeft(false);
+                        }}>{showEventList ? ">" : "<"}</button>}
+                        <div ref={eventListRef} className={showEventList ? 'slide-in-right' : 'slide-out-right'} style={{top: sidebarOffset, height: sidebarHeight }}>
+                          <EventList></EventList>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Lower section */}
-                  <div className="lower-section" ref={lowerSectionRef}>
-                    <GoalBar></GoalBar>
-                    <LowerStatBar></LowerStatBar>
-                    <LowerResourceBar></LowerResourceBar>
-                    <div ref={lowerSelectionBarRef}>
-                      <LowerSelectionBar changeMainComponent={changeMainComponent} currentMainComponent={mainComponent}></LowerSelectionBar>
+                    {/* Lower section */}
+                    <div className="lower-section" ref={lowerSectionRef}>
+                      <GoalBar></GoalBar>
+                      <LowerStatBar></LowerStatBar>
+                      <LowerResourceBar></LowerResourceBar>
+                      <div ref={lowerSelectionBarRef}>
+                        <LowerSelectionBar changeMainComponent={changeMainComponent} currentMainComponent={mainComponent}></LowerSelectionBar>
+                      </div>
+                      <LowerProgressBar></LowerProgressBar>
                     </div>
-                    <LowerProgressBar></LowerProgressBar>
                   </div>
-                </div>
-                <EventPopUp></EventPopUp>
+                  <EventPopUp></EventPopUp>
+                </InventoryProvider>
               </BuildingCostProvider>
             </FollowersProvider>
           </EventLogProvider>

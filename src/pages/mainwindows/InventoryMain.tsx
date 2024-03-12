@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatsProvider, useMyStatsContext } from '../../data/StatsContext';
 import { useMyResourcesSettersContext, useMyResourcesContext } from '../../data/ResourcesContext';
 import { useVisibilityContext, useVisibilitySettersContext } from '../../data/VisibilityContext';
 import { useMyFollowersContext, useMyFollowersSettersContext } from '../../data/FollowersContext';
 import { useBuildingCostContext, useBuildingCostSettersContext } from '../../data/BuildingCostContext';
+import { useInventoryContext, useItemsContext, EquippedItems, Item } from '../../data/InventoryContext';
 import TownButton from '../../components/TownButton';
 import './InventoryMain.css';
 
@@ -18,31 +19,77 @@ export default function InventoryMain(eventObject: any) {
   const {  setVisibility, toggleVisibility} = useVisibilitySettersContext();
   const followers = useMyFollowersContext();
   const followersSetters = useMyFollowersSettersContext();
+  const inventoryContext = useInventoryContext();
+  const itemsContext = useItemsContext();
 
+  const [popupItem, setPopupItem] = useState<{ item: Item | null, index: number | null }>({ item: null, index: null });
   const imageNames = ['strength', 'inventory', 'mana', 'wood', 'stone', 'gold', 'follower'];
+
+  const equipmentTypes: (keyof EquippedItems)[] = ['helmet', 'chestpiece', 'pants', 'weapon', 'accessory', 'offhand'];
 
   return (
     <div className="inventory-main-container">
       <div className="title-container">
         <div className="title-label">Equipment</div>
-        <button className="crafting-button" >Crafting</button>
+        <button className="crafting-button" onClick={() => inventoryContext.addItem(Math.floor(Math.random() * 7) + 1)}>Crafting</button>
       </div>
       <div className="equipment-grid">
-        {imageNames.slice(0, 6).map((imageName, index) => (
-          <div key={index} className="equipment-item">
-            <img src={`img/${imageName}_icon.png`} alt={imageName} className="equipment-image" />
-            <button className="equipment-button">Unequip</button>
-          </div>
-        ))}
+        {equipmentTypes.map((type) => {
+          const equippedItemId = inventoryContext.equippedItems[type];
+          const equippedItem = equippedItemId !== null ? itemsContext.items.find(item => item.id === equippedItemId) : null;
+          return (
+            <div key={type} className="equipment-item">
+              <div className="equipment-type">{type}</div>
+              <img 
+                src={equippedItem ? `img/${equippedItem.imageName}.png` : `img/about_icon.png`} 
+                className="equipment-image" 
+              />
+              <button className="equipment-button" onClick={() => inventoryContext.unequipItem(type)}>Unequip</button>
+            </div>
+          );
+        })}
       </div>
       <hr className="inventory-line" />
       <div className="inventory-container">
-        <div className="inventory-series">
-          {imageNames.map((imageName, index) => (
-            <img key={index} src={`img/${imageName}_icon.png`} alt={imageName} className="inventory-image" />
-          ))}
+      <div className="inventory-series">
+          {Array(inventoryContext.inventoryMax).fill(0).map((_, index: number) => {
+            const itemId = inventoryContext.inventory[index];
+            const item = itemId !== undefined ? itemsContext.items.find(item => item.id === itemId) : null;
+            return (
+              <div key={index} className="inventory-slot">
+              {item && (
+                <img 
+                  src={`img/${item.imageName}.png`} 
+                  alt={item.imageName} 
+                  className="inventory-image" 
+                  onClick={() => setPopupItem({ item, index })}
+                />
+              )}
+              </div>
+            );
+          })}
         </div>
       </div>
+      {popupItem && popupItem.item && (
+      <div className="popup">
+        <div style={{ fontSize: '20px', fontWeight: 'bold' }}>
+          <img src={`img/${popupItem.item.imageName}.png`}/> {popupItem.item.id}
+        </div>
+        <p>{popupItem.item.equipType}</p>
+        <div style={{ textAlign: 'right' }}>
+        <button onClick={() => {
+          if (popupItem.item && popupItem.item.equipType && popupItem.index !== null) {
+            inventoryContext.equipItem(popupItem.item.equipType, popupItem.item.id);
+            inventoryContext.removeItem(popupItem.index);
+          }; 
+          setPopupItem({ item: null, index: null });
+        }}>Equip</button>
+        </div>
+        <div style={{ textAlign: 'right' }}>
+          <button onClick={() => setPopupItem({ item: null, index: null })}>Close</button>
+        </div>
+      </div>
+    )}
     </div>
   );
 }

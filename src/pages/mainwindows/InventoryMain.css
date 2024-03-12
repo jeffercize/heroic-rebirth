@@ -69,7 +69,33 @@
   .inventory-image {
     width: 32px;
     height: 32px;
+    padding: 3px;
+    margin: 10px;
+  }
+
+  .inventory-slot {
+    width: 32px;
+    height: 32px;
     border: 1px solid grey;
     padding: 3px;
     margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #000;
+    z-index: 1000;
+  }
+
+  .equipment-type {
+    text-align: center;
+    width: 75px;
   }

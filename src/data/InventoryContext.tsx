@@ -1,42 +1,147 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import {EventCardProps}  from '../components/EventCard';
-import {ItemProp}  from '../components/ItemProp';
+
+export type Item = {
+  id: number;
+  imageName: string;
+  equipType: keyof EquippedItems | null;
+};
+
+export type EquippedItems = {
+  helmet: number | null;
+  chestpiece: number | null;
+  pants: number | null;
+  weapon: number | null;
+  accessory: number | null;
+  offhand: number | null;
+};
 
 interface InventoryContextType {
-  inventory: ItemProp[];
-  addItem: (item: ItemProp) => void;
+  inventory: number[];
+  inventoryMax: number;
+  addItem: (item: number) => void;
+  removeItem: (item: number) => void;
+  equipItem: (itemType: keyof EquippedItems, itemId: number) => void;
+  unequipItem: (itemType: keyof EquippedItems) => void;
+  equippedItems: EquippedItems;
 }
 
+interface ItemContextType {
+  items: Item[];
+}
+
+
+const ItemContextType = createContext<ItemContextType | undefined>(undefined);
 const InventoryContext = createContext<InventoryContextType | undefined>(undefined);
 
 interface InventoryProviderProps {
   children: ReactNode;
 }
 
-const getInitialValue = (key: string, defaultValue: number) => {
-  const savedState = JSON.parse(localStorage.getItem('inventoryState') || '{}');
-  return savedState[key] !== undefined ? savedState[key] : defaultValue;
+const getInitialValue = (key: string, defaultValue: number[] = []) => {
+  const savedState = JSON.parse(localStorage.getItem(key) || '[]');
+  return savedState.length !== 0 ? savedState : defaultValue;
+};
+
+const getInitialInvMaxValue = (key: string, defaultValue: number = 8) => {
+  const savedState = localStorage.getItem(key);
+  return savedState !== null ? Number(savedState) : defaultValue;
 };
 
 const InventoryProvider: React.FC<InventoryProviderProps> = ({ children }) => {
   // Load state from Local Storage
 
-  const [inventory, setInventory] = useState<ItemProp[]>(() => getInitialValue('food', 0));
+  const [inventory, setInventory] = useState<number[]>(() => getInitialValue('inventory', []));
+  const [inventoryMax, setInventoryMax] = useState<number>(() => getInitialInvMaxValue('inventoryMax', 8));
+  const [items, setItems] = useState<Item[]>([]);
+
+  const [equippedItems, setEquippedItems] = useState<EquippedItems>({
+    helmet: null,
+    chestpiece: null,
+    pants: null,
+    weapon: null,
+    accessory: null,
+    offhand: null,
+  });
+
+  useEffect(() => {
+    fetch('/items.json')
+      .then(response => response.json())
+      .then(data => setItems(data))
+      .catch(error => console.error('Error:', error));
+  }, []);
 
   
-  const addItem = (item: ItemProp) => {
-    setInventory(prevInv => [...prevInv, item]);
+  const addItem = (itemId: number) => {
+    setInventory((prevInventory: number[]) => {
+      if (items.find(item => item.id === itemId) && prevInventory.length >= inventoryMax) {
+        // inventory is at max size, don't add item
+        return prevInventory;
+      } else {
+        // inventory is not at max size, add item
+        return [...prevInventory, itemId];
+      }
+    });
+  };
+  
+  const removeItem = (index: number) => {
+    setInventory((prevInventory: number[]) => {
+      if (index >= 0 && index < prevInventory.length) {
+        // index is valid, remove item
+        const newInventory = [...prevInventory];
+        newInventory.splice(index, 1);
+        return newInventory;
+      } else {
+        // index is not valid, return the previous inventory
+        return prevInventory;
+      }
+    });
+  };
+
+    
+  const equipItem = (itemType: keyof EquippedItems, itemId: number) => {
+    setEquippedItems(prevItems => {
+      const currentlyEquippedItemId = prevItems[itemType];
+      if (currentlyEquippedItemId !== null && inventory.length < inventoryMax) {
+        // There's an item currently equipped and space in the inventory
+        addItem(currentlyEquippedItemId);
+      }
+      return {
+        ...prevItems,
+        [itemType]: itemId,
+      };
+    });
+  };
+
+  const unequipItem = (itemType: keyof EquippedItems) => {
+    setEquippedItems(prevItems => {
+      const unequippedItemId = prevItems[itemType];
+      if (unequippedItemId !== null && inventory.length < inventoryMax) {
+        // There's an item to unequip and space in the inventory
+        addItem(unequippedItemId);
+      }
+      return {
+        ...prevItems,
+        [itemType]: null,
+      };
+    });
   };
 
   // Save state to Local Storage
   useEffect(() => {
-    localStorage.setItem('inventoryState', JSON.stringify(inventory));
+    localStorage.setItem('inventory', JSON.stringify(inventory));
   }, [inventory]);
 
+  // Save state to Local Storage
+  useEffect(() => {
+    localStorage.setItem('inventoryMax', JSON.stringify(inventoryMax));
+  }, [inventoryMax]);
+
   return (
-    <InventoryContext.Provider value={{ inventory, addItem }}>
-      {children}
-    </InventoryContext.Provider>
+    <ItemContextType.Provider value={{ items }}>
+      <InventoryContext.Provider value={{ inventory, inventoryMax, equippedItems, addItem, removeItem, equipItem, unequipItem }}>
+        {children}
+      </InventoryContext.Provider>
+    </ItemContextType.Provider>
   );
 };
 
@@ -48,4 +153,12 @@ const useInventoryContext = (): InventoryContextType => {
   return inventoryContext;
 };
 
-export { InventoryContext, InventoryProvider, useInventoryContext };
+const useItemsContext = (): ItemContextType => {
+  const itemContextType = useContext(ItemContextType);
+  if (!itemContextType) {
+    throw new Error('useItemContextType must be used within an InventoryProvider');
+  }
+  return itemContextType;
+};
+
+export { InventoryContext, InventoryProvider, useInventoryContext, useItemsContext };
