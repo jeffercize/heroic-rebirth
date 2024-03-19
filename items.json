@@ -2,27 +2,27 @@
     {
       "id": 1,
       "imageName": "strength_icon",
-      "equipType": "helmet"
+      "equipType": "head"
     },
     {
       "id": 2,
       "imageName": "inventory_icon",
-      "equipType": "chestpiece"
+      "equipType": "chest"
     },
     {
       "id": 3,
       "imageName": "mana_icon",
-      "equipType": "pants"
+      "equipType": "legs"
     },
     {
       "id": 4,
       "imageName": "wood_icon",
-      "equipType": "weapon"
+      "equipType": "mainhand"
     },
     {
       "id": 5,
       "imageName": "stone_icon",
-      "equipType": "accessory"
+      "equipType": "trinket"
     },
     {
       "id": 6,
@@ -32,6 +32,6 @@
     {
       "id": 7,
       "imageName": "follower_icon",
-      "equipType": "weapon"
+      "equipType": "mainhand"
     }
 ]
