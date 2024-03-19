@@ -7,13 +7,14 @@ export type Item = {
 };
 
 export type EquippedItems = {
-  helmet: number | null;
-  chestpiece: number | null;
-  pants: number | null;
-  weapon: number | null;
-  accessory: number | null;
+  head: number | null;
+  chest: number | null;
+  legs: number | null;
+  mainhand: number | null;
+  trinket: number | null;
   offhand: number | null;
 };
+
 
 interface InventoryContextType {
   inventory: number[];
@@ -55,11 +56,11 @@ const InventoryProvider: React.FC<InventoryProviderProps> = ({ children }) => {
   const [items, setItems] = useState<Item[]>([]);
 
   const [equippedItems, setEquippedItems] = useState<EquippedItems>({
-    helmet: null,
-    chestpiece: null,
-    pants: null,
-    weapon: null,
-    accessory: null,
+    head: null,
+    chest: null,
+    legs: null,
+    mainhand: null,
+    trinket: null,
     offhand: null,
   });
 

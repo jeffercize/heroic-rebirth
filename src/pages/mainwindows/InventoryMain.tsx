@@ -24,7 +24,7 @@ export default function InventoryMain(eventObject: any) {
 
   const [popupItem, setPopupItem] = useState<{ item: Item | null, index: number | null }>({ item: null, index: null });
   const [selectedEquipment, setSelectedEquipment] = useState<{ item: Item | null, type: keyof EquippedItems | null }>({ item: null, type: null });
-  const equipmentTypes: (keyof EquippedItems)[] = ['helmet', 'chestpiece', 'pants', 'weapon', 'accessory', 'offhand'];
+  const equipmentTypes: (keyof EquippedItems)[] = ['head', 'chest', 'legs', 'mainhand', 'trinket', 'offhand'];
 
   return (
     <div className="inventory-main-container">
