@@ -81,16 +81,16 @@ export default function InventoryMain(eventObject: any) {
         </div>
         <p>{popupItem.item.equipType}</p>
         <div style={{ textAlign: 'right' }}>
-        <button onClick={() => {
-          if (popupItem.item && popupItem.item.equipType && popupItem.index !== null) {
-            inventoryContext.equipItem(popupItem.item.equipType, popupItem.item.id);
-            inventoryContext.removeItem(popupItem.index);
-          }; 
-          setPopupItem({ item: null, index: null });
-        }}>Equip</button>
-        </div>
-        <div style={{ textAlign: 'right' }}>
-          <button onClick={() => setPopupItem({ item: null, index: null })}>Close</button>
+          <div style={{flexDirection: "row", display: "flex", justifyContent: "flex-end"}}>
+            <button style={{marginRight: "10px"}} onClick={() => {
+              if (popupItem.item && popupItem.item.equipType && popupItem.index !== null) {
+                inventoryContext.equipItem(popupItem.item.equipType, popupItem.item.id);
+                inventoryContext.removeItem(popupItem.index);
+              }; 
+              setPopupItem({ item: null, index: null });
+            }}>Equip</button>
+            <button onClick={() => setPopupItem({ item: null, index: null })}>Close</button>
+          </div>
         </div>
       </div>
       )}

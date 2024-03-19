@@ -94,6 +94,8 @@
     padding: 20px;
     border: 1px solid #000;
     z-index: 1000;
+    width: 80%;
+    max-width: 200px;
   }
 
   .equipment-type {
