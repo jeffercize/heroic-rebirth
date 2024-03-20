@@ -30,7 +30,7 @@ export default function InventoryMain(eventObject: any) {
     <div className="inventory-main-container">
       <div className="title-container">
         <div className="title-label">Equipment</div>
-        <button className="crafting-button" onClick={() => inventoryContext.addItem(Math.floor(Math.random() * 7) + 1)}>Crafting</button>
+        <button className="crafting-button" onClick={() => inventoryContext.addItem(1)}>Crafting</button>
       </div>
       <div className="equipment-grid">
         {equipmentTypes.map((type) => {
@@ -48,14 +48,14 @@ export default function InventoryMain(eventObject: any) {
                   }
                 }}  
               />
-              <button className="equipment-button" onClick={() => inventoryContext.unequipItem(type)}>Unequip</button>
+              
             </div>
           );
         })}
       </div>
       <hr className="inventory-line" />
       <div className="inventory-container">
-      <div className="inventory-series">
+        <div className="inventory-series">
           {Array(inventoryContext.inventoryMax).fill(0).map((_, index: number) => {
             const itemId = inventoryContext.inventory[index];
             const item = itemId !== undefined ? itemsContext.items.find(item => item.id === itemId) : null;
@@ -64,7 +64,7 @@ export default function InventoryMain(eventObject: any) {
               {item && (
                 <img 
                   src={`img/${item.imageName}.png`} 
-                  alt={item.imageName} 
+                  alt={item.imageName.replace('_icon', '')} 
                   className="inventory-image" 
                   onClick={() => setPopupItem({ item, index })}
                 />
@@ -75,41 +75,41 @@ export default function InventoryMain(eventObject: any) {
         </div>
       </div>
       {popupItem && popupItem.item && (
-      <div className="popup">
-        <div style={{ fontSize: '20px', fontWeight: 'bold' }}>
-          <img src={`img/${popupItem.item.imageName}.png`}/> {popupItem.item.id}
-        </div>
-        <p>{popupItem.item.equipType}</p>
-        <div style={{ textAlign: 'right' }}>
-          <div style={{flexDirection: "row", display: "flex", justifyContent: "flex-end"}}>
-            <button style={{marginRight: "10px"}} onClick={() => {
-              if (popupItem.item && popupItem.item.equipType && popupItem.index !== null) {
-                inventoryContext.equipItem(popupItem.item.equipType, popupItem.item.id);
-                inventoryContext.removeItem(popupItem.index);
-              }; 
-              setPopupItem({ item: null, index: null });
-            }}>Equip</button>
-            <button onClick={() => setPopupItem({ item: null, index: null })}>Close</button>
+        <div className="popupoverlay">
+          <div className="textbox">
+            <img src={`img/${popupItem.item.imageName}.png`}/> {popupItem.item.name}: (ID: {popupItem.item.id})
+            <p>{popupItem.item.description}</p> <p>Equipment Type: {popupItem.item.equipType}</p>
+            <div style={{ textAlign: 'right' }}>
+              <div style={{flexDirection: "row", display: "flex", justifyContent: "flex-end"}}>
+                <button style={{marginRight: "10px"}} onClick={() => {
+                  if (popupItem.item && popupItem.item.equipType && popupItem.index !== null) {
+                    inventoryContext.equipItem(popupItem.item.equipType, popupItem.item.id);
+                    inventoryContext.removeItem(popupItem.index);
+                  }; 
+                  setPopupItem({ item: null, index: null });
+                }}>Equip</button>
+                <button onClick={() => setPopupItem({ item: null, index: null })}>Close</button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
       )}
       {selectedEquipment && selectedEquipment.item && (
-        <div className="popup">
-          <div style={{ fontSize: '20px', fontWeight: 'bold' }}>
+        <div className="popupoverlay">
+          <div className="textbox">
             <img src={`img/${selectedEquipment.item.imageName}.png`}/> {selectedEquipment.item.id}
-          </div>
-          <p>{selectedEquipment.item.equipType}</p>
-          <div style={{ textAlign: 'right' }}>
-            <button onClick={() => {
-              if (selectedEquipment.type) {
-                inventoryContext.unequipItem(selectedEquipment.type);
-              }
-              setSelectedEquipment({ item: null, type: null });
-            }}>Unequip</button>
-          </div>
-          <div style={{ textAlign: 'right' }}>
-            <button onClick={() => setSelectedEquipment({ item: null, type: null })}>Close</button>
+            <p>{selectedEquipment.item.equipType}</p>
+            <div style={{ textAlign: 'right' }}>
+              <div style={{flexDirection: "row", display: "flex", justifyContent: "flex-end"}}>
+                <button style={{marginRight: "10px"}} onClick={() => {
+                  if (selectedEquipment.type) {
+                    inventoryContext.unequipItem(selectedEquipment.type);
+                  }
+                  setSelectedEquipment({ item: null, type: null });
+                }}>Unequip</button>
+                <button onClick={() => setSelectedEquipment({ item: null, type: null })}>Close</button>
+              </div>
+            </div>
           </div>
         </div>
       )}

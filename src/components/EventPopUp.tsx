@@ -31,12 +31,11 @@ export const EventPopUp: React.FC = () => {
 
     return (
         <div className={`overlay ${latestEvent ? 'visible' : ''}`} onClick={handleClickOutside}>
-            
-            <div className="text-box" ref={textBoxRef}>
-                <button className="close-button" onClick={closePopup}>X</button>
-                <h2>{latestEvent ? latestEvent.title: ''}</h2>
-                <p>{latestEvent ? latestEvent.body : ''}</p>
-            </div>
+          <div className="text-box" ref={textBoxRef}>
+            <button className="close-button" onClick={closePopup}>X</button>
+            <h2>{latestEvent ? latestEvent.title: ''}</h2>
+            <p>{latestEvent ? latestEvent.body : ''}</p>
+          </div>
         </div>
     );
 };

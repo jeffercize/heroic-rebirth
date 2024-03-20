@@ -1,37 +1,9 @@
 [
     {
       "id": 1,
-      "imageName": "strength_icon",
-      "equipType": "head"
-    },
-    {
-      "id": 2,
-      "imageName": "inventory_icon",
-      "equipType": "chest"
-    },
-    {
-      "id": 3,
-      "imageName": "mana_icon",
-      "equipType": "legs"
-    },
-    {
-      "id": 4,
-      "imageName": "wood_icon",
-      "equipType": "mainhand"
-    },
-    {
-      "id": 5,
-      "imageName": "stone_icon",
-      "equipType": "trinket"
-    },
-    {
-      "id": 6,
-      "imageName": "gold_icon",
-      "equipType": "offhand"
-    },
-    {
-      "id": 7,
-      "imageName": "follower_icon",
+      "name": "Stone Hatchet",
+      "description": "Made by combining the rusted hatchet head you found with a sturdy branch.",
+      "imageName": "stone_hatchet_icon",
       "equipType": "mainhand"
     }
 ]

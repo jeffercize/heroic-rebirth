@@ -2,6 +2,8 @@ import React, { createContext, useContext, useState, ReactNode, useEffect } from
 
 export type Item = {
   id: number;
+  name: string;
+  description: string;
   imageName: string;
   equipType: keyof EquippedItems | null;
 };
