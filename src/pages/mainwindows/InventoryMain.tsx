@@ -97,8 +97,8 @@ export default function InventoryMain(eventObject: any) {
       {selectedEquipment && selectedEquipment.item && (
         <div className="popupoverlay">
           <div className="textbox">
-            <img src={`img/${selectedEquipment.item.imageName}.png`}/> {selectedEquipment.item.id}
-            <p>{selectedEquipment.item.equipType}</p>
+            <img src={`img/${selectedEquipment.item.imageName}.png`}/> {selectedEquipment.item.name}: (ID: {selectedEquipment.item.id})
+            <p>{selectedEquipment.item.description}</p> <p>Equipment Type: {selectedEquipment.item.equipType}</p>
             <div style={{ textAlign: 'right' }}>
               <div style={{flexDirection: "row", display: "flex", justifyContent: "flex-end"}}>
                 <button style={{marginRight: "10px"}} onClick={() => {
