@@ -3,7 +3,7 @@ import './EventPopUp.css';
 import { useEventLogContext } from '../data/EventContext';
 
 export const EventPopUp: React.FC = () => {
-    const { eventLog, hasNewEvent, setEventDisplayed } = useEventLogContext();
+    const { eventLog, hasNewEvent, displayEventIndex, setEventDisplayed } = useEventLogContext();
     const [eventQueue, setEventQueue] = useState(eventLog.filter(event => !event.displayed));
     const textBoxRef = useRef<HTMLDivElement>(null);
 
@@ -16,6 +16,12 @@ export const EventPopUp: React.FC = () => {
         }
       }
     }, [hasNewEvent, eventLog]);
+
+    useEffect(() => {
+      if (displayEventIndex !== -1) {
+        setEventQueue(eventLog.slice(displayEventIndex, displayEventIndex + 1));
+      }
+    }, [displayEventIndex]);
 
     const closePopup = () => {
       setEventQueue(prevQueue => prevQueue.slice(1));

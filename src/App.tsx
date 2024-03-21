@@ -42,11 +42,11 @@ function App() {
   
   const [hasWindowWidthCollapse, setHasWindowWidthCollapse] = useState(false);
   useEffect(() => {
-    if (windowWidth < 800 && !hasWindowWidthCollapse) { 
+    if (windowWidth <= 800 && !hasWindowWidthCollapse) { 
       setHasWindowWidthCollapse(true);
       setShowEventList(false);
       setShowSideBarLeft(false);
-    } else if (windowWidth >= 800) {
+    } else if (windowWidth > 800) {
       setHasWindowWidthCollapse(false);
       setShowEventList(true);
       setShowSideBarLeft(true);
@@ -56,7 +56,7 @@ function App() {
 
   const changeMainComponent = (componentName: MainComponentType) => {
     setMainComponent(componentName);
-    if (windowWidth < 800){
+    if (windowWidth <= 800){
       setShowEventList(false);
       setShowSideBarLeft(false);
     }
@@ -123,15 +123,25 @@ function App() {
   const [sidebarOffset, setSidebarOffset] = useState(0);
   const upperSectionRef = useRef<HTMLDivElement>(null);
   const lowerSectionRef = useRef<HTMLDivElement>(null);
+  const progressBar = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const updateSidebarHeight = (event?: Event) => {
       const upperSectionHeight = upperSectionRef.current ? upperSectionRef.current.offsetHeight : 0;
       const lowerSectionHeight = lowerSectionRef.current ? lowerSectionRef.current.offsetHeight : 0;
+      const progressBarHeight = progressBar.current ? progressBar.current.offsetHeight : 0;
       const viewportHeight = window.innerHeight;
-      const sidebarHeight = viewportHeight - upperSectionHeight - lowerSectionHeight;
-      setSidebarHeight(sidebarHeight);
-      setSidebarOffset(upperSectionHeight);
+      if (window.innerWidth <= 800) {
+        const sidebarHeight = viewportHeight - upperSectionHeight - progressBarHeight;
+        setSidebarHeight(sidebarHeight);
+        setSidebarOffset(upperSectionHeight);
+      }
+      else {
+        const sidebarHeight = viewportHeight - upperSectionHeight - lowerSectionHeight;
+        setSidebarHeight(sidebarHeight);
+        setSidebarOffset(upperSectionHeight);
+      }
+      
     };
 
     // Call the function initially to set the height
@@ -178,11 +188,11 @@ function App() {
                     <div className="upper-section" ref={upperSectionRef}>
                       <h2 className="upper-label">Heroic Rebirth</h2>
                       <div className="button-container">
-                        {windowWidth < 800 && !isMobile && <button onClick={() => {
+                        {windowWidth <= 800 && !isMobile && <button onClick={() => {
                           setShowSideBarLeft(!showSideBarLeft);
                           if (windowWidth <= 800 && showEventList) setShowEventList(false);
                         }}>{showSideBarLeft ? "<" : ">"}</button>}
-                        {windowWidth < 800 && !isMobile && <button onClick={() => {
+                        {windowWidth <= 800 && !isMobile && <button onClick={() => {
                           setShowEventList(!showEventList);
                           if (windowWidth <= 800 && showSideBarLeft) setShowSideBarLeft(false);
                         }}>{showEventList ? ">" : "<"}</button>}
@@ -191,11 +201,12 @@ function App() {
 
                     {/* Middle section */}
                     <div className="middle-section">
-                      {!isMobile && (<div ref={sideBarRef}>
+
+                      {windowWidth > 800 && (<div ref={sideBarRef}>
                         <div className={showSideBarLeft ? 'slide-in-left' : 'slide-out-left'} style={{top: sidebarOffset, height: sidebarHeight }}>
                           <SideBarLeft changeMainComponent={changeMainComponent}></SideBarLeft>
                         </div>
-                      </div>)}
+                      </div>)}                      
 
                       {(() => {
                         switch (mainComponent) {
@@ -210,18 +221,15 @@ function App() {
                           default: return null;
                         }
                       })()}
-                      {/* SideBarLeft is here as well as above to deal with a layout issue with the sidebar showing under everything else on mobile */}
-                      {isMobile && (<div ref={sideBarRef}>
-                        <div className={showSideBarLeft ? 'slide-in-left' : 'slide-out-left'} style={{top: sidebarOffset, height: sidebarHeight }}>
-                          <SideBarLeft changeMainComponent={changeMainComponent}></SideBarLeft>
-                        </div>
-                      </div>)}
-                      <div ref={eventListRef}>
+
+                      {windowWidth > 800 && (<div ref={eventListRef}>
                         <div ref={eventListRef} className={showEventList ? 'slide-in-right' : 'slide-out-right'} style={{top: sidebarOffset, height: sidebarHeight }}>
                           <EventList></EventList>
                         </div>
-                      </div>
+                      </div>)}
+
                     </div>
+                    
 
                     {/* Lower section */}
                     <div className="lower-section" ref={lowerSectionRef}>
@@ -231,8 +239,19 @@ function App() {
                       <div ref={lowerSelectionBarRef}>
                         <LowerSelectionBar changeMainComponent={changeMainComponent} currentMainComponent={mainComponent}></LowerSelectionBar>
                       </div>
-                      <LowerProgressBar></LowerProgressBar>
+                      {windowWidth <= 800 && (<div ref={sideBarRef}>
+                        <div className={showSideBarLeft ? 'slide-in-left' : 'slide-out-left'} style={{top: sidebarOffset, height: sidebarHeight }}>
+                          <SideBarLeft changeMainComponent={changeMainComponent}></SideBarLeft>
+                        </div>
+                      </div>)}
+                      {windowWidth <= 800 && (<div ref={eventListRef}>
+                        <div ref={eventListRef} className={showEventList ? 'slide-in-right' : 'slide-out-right'} style={{top: sidebarOffset, height: sidebarHeight }}>
+                          <EventList></EventList>
+                        </div>
+                      </div>)}
+                      <LowerProgressBar ref={progressBar}></LowerProgressBar>
                     </div>
+                    
                   </div>
                   <EventPopUp></EventPopUp>
                 </InventoryProvider>

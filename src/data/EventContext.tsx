@@ -3,8 +3,10 @@ import {EventCardProps}  from '../components/EventCard';
 
 interface EventLogContextType {
   eventLog: EventCardProps[];
-  addEvent: (event: EventCardProps) => void;
+  displayEventIndex: number;
   hasNewEvent: boolean;
+  addEvent: (event: EventCardProps) => void;
+  setDisplayEventIndex: (index: number) => void;
   setHasNewEvent: (hasNewEvent: boolean) => void;
   setEventDisplayed: (event: EventCardProps, val: boolean) => void;
 }
@@ -21,6 +23,7 @@ const EventLogProvider: React.FC<EventLogProviderProps> = ({ children }) => {
   const savedHasNewEvent = JSON.parse(localStorage.getItem('hasNewEvent') || 'false');
   
   const [eventLog, setEventLog] = useState<EventCardProps[]>(savedState);
+  const [displayEventIndex, setDisplayEventIndex] = useState<number>(-1);
   const [hasNewEvent, setHasNewEvent] = useState<boolean>(savedHasNewEvent);
 
   
@@ -29,14 +32,17 @@ const EventLogProvider: React.FC<EventLogProviderProps> = ({ children }) => {
     setHasNewEvent(true);
   };
 
+  const displayEvent = (event: EventCardProps) => {
+  }
+
   const setEventDisplayed = (event: EventCardProps, val: boolean) => {
     const index = eventLog.findIndex(e => e === event);
     if (eventLog && eventLog[index]) {
       eventLog[index].displayed = val;
       setEventLog([...eventLog]);
     }
-    
   };
+
   // Save state to Local Storage
   useEffect(() => {
     localStorage.setItem('eventState', JSON.stringify(eventLog));
@@ -44,7 +50,7 @@ const EventLogProvider: React.FC<EventLogProviderProps> = ({ children }) => {
   }, [eventLog, hasNewEvent]);
 
   return (
-    <EventLogContext.Provider value={{ eventLog, addEvent, hasNewEvent, setHasNewEvent, setEventDisplayed }}>
+    <EventLogContext.Provider value={{ eventLog, addEvent, displayEventIndex, setDisplayEventIndex, hasNewEvent, setHasNewEvent, setEventDisplayed }}>
       {children}
     </EventLogContext.Provider>
   );

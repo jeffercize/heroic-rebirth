@@ -93,10 +93,10 @@ function Controller() {
         setVisibility('gatherWood', false);
         setGameStartEvent(true);
         hasGameStartEvent.current = true;
-        addEvent({title: "A New World!", body: 'You have been summoned to a magical new world by the king of the land along with a handful of other people as the heroes, destined to save the world from evil! But something seems off...', displayed:false});
-        addEvent({title: "The weakest of the weak", body: 'The heroes all have their potenial power assested by a large glass orb and are everybody is amazed by the potential of the heroes as the orb glows brilliantly, they are all SS rank or stronger but when it comes time for your test the orb turns a dull grey... you are an E rank, the weakest possible...', displayed:false});
-        addEvent({title: "Exiled", body: 'The king exiles you deeming you a bad omen and exiles you from his kingdom. But you are determined to show them that you will be the greatest of heroes!', displayed:false});
-        addEvent({title: "Beginnings", body: 'The king\'s men leave you in a vast forest, you figure it would be a good idea to gather some resources.wood to make a shelter.', displayed:false});
+        addEvent({title: "A New World!", body: 'You have been summoned to a magical new world by the king of the land along with a handful of other people as the heroes, destined to save the world from evil! But something seems off...', displayed:false, completed:true});
+        addEvent({title: "The weakest of the weak", body: 'The heroes all have their potenial power assested by a large glass orb and are everybody is amazed by the potential of the heroes as the orb glows brilliantly, they are all SS rank or stronger but when it comes time for your test the orb turns a dull grey... you are an E rank, the weakest possible...', displayed:false, completed:true});
+        addEvent({title: "Exiled", body: 'The king exiles you deeming you a bad omen and exiles you from his kingdom. But you are determined to show them that you will be the greatest of heroes!', displayed:false, completed:true});
+        addEvent({title: "Beginnings", body: 'The king\'s men leave you in a vast forest, you figure it would be a good idea to gather some resources.wood to make a shelter.', displayed:false, completed:true});
     }
   }, []);
 

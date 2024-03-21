@@ -1,5 +1,27 @@
 .event-card{
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    padding: 5px;
+    border: 2px solid #ccc;
+    padding: 7px;
+    margin-top: 5px;
+    position: relative;
+    cursor: pointer;
+}
+
+.event-card-title{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.event-card-description{
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 25px;
+}
+
+.event-card-arrow {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
 }
