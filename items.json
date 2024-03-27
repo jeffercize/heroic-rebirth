@@ -4,6 +4,9 @@
       "name": "Stone Hatchet",
       "description": "Made by combining the rusted hatchet head you found with a sturdy branch.",
       "imageName": "stone_hatchet_icon",
-      "equipType": "mainhand"
+      "equipType": "mainhand",
+      "costs": {
+        "wood": 50
+      }
     }
 ]
