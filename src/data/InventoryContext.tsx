@@ -6,6 +6,9 @@ export type Item = {
   description: string;
   imageName: string;
   equipType: keyof EquippedItems | null;
+  costs: {
+    [resource: string]: number;
+  };
 };
 
 export type EquippedItems = {
@@ -32,9 +35,15 @@ interface ItemContextType {
   items: Item[];
 }
 
+interface CraftingContextType {
+  craftableItems: Set<number>;
+  setCraftableItems: React.Dispatch<React.SetStateAction<Set<number>>>;
+}
 
-const ItemContextType = createContext<ItemContextType | undefined>(undefined);
+
+const ItemContext = createContext<ItemContextType | undefined>(undefined);
 const InventoryContext = createContext<InventoryContextType | undefined>(undefined);
+const CraftingContext = createContext<CraftingContextType | undefined>(undefined);
 
 interface InventoryProviderProps {
   children: ReactNode;
@@ -57,13 +66,26 @@ const InventoryProvider: React.FC<InventoryProviderProps> = ({ children }) => {
   const [inventoryMax, setInventoryMax] = useState<number>(() => getInitialInvMaxValue('inventoryMax', 8));
   const [items, setItems] = useState<Item[]>([]);
 
-  const [equippedItems, setEquippedItems] = useState<EquippedItems>({
-    head: null,
-    chest: null,
-    legs: null,
-    mainhand: null,
-    trinket: null,
-    offhand: null,
+  const [equippedItems, setEquippedItems] = useState<EquippedItems>(() => {
+    const savedState = localStorage.getItem('equippedItems');
+    return savedState !== null ? JSON.parse(savedState) : {
+      head: null,
+      chest: null,
+      legs: null,
+      mainhand: null,
+      trinket: null,
+      offhand: null,
+    };
+  });
+  
+  const [craftableItems, setCraftableItems] = useState<Set<number>>(() => {
+    const savedState = localStorage.getItem('craftableItems');
+    if (savedState !== null) {
+      const parsedState = JSON.parse(savedState);
+      return Array.isArray(parsedState) ? new Set(parsedState) : new Set();
+    } else {
+      return new Set();
+    }
   });
 
   useEffect(() => {
@@ -143,12 +165,22 @@ const InventoryProvider: React.FC<InventoryProviderProps> = ({ children }) => {
     localStorage.setItem('inventoryMax', JSON.stringify(inventoryMax));
   }, [inventoryMax]);
 
+  useEffect(() => {
+    localStorage.setItem('equippedItems', JSON.stringify(equippedItems));
+  }, [equippedItems]);
+  
+  useEffect(() => {
+    localStorage.setItem('craftableItems', JSON.stringify(Array.from(craftableItems)));
+  }, [craftableItems]);
+
   return (
-    <ItemContextType.Provider value={{ items }}>
+    <ItemContext.Provider value={{ items }}>
       <InventoryContext.Provider value={{ inventory, inventoryMax, equippedItems, addItem, removeItem, equipItem, unequipItem }}>
-        {children}
+        <CraftingContext.Provider value={{ craftableItems, setCraftableItems }}>
+          {children}
+        </CraftingContext.Provider>
       </InventoryContext.Provider>
-    </ItemContextType.Provider>
+    </ItemContext.Provider>
   );
 };
 
@@ -161,11 +193,19 @@ const useInventoryContext = (): InventoryContextType => {
 };
 
 const useItemsContext = (): ItemContextType => {
-  const itemContextType = useContext(ItemContextType);
+  const itemContextType = useContext(ItemContext);
   if (!itemContextType) {
-    throw new Error('useItemContextType must be used within an InventoryProvider');
+    throw new Error('useItemContext must be used within an InventoryProvider');
   }
   return itemContextType;
 };
 
-export { InventoryContext, InventoryProvider, useInventoryContext, useItemsContext };
+const useCraftingContext = (): CraftingContextType => {
+  const craftingContext = useContext(CraftingContext);
+  if (!craftingContext) {
+    throw new Error('useCraftingContext must be used within an InventoryProvider');
+  }
+  return craftingContext;
+};
+
+export { InventoryContext, InventoryProvider, useInventoryContext, useItemsContext, useCraftingContext };

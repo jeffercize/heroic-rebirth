@@ -3,13 +3,15 @@ import { StatsProvider, useMyStatsContext } from './data/StatsContext';
 import { useMyResourcesSettersContext, useMyResourcesContext } from './data/ResourcesContext';
 import { useVisibilitySettersContext, useVisibilityContext } from './data/VisibilityContext';
 import { useMyFollowersContext, useMyFollowersSettersContext } from './data/FollowersContext';
+import { useCraftingContext } from './data/InventoryContext';
 import { useEventLogContext } from './data/EventContext'; // adjust the path as needed
 
 
 
 function Controller() {
   const resources = useMyResourcesContext();
-  const resourceSetters = useMyResourcesSettersContext();  
+  const resourceSetters = useMyResourcesSettersContext(); 
+  const crafting = useCraftingContext(); 
   const stats = useMyStatsContext();
   const { divVisibility } = useVisibilityContext();
   const { setVisibility, toggleVisibility } = useVisibilitySettersContext();
@@ -38,10 +40,23 @@ function Controller() {
   const [buildWarhouseChanged, setBuildWarhouseChanged] = useState(savedState.buildWarhouseChanged || false);
   const [buildLumberYardChanged, setBuildLumberYardChanged] = useState(savedState.buildLumberYardChanged || false);
   
+  const values = {
+    gameStartEvent,
+    woodDisplayChanged,
+    stoneDisplayChanged,
+    chopTreeChanged,
+    mineRockChanged,
+    buildLogCabinChanged,
+    buildWarhouseChanged,
+    buildLumberYardChanged,
+    strengthChanged,
+  };
+
   //save to local storage
   useEffect(() => {
     const values = {
       gameStartEvent,
+      woodAxeCraftable,
       woodDisplayChanged,
       stoneDisplayChanged,
       chopTreeChanged,
@@ -52,7 +67,7 @@ function Controller() {
       strengthChanged,
     };
     localStorage.setItem('state', JSON.stringify(values));
-  }, [gameStartEvent, woodDisplayChanged, stoneDisplayChanged, chopTreeChanged, mineRockChanged, buildLogCabinChanged, buildWarhouseChanged, buildLumberYardChanged, strengthChanged]);
+  }, [values]);
 
   //Single Event checker that is a direct ref so it wont get double called on render, other events should be fine without this
   //could also add a feature in the eventlog that checks for the same event happening one after another, 
@@ -102,10 +117,11 @@ function Controller() {
 
   //Crafting
   useEffect(() => {
-    if (!woodAxeCraftable && !hasWoodAxeCraftable.current && resources.wood >= 5) {
+    if (!woodAxeCraftable && !hasWoodAxeCraftable.current && resources.wood >= 20) {
         setWoodAxeCraftable(true);
         hasWoodAxeCraftable.current = true;
-        setVisibility('craftWoodenAxe', false);
+        crafting.setCraftableItems((prevItems: Set<number>) => new Set(prevItems).add(1)); //1 is the axe id
+        addEvent({title: "Time for Tools", body: 'You find a rusted hatchet head in the forest while gathering wood and figure it might be time to start building tools, but you need will need more wood to create the perfect handle.', displayed:false, completed:false});
     }
   }, [resources.wood]);
 

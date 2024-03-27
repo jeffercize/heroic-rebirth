@@ -4,7 +4,7 @@ import { useMyResourcesSettersContext, useMyResourcesContext } from '../../data/
 import { useVisibilityContext, useVisibilitySettersContext } from '../../data/VisibilityContext';
 import { useMyFollowersContext, useMyFollowersSettersContext } from '../../data/FollowersContext';
 import { useBuildingCostContext, useBuildingCostSettersContext } from '../../data/BuildingCostContext';
-import { useInventoryContext, useItemsContext, EquippedItems, Item } from '../../data/InventoryContext';
+import { useInventoryContext, useItemsContext, EquippedItems, Item, useCraftingContext } from '../../data/InventoryContext';
 import TownButton from '../../components/TownButton';
 import './InventoryMain.css';
 
@@ -21,6 +21,7 @@ export default function InventoryMain(eventObject: any) {
   const followersSetters = useMyFollowersSettersContext();
   const inventoryContext = useInventoryContext();
   const itemsContext = useItemsContext();
+  const craftableItems = useCraftingContext();
 
   const [popupItem, setPopupItem] = useState<{ item: Item | null, index: number | null }>({ item: null, index: null });
   const [selectedEquipment, setSelectedEquipment] = useState<{ item: Item | null, type: keyof EquippedItems | null }>({ item: null, type: null });
@@ -133,24 +134,22 @@ export default function InventoryMain(eventObject: any) {
         <div className="popupoverlay" onClick={handleClickOutside}>
           <div className="craftingbox" ref={textBoxRef}>
             <div className="inventory-container">
-              <div className="inventory-series">
-                {Array(inventoryContext.inventoryMax).fill(0).map((_, index: number) => {
-                  const itemId = inventoryContext.inventory[index];
-                  const item = itemId !== undefined ? itemsContext.items.find(item => item.id === itemId) : null;
-                  return (
-                    <div key={index} className="inventory-slot">
-                    {item && (
-                      <img 
-                        src={`img/${item.imageName}.png`} 
-                        alt={item.imageName.replace('_icon', '')} 
-                        className="inventory-image" 
-                        onClick={() => setPopupItem({ item, index })}
-                      />
-                    )}
-                    </div>
-                  );
-                })}
-              </div>
+            <div className="inventory-series">
+              {itemsContext.items
+              .filter(item => craftableItems.craftableItems.has(item.id))
+              .map((item, index) => {
+                return (
+                  <div key={index} className="inventory-slot">
+                    <img 
+                      src={`img/${item.imageName}.png`} 
+                      alt={item.imageName.replace('_icon', '')} 
+                      className="inventory-image" 
+                      onClick={() => setPopupItem({ item, index })}
+                    />
+                  </div>
+                );
+              })}
+            </div>
             </div>
             <button onClick={() => inventoryContext.addItem(1)}>Craft</button>
             <button onClick={() => setCraftingWindow(false)}>Close</button>

@@ -233,7 +233,7 @@ function App() {
 
                     {/* Lower section */}
                     <div className="lower-section" ref={lowerSectionRef}>
-                      <GoalBar></GoalBar>
+                      {/*TODO<GoalBar></GoalBar>*/}
                       <LowerStatBar></LowerStatBar>
                       <LowerResourceBar></LowerResourceBar>
                       <div ref={lowerSelectionBarRef}>
