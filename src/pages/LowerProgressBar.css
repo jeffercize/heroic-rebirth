@@ -13,10 +13,27 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-top: 1px solid lightgrey; /* Adjust this to change the color and thickness of the top border */
-    border-bottom: 1px solid lightgrey;
-  }
-  
+}
+
+.progress-bar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: repeating-linear-gradient(
+        to right,
+        transparent,
+        transparent 95%,
+        lightgrey 95%,
+        lightgrey 100%
+    );
+    background-size: 20px 100%;
+    pointer-events: none; /* Prevents the pseudo-element from blocking clicks */
+    z-index: 1; /* Ensures the lines are above the fill color */
+}
+
 .progress-bar-fill {
     height: 100%;
     background-color: purple;
@@ -25,13 +42,15 @@
     position: absolute;
     left: 0;
     top: 0;
+    z-index: 0; /* Ensures the fill color is below the lines */
 }
 
 .progress-label {
-    z-index: 1;
+    z-index: 2;
     color: black; /* Adjust this to change the color of the text */
     font-size: 19px;
     font-weight: bold;
+    pointer-events: none;
 }
 
 .progress-display {
@@ -40,6 +59,7 @@
 }
 
 .progress-icon {
+    z-index: 2;
     margin-right: 5px;
     width: 30px; /* Adjust this to change the width of the icon */
     height: 30px; /* Adjust this to change the height of the icon */

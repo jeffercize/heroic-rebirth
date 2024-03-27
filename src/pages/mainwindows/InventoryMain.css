@@ -108,6 +108,15 @@
     z-index: 101;
   }
 
+  
+  .craftingbox {
+    background: white;
+    padding: 20px;
+    position: relative;
+    width: 95%;
+    z-index: 101;
+  }
+
 
   .popupoverlay {
     position: fixed;

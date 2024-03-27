@@ -24,7 +24,7 @@ const EventLog: React.FC = () => {
         <div className="event-title">Ongoing:</div>
         <div className="event-list">
         {ongoingEvents.length > 0 ? (
-          ongoingEvents.map((event, index) => (
+          [...ongoingEvents].reverse().map((event, index) => (
             <EventCard
               key={index}
               title={event.title}
@@ -41,7 +41,7 @@ const EventLog: React.FC = () => {
 
         <div className="event-title">Completed:</div>
         <div className="event-list">
-          {completedEvents.map((event, index) => (
+          {[...completedEvents].reverse().map((event, index) => (
             <EventCard
               key={index}
               title={event.title}

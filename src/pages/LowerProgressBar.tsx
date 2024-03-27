@@ -17,7 +17,7 @@ export default function LowerProgressBar(eventObject: any) {
                 <div className="progress-bar-fill" style={{width: `${(stats.experience/stats.experienceLevelUp)*100}%`}}></div>
                 <div className="progress-label">
                     <div className="progress-display">
-                        <img src={`img/xp_icon.png`} alt={"stamina"} className="progress-icon" />{Math.floor(stats.experience)}/{parseFloat(stats.experienceLevelUp.toFixed(2))}
+                        <img src={`img/level_icon.png`} alt={""} className="progress-icon" />{Math.floor(stats.experience)}/{parseFloat(stats.experienceLevelUp.toFixed(2))}
                         {stats.experienceSecond !== 0 && 
                             ` (${stats.experienceSecond > 0 ? '+' : '-'}${Math.abs(Math.floor(stats.experienceSecond))}/s)`}
                     </div>

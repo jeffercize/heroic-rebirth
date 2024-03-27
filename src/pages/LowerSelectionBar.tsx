@@ -4,11 +4,6 @@ import { MainComponentType } from '../App';
 import { useVisibilityContext, useVisibilitySettersContext } from '../data/VisibilityContext';
 import './LowerSelectionBar.css';
 
-type LowerResourceBarProps = {
-  changeMainComponent: (componentName: MainComponentType) => void;
-  currentMainComponent: MainComponentType;
-};
-
 export default function LowerSelectionBar({ changeMainComponent, currentMainComponent }: { changeMainComponent: (componentName: MainComponentType) => void, currentMainComponent: MainComponentType }) {
   const resources = useMyResourcesContext();
   const { divVisibility } = useVisibilityContext();

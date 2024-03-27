@@ -6,6 +6,7 @@ import { useMyFollowersContext, useMyFollowersSettersContext } from '../../data/
 import { useBuildingCostContext, useBuildingCostSettersContext } from '../../data/BuildingCostContext';
 import TownButton from '../../components/TownButton';
 import './CampusMain.css';
+import { stat } from 'fs';
 
 export default function CampusMain(eventObject: any) {
   const resources = useMyResourcesContext();
@@ -25,6 +26,7 @@ export default function CampusMain(eventObject: any) {
   const gatherWoodEffect = (param: any) => {
     resourceSetters.incrementWood(0.1 + stats.strength);
     statsSetters.setStrength(stats.strength + 0.001);
+    statsSetters.incrementExperience(1);
     //resourceSetters.setMana(resources.mana - 1);
   };
 

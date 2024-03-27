@@ -211,7 +211,7 @@ function App() {
                       {(() => {
                         switch (mainComponent) {
                           case 'CampusMain': return <CampusMain />;
-                          case 'InventoryMain': return <InventoryMain />;
+                          case 'InventoryMain': return <InventoryMain changeMainComponent={changeMainComponent} />;
                           case 'ExplorationMain': return <ExplorationMain />;
                           case 'FollowersMain': return <FollowersMain />;
                           case 'HelpComponent': return <CampusMain />;

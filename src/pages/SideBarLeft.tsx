@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './SideBarLeft.css';
-import { StatsProvider, useMyStatsContext } from '../data/StatsContext';
+import { MyStatsContextType, StatsProvider, useMyStatsContext } from '../data/StatsContext';
 import { useMyResourcesSettersContext, useMyResourcesContext } from '../data/ResourcesContext';
 import { useVisibilityContext, useVisibilitySettersContext } from '../data/VisibilityContext';
 import { MainComponentType } from '../App';
@@ -16,6 +16,8 @@ export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
     const stats = useMyStatsContext();
     const { divVisibility } = useVisibilityContext();
     const { setVisibility, toggleVisibility} = useVisibilitySettersContext();
+
+    const statKeys = ['level', 'strength']
 
     function formatNumber(num: number): string {
         if (num >= 1000000) {
@@ -109,20 +111,28 @@ export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
                 <button className="common-button side-bar-button">V</button>
             </div>
             <div className={divVisibility.stats ? 'hidden resource-section' : 'resource-section'}>
-                <div className={divVisibility.manaResouce ? 'hidden' : 'resource-row'}>
-                    <div className="resource-name">
-                        <img src="img/strength_icon.png" alt=""  style={{ width: '22px', height: 'auto', verticalAlign: 'middle' }}></img>Strength:
-                    </div>
-                    <div className="resource-numbers">
-                        <div className={mana == maxMana ? "blue-text resource-capacity" : "resource-capacity"}>
-                            {formatNumber(stats.strength)}
-                        </div>
-                        {stats.strengthSecond !== 0 && (
-                            <div className="resource-rate">
-                                +{formatNumber(stats.strengthSecond)}/s
+                <div>
+                    {statKeys.map((key ) => {
+                        const statKey = key as keyof MyStatsContextType
+                        const statKeySecond = `${key}Second` as keyof MyStatsContextType
+                        return (
+                            <div className='resource-row' key={key}>
+                                <div className="resource-name">
+                                <img src={`img/${key}_icon.png`} alt="" style={{ width: '22px', height: 'auto', verticalAlign: 'middle' }}></img>{key.charAt(0).toUpperCase() + key.slice(1)}:
+                                </div>
+                                <div className="resource-numbers">
+                                <div className={stats[statKey] === stats[statKey] ? "blue-text resource-capacity" : "resource-capacity"}>
+                                    {formatNumber(stats[statKey])}
+                                </div>
+                                {stats[statKeySecond] !== 0 && (
+                                    <div className="resource-rate">
+                                    +{formatNumber(stats[statKeySecond])}/s
+                                    </div>
+                                )}
+                                </div>
                             </div>
-                        )}
-                    </div>
+                        );
+                    })}
                 </div>
             </div>
             <div className="section-compound-button" role="button" onClick={() => toggleVisibility('resources')}>
