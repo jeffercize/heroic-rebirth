@@ -37,6 +37,8 @@ interface ItemContextType {
 
 interface CraftingContextType {
   craftableItems: Set<number>;
+  lastCraftedItem: number;
+  setLastCraftedItem: React.Dispatch<React.SetStateAction<number>>;
   setCraftableItems: React.Dispatch<React.SetStateAction<Set<number>>>;
 }
 
@@ -87,6 +89,7 @@ const InventoryProvider: React.FC<InventoryProviderProps> = ({ children }) => {
       return new Set();
     }
   });
+  const [lastCraftedItem, setLastCraftedItem] = useState<number>(() => getInitialInvMaxValue('lastCraftedItem', -1));
 
   useEffect(() => {
     fetch(process.env.PUBLIC_URL + '/items.json')
@@ -160,7 +163,6 @@ const InventoryProvider: React.FC<InventoryProviderProps> = ({ children }) => {
     localStorage.setItem('inventory', JSON.stringify(inventory));
   }, [inventory]);
 
-  // Save state to Local Storage
   useEffect(() => {
     localStorage.setItem('inventoryMax', JSON.stringify(inventoryMax));
   }, [inventoryMax]);
@@ -173,10 +175,14 @@ const InventoryProvider: React.FC<InventoryProviderProps> = ({ children }) => {
     localStorage.setItem('craftableItems', JSON.stringify(Array.from(craftableItems)));
   }, [craftableItems]);
 
+  useEffect(() => {
+    localStorage.setItem('lastCraftedItem', JSON.stringify(lastCraftedItem));
+  }, [lastCraftedItem]);
+
   return (
     <ItemContext.Provider value={{ items }}>
       <InventoryContext.Provider value={{ inventory, inventoryMax, equippedItems, addItem, removeItem, equipItem, unequipItem }}>
-        <CraftingContext.Provider value={{ craftableItems, setCraftableItems }}>
+        <CraftingContext.Provider value={{ craftableItems, lastCraftedItem, setLastCraftedItem, setCraftableItems }}>
           {children}
         </CraftingContext.Provider>
       </InventoryContext.Provider>

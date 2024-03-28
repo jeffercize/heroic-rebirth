@@ -3,7 +3,7 @@ import './EventPopUp.css';
 import { useEventLogContext } from '../data/EventContext';
 
 export const EventPopUp: React.FC = () => {
-    const { eventLog, hasNewEvent, displayEventIndex, setEventDisplayed } = useEventLogContext();
+    const { eventLog, hasNewEvent, displayEventIndex, setEventDisplayed, setDisplayEventIndex } = useEventLogContext();
     const [eventQueue, setEventQueue] = useState(eventLog.filter(event => !event.displayed));
     const textBoxRef = useRef<HTMLDivElement>(null);
 
@@ -25,6 +25,7 @@ export const EventPopUp: React.FC = () => {
 
     const closePopup = () => {
       setEventQueue(prevQueue => prevQueue.slice(1));
+      setDisplayEventIndex(-1);
     };
 
     const handleClickOutside = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {

@@ -21,7 +21,7 @@ export default function InventoryMain(eventObject: any) {
   const followersSetters = useMyFollowersSettersContext();
   const inventoryContext = useInventoryContext();
   const itemsContext = useItemsContext();
-  const craftableItems = useCraftingContext();
+  const craftableContext = useCraftingContext();
 
   const [popupItem, setPopupItem] = useState<{ item: Item | null, index: number | null }>({ item: null, index: null });
   const [selectedEquipment, setSelectedEquipment] = useState<{ item: Item | null, type: keyof EquippedItems | null }>({ item: null, type: null });
@@ -136,7 +136,7 @@ export default function InventoryMain(eventObject: any) {
             <div className="inventory-container">
             <div className="inventory-series">
               {itemsContext.items
-              .filter(item => craftableItems.craftableItems.has(item.id))
+              .filter(item => craftableContext.craftableItems.has(item.id))
               .map((item, index) => {
                 return (
                   <div key={index} className="inventory-slot">
@@ -151,7 +151,7 @@ export default function InventoryMain(eventObject: any) {
               })}
             </div>
             </div>
-            <button onClick={() => inventoryContext.addItem(1)}>Craft</button>
+            <button onClick={() => {craftableContext.setLastCraftedItem(1); inventoryContext.addItem(1)}}>Craft</button>
             <button onClick={() => setCraftingWindow(false)}>Close</button>
           </div>
         </div>

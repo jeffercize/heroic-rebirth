@@ -27,6 +27,7 @@ function Controller() {
   const [gameStartEvent, setGameStartEvent] = useState(savedState.gameStartEvent || false);
   //Crafting
   const [woodAxeCraftable, setWoodAxeCraftable] = useState(savedState.woodAxeCraftable || false);
+  const [woodAxeCrafted, setWoodAxeCrafted] = useState(savedState.woodAxeCraftable || false);
   //UI Stuff
   const [woodDisplayChanged, setWoodDisplayChanged] = useState(savedState.woodDisplayChanged || false);
   const [stoneDisplayChanged, setStoneDisplayChanged] = useState(savedState.stoneDisplayChanged || false);
@@ -39,41 +40,13 @@ function Controller() {
   const [buildLogCabinChanged, setBuildLogCabinChanged] = useState(savedState.buildLogCabinChanged || false);
   const [buildWarhouseChanged, setBuildWarhouseChanged] = useState(savedState.buildWarhouseChanged || false);
   const [buildLumberYardChanged, setBuildLumberYardChanged] = useState(savedState.buildLumberYardChanged || false);
-  
-  const values = {
-    gameStartEvent,
-    woodDisplayChanged,
-    stoneDisplayChanged,
-    chopTreeChanged,
-    mineRockChanged,
-    buildLogCabinChanged,
-    buildWarhouseChanged,
-    buildLumberYardChanged,
-    strengthChanged,
-  };
-
-  //save to local storage
-  useEffect(() => {
-    const values = {
-      gameStartEvent,
-      woodAxeCraftable,
-      woodDisplayChanged,
-      stoneDisplayChanged,
-      chopTreeChanged,
-      mineRockChanged,
-      buildLogCabinChanged,
-      buildWarhouseChanged,
-      buildLumberYardChanged,
-      strengthChanged,
-    };
-    localStorage.setItem('state', JSON.stringify(values));
-  }, [values]);
 
   //Single Event checker that is a direct ref so it wont get double called on render, other events should be fine without this
   //could also add a feature in the eventlog that checks for the same event happening one after another, 
   //which should be unlikely/impossible in normal gameplay so we would disallow it programaticly
   const hasGameStartEvent = useRef(false);
   const hasWoodAxeCraftable = useRef(false);
+  const hasWoodAxeCrafted = useRef(false);
 
   //UI Stuff
   useEffect(() => {
@@ -102,6 +75,7 @@ function Controller() {
   //Event Type Stuff
 
   //Story
+  //Initial Game Start Events, All Auto complete
   useEffect(() => {
     if (!hasGameStartEvent.current && !gameStartEvent) {
         console.log('useEffect is running');
@@ -116,14 +90,25 @@ function Controller() {
   }, []);
 
   //Crafting
+  //Time for Tools Event, Build Basic Axe to Complete
+  const [axeBuilt, setAxeBuilt] = useState(savedState.axeBuilt || false);
   useEffect(() => {
     if (!woodAxeCraftable && !hasWoodAxeCraftable.current && resources.wood >= 20) {
         setWoodAxeCraftable(true);
         hasWoodAxeCraftable.current = true;
         crafting.setCraftableItems((prevItems: Set<number>) => new Set(prevItems).add(1)); //1 is the axe id
-        addEvent({title: "Time for Tools", body: 'You find a rusted hatchet head in the forest while gathering wood and figure it might be time to start building tools, but you need will need more wood to create the perfect handle.', displayed:false, completed:false});
+        addEvent({title: "Time for Tools", body: 'You find a rusted hatchet head in the forest while gathering wood and figure it might be time to start building tools, but you need will need more wood to create the perfect handle.', displayed:false, completed:false, checkCompletedBoolean:axeBuilt});
     }
   }, [resources.wood]);
+
+  useEffect(() => {
+    if (!woodAxeCrafted && !hasWoodAxeCrafted.current && crafting.lastCraftedItem == 1) {
+        setAxeBuilt(true);
+        setWoodAxeCrafted(true);
+        hasWoodAxeCrafted.current = true;
+        addEvent({title: "Not the sharpest", body: 'It might not be the sharpest or best built axe, but it will certainly chop through things with enough effort', displayed:false, completed:true});
+    }
+  }, [crafting.lastCraftedItem]);
 
   //Skills
   useEffect(() => { //DISABLED
@@ -210,6 +195,26 @@ function Controller() {
     }, 100); // update every 1/10 second
     return () => clearInterval(interval); // cleanup on unmount
   }, [resources.manaSecond, resources.maxMana, resources.goldSecond, resources.maxGold, resources.foodSecond, resources.maxFood, resources.stoneSecond, resources.maxStone, resources.woodSecond, resources.maxWood, resourceSetters.setMana, resourceSetters.setGold, resourceSetters.setFood, resourceSetters.setStone, resourceSetters.setWood]);
+
+  //make sure to add all values that need saved here
+  const values = {
+    gameStartEvent,
+    woodAxeCraftable,
+    woodDisplayChanged,
+    stoneDisplayChanged,
+    chopTreeChanged,
+    mineRockChanged,
+    buildLogCabinChanged,
+    buildWarhouseChanged,
+    buildLumberYardChanged,
+    strengthChanged,
+    axeBuilt,
+  };
+
+  //save to local storage
+  useEffect(() => {
+    localStorage.setItem('state', JSON.stringify(values));
+  }, [values]);
 
   return (
     <div>

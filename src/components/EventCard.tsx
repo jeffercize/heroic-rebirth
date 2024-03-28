@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './EventCard.css';
 
 export interface EventCardProps {
@@ -7,11 +7,18 @@ export interface EventCardProps {
     displayed: boolean;
     completed: boolean;
     onClick?: () => void;
+    checkCompletedBoolean?: any;
+    onCompletedChange?: (completed: boolean) => void;
 }
 
-const EventCard: React.FC<EventCardProps> = ({ title, body, onClick }) => {
+const EventCard: React.FC<EventCardProps> = ({ title, body, completed, onClick, checkCompletedBoolean, onCompletedChange }) => {
 
-
+    useEffect(() => {
+        if (checkCompletedBoolean == true) {
+            console.log('Event Completed');
+            onCompletedChange && onCompletedChange(true); //uses && to make sure the function exists before calling it
+        }
+    }, [checkCompletedBoolean]);
 
     return (
         <div className="event-card" onClick={onClick}>
