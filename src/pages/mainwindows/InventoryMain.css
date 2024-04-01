@@ -137,3 +137,40 @@
     text-align: center;
     width: 75px;
   }
+
+  .popupcrafting_costrow {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .popupcrafting_costtitle{
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .singlecost_row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .singlecost_name{
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+  }
+
+  .singlecost_name img {
+    height: 24px;
+    margin-right: 5px;
+  }
+
+  .singlecost_value{
+    margin-left: 20px;
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .red-text{
+    color: red;
+  }

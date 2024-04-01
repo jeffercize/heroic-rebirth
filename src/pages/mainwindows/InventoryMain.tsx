@@ -26,9 +26,40 @@ export default function InventoryMain(eventObject: any) {
   const [popupItem, setPopupItem] = useState<{ item: Item | null, index: number | null }>({ item: null, index: null });
   const [selectedEquipment, setSelectedEquipment] = useState<{ item: Item | null, type: keyof EquippedItems | null }>({ item: null, type: null });
   const [craftingWindow, setCraftingWindow] = useState<boolean>(false);
+  const [craftingPopupItem, setCraftingPopupItem] = useState<{ item: Item | null, index: number | null }>({ item: null, index: null });
   const equipmentTypes: (keyof EquippedItems)[] = ['head', 'chest', 'legs', 'mainhand', 'trinket', 'offhand'];
 
   const textBoxRef = useRef<HTMLDivElement>(null);
+  const textBoxRef2 = useRef<HTMLDivElement>(null);
+
+  const [canCraft, setCanCraft] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (craftingPopupItem.item) {
+      const canCraft = Object.entries(craftingPopupItem.item.costs).every(([resource, cost]) => resources[resource as keyof typeof resources] >= cost);
+      setCanCraft(canCraft);
+    } else {
+      setCanCraft(false);
+    }
+  }, [craftingPopupItem, resources]);
+
+  function formatNumber(num: number): string {
+    if (num >= 1000000) {
+        return (num / 1000000).toPrecision(3) + 'M';
+    } else if (num >= 10000) {
+        return (num / 1000).toPrecision(3) + 'K';
+    } else if (num >= 10) {
+        return num.toPrecision(4);
+    } else if (num >= 1) {
+        return num.toPrecision(3);
+    } else if (num >= 0.1){
+        return num.toPrecision(3);
+    } else if (num >= 0.01){
+        return num.toPrecision(2);
+    } else {
+        return num.toPrecision(1);
+    }
+  }
 
   
   const closePopup = () => {
@@ -40,6 +71,12 @@ export default function InventoryMain(eventObject: any) {
   const handleClickOutside = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (textBoxRef.current && !textBoxRef.current.contains(event.target as Node)) {
       closePopup();
+    }
+  };
+
+  const handleClickOutside2 = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (textBoxRef2.current && !textBoxRef2.current.contains(event.target as Node)) {
+      setCraftingPopupItem({ item: null, index: null });
     }
   };
 
@@ -144,15 +181,52 @@ export default function InventoryMain(eventObject: any) {
                       src={`img/${item.imageName}.png`} 
                       alt={item.imageName.replace('_icon', '')} 
                       className="inventory-image" 
-                      onClick={() => setPopupItem({ item, index })}
+                      onClick={() => setCraftingPopupItem({ item, index })}
                     />
                   </div>
                 );
               })}
             </div>
             </div>
-            <button onClick={() => {craftableContext.setLastCraftedItem(1); inventoryContext.addItem(1)}}>Craft</button>
             <button onClick={() => setCraftingWindow(false)}>Close</button>
+          </div>
+        </div>
+      )}
+      {craftingPopupItem && craftingPopupItem.item && (
+        <div className="popupoverlay" onClick={handleClickOutside2}>
+          <div className="textbox" ref={textBoxRef2}>
+            <img src={`img/${craftingPopupItem.item.imageName}.png`}/> {craftingPopupItem.item.name}: (ID: {craftingPopupItem.item.id})
+            <p>{craftingPopupItem.item.description}</p> <p>Equipment Type: {craftingPopupItem.item.equipType}</p>
+            <div className="popupcrafting_costrow">
+              <div className="popupcrafting_costtitle">Costs:</div>
+              {Object.entries(craftingPopupItem.item.costs).map(([resource, cost], index) => (
+              <div key={index} className="singlecost_row">
+                <div className='singlecost_name'>
+                  <img src={`img/${resource}_icon.png`}/>{resource}:
+                </div> 
+                <div className='singlecost_value'> 
+                  <span className={resources[resource as keyof typeof resources] < cost ? 'red-text' : ''}>
+                    {formatNumber(resources[resource as keyof typeof resources])}
+                  </span>
+                  /{cost} 
+                </div>
+              </div>
+              ))}
+            </div>
+            <div style={{ textAlign: 'right' }}>
+              <div style={{flexDirection: "row", display: "flex", justifyContent: "flex-end"}}>
+                <button style={{marginRight: "10px"}} disabled={!canCraft} onClick={() => {
+                  if (craftingPopupItem.item) {
+                    craftableContext.setLastCraftedItem(1);
+                    inventoryContext.addItem(1);
+                      Object.entries(craftingPopupItem.item.costs).forEach(([resource, cost]) => {
+                        resources[resource as keyof typeof resources] -= cost;
+                      });
+                  }; 
+                }}>Craft</button>
+                <button onClick={() => setCraftingPopupItem({ item: null, index: null })}>Close</button>
+              </div>
+            </div>
           </div>
         </div>
       )}
