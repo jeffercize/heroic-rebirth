@@ -69,6 +69,14 @@ export default function LowerSelectionBar({ changeMainComponent, currentMainComp
               <img src="img/exploration_icon.png" alt="exploration" className="selection-image"></img>
               <label className="lower-button-label">Exploration</label>
           </div>
+          <div className={`selection-bar-button ${divVisibility["summonTab"] ? 'hidden' : ''} ${currentMainComponent === 'SummonMain' ? 'active' : ''}`} role="button" onClick={() => {
+                changeMainComponent('SummonMain')
+                setVisibility('resourceBar', true)
+                setVisibility('goalBar', true)
+                }}>
+              <img src="img/summon_icon.png" className="selection-image"></img>
+              <label className="lower-button-label">Summon</label>
+          </div>
           <div className={`selection-bar-button ${divVisibility["followersTab"] ? 'hidden' : ''} ${currentMainComponent === 'FollowersMain' ? 'active' : ''}`} role="button" onClick={() => {
                 changeMainComponent('FollowersMain')
                 setVisibility('resourceBar', false)

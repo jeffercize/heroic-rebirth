@@ -64,6 +64,14 @@ export default function SideBarLeft( {changeMainComponent}: SideBarLeftProps) {
                 <img src="img/exploration_icon.png" alt="exploration"></img>
                 <label className="common-button-label">Exploration</label>
             </div>
+            <div className={`common-compound-button ${divVisibility["summonTab"] ? 'hidden' : ''}`} role="button" onClick={() => {
+                changeMainComponent('SummonMain')
+                setVisibility('resourceBar', true)
+                setVisibility('goalBar', true)
+                }}>
+                <img src="img/summon_icon.png"></img>
+                <label className="common-button-label">Summon</label>
+            </div>
             <div className={`common-compound-button ${divVisibility["followersTab"] ? 'hidden' : ''}`} role="button" onClick={() => {
                 changeMainComponent('FollowersMain')
                 setVisibility('resourceBar', false)

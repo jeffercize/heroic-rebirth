@@ -43,6 +43,7 @@ export interface MyResourcesSettersContextType {
   setMaxWood: (newValue: number) => void;
   setWoodSecond: (newValue: number) => void;
   setWarehouses: (newValue: number) => void;
+  deductResources: (costs: { [resource: string]: number; }) => void;
 }
 
 const MyResourcesContext = createContext<MyResourcesContextType | undefined>(undefined);
@@ -85,6 +86,31 @@ export const ResourcesProvider: React.FC<ResourcesProviderProps> = ({ children }
   
   const [warehouses, setWarehouses] = useState<number>(() => getInitialValue('warehouses', 0));
 
+  const deductResources = (costs:{ [resource: string]: number; }) => {
+    Object.entries(costs).forEach(([resource, cost]) => {
+      switch(resource) {
+        case 'time':
+          setTime(prev => prev - cost);
+          break;
+        case 'mana':
+          setMana(prev => prev - cost);
+          break;
+        case 'gold':
+          setGold(prev => prev - cost);
+          break;
+        case 'food':
+          setFood(prev => prev - cost);
+          break;
+        case 'stone':
+          setStone(prev => prev - cost);
+          break;
+        case 'wood':
+          setWood(prev => prev - cost);
+          break;
+      }
+    });
+  };
+
   const values = { time, maxTime, timeSecond, mana, maxMana, manaSecond, gold, maxGold, goldSecond, food, maxFood, foodSecond, stone, maxStone, stoneSecond, wood, maxWood, woodSecond, warehouses};
   const setters = {
     setTime: (newValue: number) => setTime(Math.min(newValue, maxTime)),
@@ -106,7 +132,8 @@ export const ResourcesProvider: React.FC<ResourcesProviderProps> = ({ children }
     incrementWood: (incrementValue: number) => setWood(prevWood => Math.max(0,Math.min(prevWood + incrementValue, maxWood))),
     setMaxWood,
     setWoodSecond,
-    setWarehouses: (newValue: number) => setWarehouses(newValue)
+    setWarehouses: (newValue: number) => setWarehouses(newValue),
+    deductResources
   };
 
   // Save state to Local Storage

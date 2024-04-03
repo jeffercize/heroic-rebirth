@@ -127,6 +127,7 @@ const InventoryProvider: React.FC<InventoryProviderProps> = ({ children }) => {
 
     
   const equipItem = (itemType: keyof EquippedItems, itemId: number) => {
+    //somehow apply its non-combat effects
     setEquippedItems(prevItems => {
       const currentlyEquippedItemId = prevItems[itemType];
       if (currentlyEquippedItemId !== null && inventory.length < inventoryMax) {
@@ -145,6 +146,7 @@ const InventoryProvider: React.FC<InventoryProviderProps> = ({ children }) => {
       // Inventory is full, don't unequip
       return;
     }
+    //unapply its non-combat effects
     setEquippedItems(prevItems => {
       const unequippedItemId = prevItems[itemType];
       if (unequippedItemId !== null && inventory.length < inventoryMax) {

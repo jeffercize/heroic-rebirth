@@ -219,9 +219,7 @@ export default function InventoryMain(eventObject: any) {
                   if (craftingPopupItem.item) {
                     craftableContext.setLastCraftedItem(1);
                     inventoryContext.addItem(1);
-                      Object.entries(craftingPopupItem.item.costs).forEach(([resource, cost]) => {
-                        resources[resource as keyof typeof resources] -= cost;
-                      });
+                    resourcesSetters.deductResources(craftingPopupItem.item.costs);
                   }; 
                 }}>Craft</button>
                 <button onClick={() => setCraftingPopupItem({ item: null, index: null })}>Close</button>

@@ -59,6 +59,7 @@ export const VisibilityProvider: React.FC<VisibilityProviderProps> = ({ children
       housingGroup: true,
       inventoryTab: false,
       explorationTab: true,
+      summonTab: false,
       followersTab: true,
       stats: false,
       resourceBar: false,

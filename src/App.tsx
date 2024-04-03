@@ -9,6 +9,7 @@ import LowerStatBar from './pages/LowerStatBar';
 import CampusMain from './pages/mainwindows/CampusMain';
 import FollowersMain from './pages/mainwindows/FollowersMain';
 import ExplorationMain from './pages/mainwindows/ExplorationMain';
+import SummonMain from './pages/mainwindows/SummonMain';
 import InventoryMain from './pages/mainwindows/InventoryMain';
 import EventList from './pages/EventList';
 import LowerSelectionBar from './pages/LowerSelectionBar';
@@ -24,7 +25,7 @@ import { EventLogProvider, useEventLogContext } from './data/EventContext';
 import { InventoryContext, InventoryProvider } from './data/InventoryContext';
 
 
-export type MainComponentType = 'CampusMain' | 'InventoryMain' |'ExplorationMain' | 'FollowersMain' |'HelpComponent' | 'StatsComponent' | 'OptionsComponent' | 'AboutComponent';
+export type MainComponentType = 'CampusMain' | 'InventoryMain' |'ExplorationMain' | 'SummonMain' |'FollowersMain' |'HelpComponent' | 'StatsComponent' | 'OptionsComponent' | 'AboutComponent';
 
 
 function App() {
@@ -213,6 +214,7 @@ function App() {
                           case 'CampusMain': return <CampusMain />;
                           case 'InventoryMain': return <InventoryMain changeMainComponent={changeMainComponent} />;
                           case 'ExplorationMain': return <ExplorationMain />;
+                          case 'SummonMain': return <SummonMain />;
                           case 'FollowersMain': return <FollowersMain />;
                           case 'HelpComponent': return <CampusMain />;
                           case 'StatsComponent': return <CampusMain />;
