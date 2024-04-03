@@ -50,7 +50,7 @@ export default function SummonMain(eventObject: any) {
       {isVideoVisible && (
         <>
           {(isFadingIn || isFadingOut) && <div className={`dimmed-screen ${isFadingIn ? 'fade-in' : 'fade-out'}`}></div>}
-          <video ref={summonRef} style={{ width: '100%', height: '100%', zIndex: 1000 }} src="/animations/summon_test.webm" loop={false} controls={false} autoPlay={false} muted={false} />
+          <video ref={summonRef} style={{ width: '100%', height: '100%', zIndex: 1000 }} src="./animations/summon_new.mp4" loop={false} controls={false} autoPlay={false} muted={true} />
         </>
       )}
     </div>
